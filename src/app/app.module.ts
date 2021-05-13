@@ -11,6 +11,7 @@ import { CoursesService } from './courses/courses.service';
 import { AuthorsComponent } from './authors/authors.component';
 import { AuthorsService } from './authors/authors.service';
 import { FavoriteComponent } from './favorite/favorite.component';
+import { PanelComponent } from './panel/panel.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { FavoriteComponent } from './favorite/favorite.component';
     AuthorsComponent,
     SummaryPipe,
     TitleCasePipe,
-    FavoriteComponent
+    FavoriteComponent,
+    PanelComponent
 
   ],
   imports: [
