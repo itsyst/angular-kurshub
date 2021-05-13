@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Course } from '../types/course';
+import { FavoriteChangedEventArgs } from '../types/event';
 import { CoursesService} from './courses.service'
 
 @Component({
@@ -21,8 +22,8 @@ export class CoursesComponent implements OnInit{
     console.log(this.inputText)
   }
 
-  onFavoriteChanged(eventArgs: Object) {
-    console.log('Favorite changed:', eventArgs)
+  onFavoriteChanged(eventArgs: FavoriteChangedEventArgs) {
+    console.log('Favorite changed:',eventArgs)
   }
 
   constructor (service: CoursesService) {
