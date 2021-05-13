@@ -1,9 +1,10 @@
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
 import { FavoriteChangedEventArgs } from '../types/event';
 @Component({
   selector: 'favorite',
   templateUrl: './favorite.component.html',
   // inputs: ['isFavorite']
+  encapsulation: ViewEncapsulation.Emulated
 })
 export class FavoriteComponent implements OnInit {
 
