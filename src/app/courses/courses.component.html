@@ -6,7 +6,7 @@
     Rating: {{ course.rating | number:'1.1-2' }}<br />
     Price: {{ course.price | currency:'EUR'}}<br />
     Release date: {{ course.releaseDate | date:'shortDate'}}<br />
-    <favorite [isFavorite]="post.isFavorite" (change)="onFavoriteChanged()"></favorite>
+    <favorite [isFavorite]="post.isFavorite" (change)="onFavoriteChanged($event)"></favorite>
     <hr class="my-6">
   </li>
   <p class="m-6">{{text | summary:10}}</p>

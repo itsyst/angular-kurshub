@@ -21,8 +21,8 @@ export class CoursesComponent implements OnInit{
     console.log(this.inputText)
   }
 
-  onFavoriteChanged() {
-    console.log('Favorite changed')
+  onFavoriteChanged(isFavorite: boolean) {
+    console.log('Favorite changed:', isFavorite)
   }
 
   constructor (service: CoursesService) {
