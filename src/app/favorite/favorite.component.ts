@@ -8,12 +8,12 @@ import { FavoriteChangedEventArgs } from '../types/event';
 export class FavoriteComponent implements OnInit {
 
   @Input('isFavorite') isFavorite: boolean = false;
-  @Output() change:EventEmitter<FavoriteChangedEventArgs> = new EventEmitter();
+  @Output('change') click:EventEmitter<FavoriteChangedEventArgs> = new EventEmitter();
 
 
   changeColor() {
     this.isFavorite = !this.isFavorite;
-    this.change.emit({ newValue: this.isFavorite});
+    this.click.emit({ newValue: this.isFavorite});
   }
 
   constructor(){}
