@@ -14,7 +14,7 @@ export class CoursesComponent implements OnInit{
 
   post: {title:string, isFavorite: boolean} = {
     title: "Title",
-    isFavorite: false
+    isFavorite: true
   }
 
   onKeyUp() {

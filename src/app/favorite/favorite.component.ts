@@ -7,7 +7,7 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class FavoriteComponent implements OnInit {
 
-  @Input('is-favorite') isFavorite: boolean = false;
+  @Input('isFavorite') isFavorite: boolean = false;
 
   changeColor() {
     return this.isFavorite = !this.isFavorite;
