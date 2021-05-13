@@ -6,10 +6,10 @@
     Rating: {{ course.rating | number:'1.1-2' }}<br />
     Price: {{ course.price | currency:'EUR'}}<br />
     Release date: {{ course.releaseDate | date:'shortDate'}}<br />
-    <favorite></favorite>
+    <favorite [isFavorite]="post.isFavorite"></favorite>
     <hr class="my-6">
   </li>
   <p class="m-6">{{text | summary:10}}</p>
 </ul>
-<input type="text" [(ngModel)]="titles" (keyup)="onKeyUp()" class="m-6 p-2 border border-gray-400 rounded-lg">
-<p class="px-6">{{titles | titleCase}}</p>
+<input type="text" [(ngModel)]="inputText" (keyup)="onKeyUp()" class="m-6 p-2 border border-gray-400 rounded-lg">
+<p class="px-6">{{inputText | titleCase}}</p>
