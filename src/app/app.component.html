@@ -11,4 +11,12 @@
   [likesCount]="tweet.likesCount"
   [isActive]="tweet.isLiked">
 </app-like>
+<section class="pt-6 pl-6">
+  <div *ngIf="courses.length > 0">
+    List of courses
+  </div>
+  <div *ngIf="courses.length == 0">
+    No courses yet...
+  </div>
+</section>
 <authors></authors>

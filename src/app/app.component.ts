@@ -6,6 +6,7 @@ import { Tweet } from './types/like';
   templateUrl: './app.component.html'})
 export class AppComponent {
   title = 'angular-fundamentals';
+  courses: number[] = [1, 2];
 
   tweet: Tweet = {
     body: 'Here is the body of the tweet',
