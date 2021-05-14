@@ -12,11 +12,12 @@
   [isActive]="tweet.isLiked">
 </app-like>
 <section class="pt-6 pl-6">
-  <div *ngIf="courses.length > 0 ; else noCourses">
-    List of courses
-  </div>
-  <ng-template #noCourses>
-    No courses yet...
-  </ng-template>
+  <div *ngIf="courses.length > 0; then coursesList; else noCourses"></div>
+    <ng-template #coursesList>
+      List of courses
+    </ng-template>
+    <ng-template #noCourses>
+      No courses yet...
+    </ng-template>
 </section>
 <authors></authors>
