@@ -20,4 +20,8 @@
       No courses yet...
     </ng-template>
 </section>
+<section class="pl-6">
+  <div [hidden]="courses.length == 0">List of courses</div>
+  <div [hidden]="courses.length > 0">No courses yet</div>
+</section>
 <authors></authors>
