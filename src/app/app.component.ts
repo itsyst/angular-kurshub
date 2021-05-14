@@ -13,4 +13,10 @@ export class AppComponent {
     isLiked: true,
     likesCount: 10
   }
+
+  lessons = [
+    { id: 1, name: "lesson1" },
+    { id: 2, name: "lesson2" },
+    { id: 3, name: "lesson3" }
+  ];
 }

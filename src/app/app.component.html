@@ -24,4 +24,13 @@
   <div [hidden]="courses.length == 0">List of courses</div>
   <div [hidden]="courses.length > 0">No courses yet</div>
 </section>
+<hr class="pb-2">
+<ul class="pl-6">
+  <li *ngFor="let lesson of lessons; index as i">{{i}}-{{lesson.name}}</li>
+</ul>
+<hr class="pb-2" >
+<ul class="pl-6">
+  <li *ngFor="let lesson of lessons; even as isEven">{{lesson.name}}<span *ngIf="isEven">(Even)</span></li>
+</ul>
+<a class="text-blue-500 pl-6" href="https://angular.io/api/common/NgForOfhttps://angular.io/api/common/NgForOf">Exported variables</a>
 <authors></authors>
