@@ -19,6 +19,9 @@ export class AppComponent {
     { id: this.id, name: `lesson ${this.id}` },
   ];
 
+  exercises: { id: number; name: string; }[] = [];
+
+
   onAdd() {
     this.id += 1;
     this.lessons.push({ id: this.id, name: `lesson ${this.id}` });
@@ -31,5 +34,18 @@ export class AppComponent {
 
   onChange(lesson: { id: number, name: string }) {
     lesson.name = `lesson ${lesson.id} UPDATED `
+  }
+
+  loadExercises() {
+      this.exercises = [
+       {id:1, name: "exercise-1"},
+       {id:2, name: "exercise-2"},
+       {id:3, name: "exercise-3"},
+       {id:4, name: "exercise-4"}
+    ];
+  }
+
+  trackExercise(index: number, exercise: {id:number, name: string}) {
+    return exercise ? exercise.id : undefined;
   }
 }
