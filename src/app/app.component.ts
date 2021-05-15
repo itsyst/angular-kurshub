@@ -8,6 +8,7 @@ export class AppComponent {
   title = 'angular-fundamentals';
   courses: number[] = [1, 2];
   id: number = 1;
+  canSave: boolean = true;
 
   tweet: Tweet = {
     body: 'Here is the body of the tweet',

@@ -58,4 +58,22 @@
     </ul>
     <hr class="pb-2">
   </section>
+  <hr class="pb-2">
+  <button
+    class="p-2 rounded-lg"
+    [style.background]="canSave ? 'blue' : 'gray'"
+    [style.color]="canSave ? 'white' : 'black'"
+    [style.fontWeight]="canSave ? 'bold' : 'normal'"
+  >
+    Save
+  </button>
+  <button
+  class="ml-2 p-2 rounded-lg"
+    [ngStyle]="{
+      'background': canSave ? 'blue' : 'gray',
+      'color': canSave ? 'white' : 'black'
+    }"
+  >
+    Save
+  </button>
 </div>
