@@ -34,3 +34,18 @@
 </ul>
 <a class="text-blue-500 pl-6" href="https://angular.io/api/common/NgForOfhttps://angular.io/api/common/NgForOf">Exported variables</a>
 <authors></authors>
+<hr>
+<div class="p-6">
+  <button
+  class="bg-blue-500 p-2 rounded mb-2"
+  (click)="onAdd()">Add</button>
+  <ul>
+    <li *ngFor="let lesson of lessons">
+      {{lesson.name}}
+      <button
+        class="bg-red-500 text-white m-2 p-1 rounded-sm"
+        (click)="onRemove(lesson)">X</button>
+              <button class="bg-green-500 text-white m-2 p-1 rounded-sm" (click)="onChange(lesson)">✔️</button>
+    </li>
+  </ul>
+</div>
