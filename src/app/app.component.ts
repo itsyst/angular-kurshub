@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Tweet } from './types/like';
+import { Task } from './types/task';
 
 @Component({
   selector: 'app-root',
@@ -21,6 +22,13 @@ export class AppComponent {
   ];
 
   exercises: { id: number; name: string; }[] = [];
+
+  task: Task = {
+    title: 'Review applications',
+    assignee: {
+      name: 'John Smith'
+    }
+  }
 
 
   onAdd() {
