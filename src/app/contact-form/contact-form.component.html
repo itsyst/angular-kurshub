@@ -3,40 +3,43 @@
   #form="ngForm"
   (ngSubmit)="submit(form)"
   >
-  <div class="form-group">
-    <label for="firstName">First Name</label>
-    <input
-      required
-      minlength="3"
-      maxlength="10"
-      pattern="First Name"
-      ngModel
-      #firstName="ngModel"
-      name="firstName"
-      id="firstName"
-      type="text"
-      class="form-control"
-      (change)="log(firstName)"
-      >
-      <div
-        class="alert alert-danger"
-        *ngIf="firstName.touched && !firstName.valid"
-      >
-        <div *ngIf="firstName.errors?.required">First name is required</div>
-        <div *ngIf="firstName.errors?.minlength">First name should be minimum {{firstName.errors?.minlength?.requiredLength}} characters.</div>
-        <div *ngIf="firstName.errors?.pattern">First name does not match the pattern.</div>
-      </div>
-  </div>
-  <div class="form-group">
-    <label for="comment">Comment</label>
-    <textarea
-      ngModel
-      name="contact"
-      id="comment"
-      cols="20"
-      rows="10"
-      class="form-control"
-      ></textarea>
+  <div ngModelGroup="contact" #contact="ngModelGroup">
+    <div *ngIf="!contact.valid">Not valid</div>
+    <div class="form-group">
+      <label for="firstName">First Name</label>
+      <input
+        required
+        minlength="3"
+        maxlength="10"
+        pattern="First Name"
+        ngModel
+        #firstName="ngModel"
+        name="firstName"
+        id="firstName"
+        type="text"
+        class="form-control"
+        (change)="log(firstName)"
+        >
+        <div
+          class="alert alert-danger"
+          *ngIf="firstName.touched && !firstName.valid"
+        >
+          <div *ngIf="firstName.errors?.required">First name is required</div>
+          <div *ngIf="firstName.errors?.minlength">First name should be minimum {{firstName.errors?.minlength?.requiredLength}} characters.</div>
+          <div *ngIf="firstName.errors?.pattern">First name does not match the pattern.</div>
+        </div>
+    </div>
+    <div class="form-group">
+      <label for="comment">Comment</label>
+      <textarea
+        ngModel
+        name="contact"
+        id="comment"
+        cols="20"
+        rows="10"
+        class="form-control"
+        ></textarea>
+    </div>
   </div>
   <button class="btn btn-primary">Submit</button>
 </form>
