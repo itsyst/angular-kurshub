@@ -13,3 +13,43 @@
 </ul>
 <input type="text" [(ngModel)]="inputText" (keyup)="onKeyUp()" class="m-6 p-2 border border-gray-400 rounded-lg">
 <p class="px-6">{{inputText | titleCase}}</p>
+<hr class="mb-6">
+
+
+<form #form="ngForm" (ngSubmit)="submit(form.value)">
+  <div class="form-group">
+    <label for="name">Course Name</label>
+    <input
+      required
+      minlength="3"
+      ngModel
+      name='name'
+      #name="ngModel"
+      type="text"
+      id="name"
+      class="form-control">
+      <div *ngIf="name.touched && name.invalid" class="alert alert-danger">
+        <div *ngIf="name.errors?.required">Name field is required.</div>
+        <div *ngIf="name.errors?.minlength">Name field should be at least {{name.errors?.minlength.requiredLength}} characters.</div>
+      </div>
+  </div>
+  <div class="form-group">
+    <label for="category">Category</label>
+    <select required ngModel="category" #category="ngModel" name="category" id="category" class="form-control">
+      <option></option>
+      <option *ngFor="let course of courses" [value]="course.id">{{course.category}}</option>
+    </select>
+    <div *ngIf="category.touched && category.invalid" class="alert alert-danger">
+      <div *ngIf="category.errors?.required">Category field is required.</div>
+    </div>
+  </div>
+  <div class="checkbox">
+    <label for="moneyBackGuarantee">
+      <input ngModel name="hasMoneyBackGuarantee" type='checkbox' id='moneyBackGuarantee'/>
+      30-day money-back guarantee
+    </label>
+  </div>
+  <p>{{form.value | json}}</p>
+  <button class="btn btn-primary" [disabled]="form.invalid">Create</button>
+</form>
+<hr class="mt-6 mb-6">

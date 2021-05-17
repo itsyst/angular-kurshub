@@ -18,6 +18,10 @@ export class CoursesComponent implements OnInit{
     isFavorite: true
   }
 
+  constructor (service: CoursesService) {
+    this.courses = service.getCourses();
+  }
+
   onKeyUp() {
     console.log(this.inputText)
   }
@@ -26,9 +30,10 @@ export class CoursesComponent implements OnInit{
     console.log('Favorite changed:',eventArgs)
   }
 
-  constructor (service: CoursesService) {
-    this.courses = service.getCourses();
+  submit(form:any) {
+    console.log(form)
   }
+
 
   ngOnInit(): void {
 
