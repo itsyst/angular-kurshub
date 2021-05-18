@@ -10,5 +10,9 @@ export class SignupFormComponent {
   signUp: FormGroup = new FormGroup({
     username: new FormControl('', Validators.required),
     password: new FormControl('******', Validators.required)
-  })
+  });
+
+  get username(){
+    return this.signUp.get('username');
+  };
 }
