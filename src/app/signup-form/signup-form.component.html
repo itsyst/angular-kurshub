@@ -7,6 +7,7 @@
       id="username"
       type="text"
       class="form-control">
+      <div *ngIf="username?.pending">Checking for uniqueness...</div>
       <div *ngIf="username?.touched && username?.invalid" class="alert alert-danger">
         <div *ngIf="username?.errors?.required">Username is required.</div>
         <div *ngIf="username?.errors?.minlength">Username should be minimum {{username?.errors?.minlength.requiredLength}} characters.</div>
@@ -26,6 +27,7 @@
         <div *ngIf="password?.errors?.minlength">Password should be minimum {{password?.errors?.minlength.requiredLength}}.</div>
       </div>
   </div>
+  <p>{{signUp.value | json}}</p>
   <button
     class="btn btn-primary"
     type="submit">Sign Up</button>

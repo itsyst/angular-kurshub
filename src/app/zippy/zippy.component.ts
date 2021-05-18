@@ -9,7 +9,7 @@ export class ZippyComponent  {
   @Input('title') title!: string;
   isExpanded: boolean = false;
 
-  toggle() {
+  toggle(): void {
     this.isExpanded = !this.isExpanded;
   }
 

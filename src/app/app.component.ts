@@ -8,16 +8,16 @@ import { Task } from './types/task';
 export class AppComponent {
   title = 'angular-fundamentals';
   courses: number[] = [1, 2];
-  id: number = 1;
-  canSave: boolean = true;
+  id = 1;
+  canSave = true;
 
   tweet: Tweet = {
     body: 'Here is the body of the tweet',
     isLiked: true,
     likesCount: 10
-  }
+  };
 
-  lessons: {id:number, name:string}[] = [
+  lessons: {id: number, name: string}[] = [
     { id: this.id, name: `lesson ${this.id}` },
   ];
 
@@ -31,13 +31,13 @@ export class AppComponent {
   }
 
 
-  onAdd() {
+  onAdd(): void {
     this.id += 1;
     this.lessons.push({ id: this.id, name: `lesson ${this.id}` });
   }
 
-  onRemove(lesson: { id: number, name: string }) {
-    let index = this.lessons.indexOf(lesson);
+  onRemove(lesson: { id: number, name: string }): void {
+    const index = this.lessons.indexOf(lesson);
     this.lessons.splice(index, 1);
   }
 

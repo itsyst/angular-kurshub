@@ -7,9 +7,14 @@ export class UsernameValidators {
     return null;
   }
 
-  static shouldBeUnique(control: AbstractControl){
-    if (control.value.toLowerCase() === 'khaled')
-      return ({ shouldBeUnique: true });
-    return(null);
+  static shouldBeUnique(control: AbstractControl) {
+
+        if (control.value.toLowerCase() === 'khaled') {
+          return ({ shouldBeUnique: true });
+        }
+        else
+        {
+          return (null)
+        };
   }
 }
