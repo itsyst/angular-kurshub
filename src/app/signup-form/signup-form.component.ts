@@ -21,6 +21,21 @@ export class SignupFormComponent {
     ])
   });
 
+  // login() {
+  //   let isValid = authService.login(this.signUp.value)
+  //   if (!isValid) {
+  //     this.signUp.setErrors({
+  //        invalidLogin:true
+  //      })
+  //    }
+  // }
+
+  login() {
+    this.signUp.setErrors({
+      invalidLogin: true
+    });
+  }
+
   get username(){
     return this.signUp?.get('username');
   };
