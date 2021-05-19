@@ -1,5 +1,10 @@
-<form>
-  <input
+<form [formGroup]="form">
+    <input formControlName="name" type="text" class="form-control">
+    <div formGroupName="contact">
+      <input fomControlName="email" type="text" class="form-control">
+      <input fomControlName="phone" type="text" class="form-control">
+    </div>
+    <input
     type="text"
     class="form-control"
     #topic

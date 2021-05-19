@@ -7,16 +7,16 @@ import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Valida
   styleUrls: ['./new-course-form.component.css']
 })
 export class NewCourseFormComponent {
-  // Cleaner way to build the below implementation
   // form = new FormGroup({
-  //   name: new FormControl('', Validators.required),
-  //   contact: new FormGroup({
-  //     email: new FormControl(),
-  //     phone: new FormControl()
+    //   name: new FormControl('', Validators.required),
+    //   contact: new FormGroup({
+      //     email: new FormControl(),
+      //     phone: new FormControl()
 
-  //   }),
-  //   topics: new FormArray([])
-  // });
+      //   }),
+      //   topics: new FormArray([])
+      // });
+    // Cleaner way to build the above implementation
   form: FormGroup;
   constructor (fb: FormBuilder) {
     this.form = fb.group({
