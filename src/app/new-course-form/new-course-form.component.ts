@@ -1,8 +1,11 @@
+import { CommonModule } from '@angular/common';
 import { Component} from '@angular/core';
-import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'new-course-form',
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './new-course-form.component.html',
   styleUrls: ['./new-course-form.component.css']
 })
@@ -18,7 +21,7 @@ export class NewCourseFormComponent {
       // });
     // Cleaner way to build the above implementation
   form: FormGroup;
-  constructor (fb: FormBuilder) {
+   constructor (private fb: FormBuilder) {
     this.form = fb.group({
       name: fb.control(['', Validators.required]),
       contact: fb.group({

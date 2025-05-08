@@ -13,7 +13,7 @@
     [isActive]="tweet.isLiked">
   </app-like>
   <section class="pt-6">
-    <div *ngIf="courses.length > 0; then coursesList; else noCourses"></div>
+      <div *ngIf="courses.length > 0; then coursesList; else noCourses"></div>
       <ng-template #coursesList>
         List of courses
       </ng-template>
@@ -96,4 +96,8 @@
   <new-course-form></new-course-form>
   <hr class="mb-6">
   <change-password></change-password>
+  <!-- Main Content Area -->
+  <div class="flex-grow container mx-auto px-4 py-8">
+    <router-outlet></router-outlet>
+  </div>
 </div>

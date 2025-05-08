@@ -1,6 +1,6 @@
 import { bootstrapApplication } from '@angular/platform-browser';
 import { AppComponent } from './app/app.component';
-import { appConfig } from './app/app.config';
+import { config } from './app/app.config.server';
 
 import { registerLocaleData } from '@angular/common';
 import localeSv from '@angular/common/locales/sv';
@@ -14,7 +14,6 @@ if (environment.production) {
 // Register Swedish locale for the server
 registerLocaleData(localeSv, 'sv');
 
-bootstrapApplication(AppComponent, appConfig).catch((err) =>
-  console.error(err)
-);
+const bootstrap = () => bootstrapApplication(AppComponent, config);
 
+export default bootstrap;

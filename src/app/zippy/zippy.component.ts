@@ -1,7 +1,10 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'zippy',
+  standalone: true,
+  imports:[CommonModule],
   templateUrl: './zippy.component.html',
   styleUrls: ['./zippy.component.css']
 })

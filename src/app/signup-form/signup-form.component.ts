@@ -1,36 +1,37 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormGroup, Validators, AbstractControl, FormControl } from '@angular/forms';
 import { UsernameValidators } from '../common/validators/username.validators';
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'signup-form',
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './signup-form.component.html',
   styleUrls: ['./signup-form.component.css']
 })
 export class SignupFormComponent {
   signUp: FormGroup = new FormGroup({
     account: new FormGroup({
-      username: new FormControl('', [
-        Validators.required,
-        Validators.minLength(3),
-        UsernameValidators.cannotContainSpace,
-        UsernameValidators.shouldBeUnique
-      ]) ,
-      password: new FormControl('******', [
-        Validators.required,
-        Validators.minLength(6)
-      ])
+      username: new FormControl('', {
+        validators: [
+          Validators.required,
+          Validators.minLength(3),
+          UsernameValidators.cannotContainSpace,
+          UsernameValidators.shouldBeUnique
+        ],
+        nonNullable: true
+      }),
+      password: new FormControl('******', {
+        validators: [
+          Validators.required,
+          Validators.minLength(6)
+        ],
+        nonNullable: true
+      })
     })
   });
-
-  // login() {
-  //   let isValid = authService.login(this.signUp.value)
-  //   if (!isValid) {
-  //     this.signUp.setErrors({
-  //        invalidLogin:true
-  //      })
-  //    }
-  // }
 
   login() {
     this.signUp.setErrors({
@@ -38,11 +39,11 @@ export class SignupFormComponent {
     });
   }
 
-  get username(){
-    return this.signUp?.get('account.username');
-  };
+  get username(): AbstractControl | null {
+    return this.signUp.get('account.username');
+  }
 
-  get password(){
-  return this.signUp.get('account.password');
-  };
+  get password(): AbstractControl | null {
+    return this.signUp.get('account.password');
+  }
 }

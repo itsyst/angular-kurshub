@@ -29,8 +29,8 @@
       id="name"
       class="form-control">
       <div *ngIf="name.touched && name.invalid" class="alert alert-danger">
-        <div *ngIf="name.errors?.required">Name field is required.</div>
-        <div *ngIf="name.errors?.minlength">Name field should be at least {{name.errors?.minlength.requiredLength}} characters.</div>
+        <div *ngIf="name.errors?.['required']">Name field is required.</div>
+        <div *ngIf="name.errors?.['minlength']">Name field should be at least {{name.errors?.['minlength'].requiredLength}} characters.</div>
       </div>
   </div>
   <div class="form-group">
@@ -40,7 +40,7 @@
       <option *ngFor="let course of courses" [value]="course.id">{{course.category}}</option>
     </select>
     <div *ngIf="category.touched && category.invalid" class="alert alert-danger">
-      <div *ngIf="category.errors?.required">Category field is required.</div>
+      <div *ngIf="category.errors?.['required']">Category field is required.</div>
     </div>
   </div>
   <div class="checkbox">

@@ -1,7 +1,10 @@
 import { Component, Input, OnInit, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
 import { FavoriteChangedEventArgs } from '../types/event';
+import { CommonModule } from '@angular/common';
 @Component({
   selector: 'favorite',
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './favorite.component.html',
   // inputs: ['isFavorite']
   encapsulation: ViewEncapsulation.Emulated
