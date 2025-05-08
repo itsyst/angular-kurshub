@@ -8,7 +8,7 @@ export const routes: Routes = [
   },
   {
     path: 'courses',
-    loadComponent: () => import('./courses/courses.component').then(m => m.CoursesComponent)
+    loadComponent: () => import('./components/courses/courses.component').then(m => m.CoursesComponent)
   },
   {
     path: '**',

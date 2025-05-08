@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, Output, EventEmitter, ViewEncapsulation } from '@angular/core';
-import { FavoriteChangedEventArgs } from '../types/event';
+import { FavoriteChangedEventArgs } from '../../types/event';
 import { CommonModule } from '@angular/common';
 @Component({
   selector: 'favorite',

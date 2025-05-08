@@ -1,18 +1,18 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { AuthorsComponent } from './authors/authors.component';
-import { ChangePasswordComponent } from './change-password/change-password.component';
-import { ContactFormComponent } from './contact-form/contact-form.component';
-import { CoursesComponent } from './courses/courses.component';
+import { AuthorsComponent } from './components/authors/authors.component';
+import { ChangePasswordComponent } from './components/change-password/change-password.component';
+import { ContactFormComponent } from './components/contact-form/contact-form.component';
 import { InputFormatDirective } from './directives/input-format.directive';
-import { LikeComponent } from './like/like.component';
-import { NewCourseFormComponent } from './new-course-form/new-course-form.component';
-import { PanelComponent } from './panel/panel.component';
-import { SignupFormComponent } from './signup-form/signup-form.component';
+import { LikeComponent } from './components/like/like.component';
+import { NewCourseFormComponent } from './components/new-course-form/new-course-form.component';
+import { PanelComponent } from './components/panel/panel.component';
+import { SignupFormComponent } from './components/signup-form/signup-form.component';
 import { Tweet } from './types/like';
 import { Task } from './types/task';
-import { ZippyComponent } from './zippy/zippy.component';
+import { ZippyComponent } from './components/zippy/zippy.component';
 import { RouterOutlet } from '@angular/router';
+import { CoursesComponent } from './components/courses/courses.component';
 
 @Component({
   selector: 'app-root',

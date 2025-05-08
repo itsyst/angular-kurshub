@@ -2,11 +2,11 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { FavoriteComponent } from '../favorite/favorite.component';
-import { TitleCasePipe } from '../pipes/title-case.pipe';
-import { Course } from '../types/course';
-import { FavoriteChangedEventArgs } from '../types/event';
+import { TitleCasePipe } from '../../pipes/title-case.pipe';
+import { Course } from '../../types/course';
+import { FavoriteChangedEventArgs } from '../../types/event';
 import { CoursesService } from './courses.service';
-import { SummaryPipe } from '../pipes/summary.pipe';
+import { SummaryPipe } from '../../pipes/summary.pipe';
 
 @Component({
   selector: 'courses',
