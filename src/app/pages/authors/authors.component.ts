@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { AuthorsService } from './authors.service';
+import { AuthorsService } from '../../services/authors.service';
 
 @Component({
   selector: 'authors',
@@ -29,8 +29,8 @@ export class AuthorsComponent implements OnInit {
     console.log(this.email);
   }
 
-  constructor(service: AuthorsService) {
+  constructor (service: AuthorsService) {
     this.authors = service.getAuthors();
   }
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 }

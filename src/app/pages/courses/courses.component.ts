@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { FavoriteComponent } from '../favorite/favorite.component';
+import { FavoriteComponent } from '../../components/favorite/favorite.component';
 import { TitleCasePipe } from '../../pipes/title-case.pipe';
 import { Course } from '../../types/course';
 import { FavoriteChangedEventArgs } from '../../types/event';
-import { CoursesService } from './courses.service';
+import { CoursesService } from '../../services/courses.service';
 import { SummaryPipe } from '../../pipes/summary.pipe';
 
 @Component({
@@ -26,7 +26,7 @@ export class CoursesComponent implements OnInit {
     isFavorite: true,
   };
 
-  constructor(service: CoursesService) {
+  constructor (service: CoursesService) {
     this.courses = service.getCourses();
   }
 
@@ -42,5 +42,5 @@ export class CoursesComponent implements OnInit {
     console.log(form);
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 }
