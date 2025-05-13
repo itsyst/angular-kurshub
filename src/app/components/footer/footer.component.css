@@ -1,0 +1,6 @@
+:host {
+  @apply block;
+}
+.container {
+  @apply max-w-7xl;
+}
