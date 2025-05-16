@@ -1,20 +1,22 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { ChangePasswordComponent } from '../../components/change-password/change-password.component';
 import { ContactFormComponent } from '../../components/contact-form/contact-form.component';
+import { HeroComponent } from '../../components/hero/hero.component';
 import { LikeComponent } from '../../components/like/like.component';
 import { NewCourseFormComponent } from '../../components/new-course-form/new-course-form.component';
 import { PanelComponent } from '../../components/panel/panel.component';
 import { SignupFormComponent } from '../../components/signup-form/signup-form.component';
 import { ZippyComponent } from '../../components/zippy/zippy.component';
 import { InputFormatDirective } from '../../directives/input-format.directive';
-import { CommonModule } from '@angular/common';
-import { Tweet } from '../../types/tweet';
 import { Task } from '../../types/task';
+import { Tweet } from '../../types/tweet';
 
 @Component({
   selector: 'app-home',
   standalone: true,
   imports: [
+    HeroComponent,
     ContactFormComponent,
     ChangePasswordComponent,
     LikeComponent,
@@ -23,9 +25,9 @@ import { Task } from '../../types/task';
     SignupFormComponent,
     ZippyComponent,
     InputFormatDirective,
-    CommonModule
+    CommonModule,
   ],
-  templateUrl: './home.component.html'
+  templateUrl: './home.component.html',
 })
 export class HomeComponent {
   courses: number[] = [1, 2];

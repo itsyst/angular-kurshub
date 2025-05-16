@@ -2,7 +2,18 @@
   <div class="container mx-auto px-4">
     <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
       <div>
-        <h3 class="text-xl font-bold mb-4 uppercase">kurshubb</h3>
+        <h3 class="text-xl font-bold mb-4 uppercase">
+          <div
+            class="flex items-center space-x-3 cursor-pointer group"
+            routerLink="/"
+          >
+            <h1
+              class="text-3xl font-bold text-purple-700 font-mono tracking-tighter uppercase"
+            >
+              Kurs<span class="text-purple-300">Hub</span>
+            </h1>
+          </div>
+        </h3>
         <p class="text-gray-300">
           Stärker lärande världen över med högkvalitativ onlineutbildning.
         </p>
@@ -14,9 +25,7 @@
             <a routerLink="/" class="hover:text-purple-700">Hem</a>
           </li>
           <li>
-            <a routerLink="/courses" class="hover:text-purple-700"
-              >Kurser</a
-            >
+            <a routerLink="/courses" class="hover:text-purple-700">Kurser</a>
           </li>
           <li>
             <a routerLink="/authors" class="hover:text-purple-700"
@@ -24,9 +33,7 @@
             >
           </li>
           <li>
-            <a routerLink="/about" class="hover:text-purple-700"
-              >Om oss</a
-            >
+            <a routerLink="/about" class="hover:text-purple-700">Om oss</a>
           </li>
         </ul>
       </div>
@@ -99,12 +106,14 @@
           <svg
             class="h-5 w-5"
             fill="currentColor"
-            viewBox="0 0 24 24"
+            viewBox="0 0 256 256"
             aria-hidden="true"
           >
-            <path
-              d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"
-            />
+            <g transform="scale(5.12,5.12)">
+              <path
+                d="M5.91992,6l14.66211,21.375l-14.35156,16.625h3.17969l12.57617,-14.57812l10,14.57813h12.01367l-15.31836,-22.33008l13.51758,-15.66992h-3.16992l-11.75391,13.61719l-9.3418,-13.61719zM9.7168,8h7.16406l23.32227,34h-7.16406z"
+              ></path>
+            </g>
           </svg>
         </a>
         <a href="#" class="text-gray-400 hover:text-purple-700">
