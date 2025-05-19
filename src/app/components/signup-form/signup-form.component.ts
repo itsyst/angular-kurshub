@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'signup-form',
+  selector: 'app-signup-form',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './signup-form.component.html',
