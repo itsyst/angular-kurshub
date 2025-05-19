@@ -11,6 +11,7 @@ import { ZippyComponent } from '../../components/zippy/zippy.component';
 import { InputFormatDirective } from '../../directives/input-format.directive';
 import { Task } from '../../types/task';
 import { Tweet } from '../../types/tweet';
+import { StatusComponent } from '../../components/status/status.component';
 
 @Component({
   selector: 'app-home',
@@ -22,6 +23,7 @@ import { Tweet } from '../../types/tweet';
     LikeComponent,
     NewCourseFormComponent,
     PanelComponent,
+    StatusComponent,
     SignupFormComponent,
     ZippyComponent,
     InputFormatDirective,
