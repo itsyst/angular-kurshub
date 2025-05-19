@@ -16,7 +16,7 @@ export class HeroComponent {
     { id: 2, name: 'Datavetenskap', icon: '📊' },
     { id: 3, name: 'Design', icon: '🎨' },
     { id: 4, name: 'Marknadsföring', icon: '📈' },
-    { id: 5, name: 'Affärer', icon: '💼' },
-    { id: 6, name: 'Fotografering', icon: '📷' },
+    // { id: 5, name: 'Affärer', icon: '💼' },
+    // { id: 6, name: 'Fotografering', icon: '📷' },
   ];
 }

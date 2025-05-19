@@ -12,6 +12,7 @@ import { InputFormatDirective } from '../../directives/input-format.directive';
 import { Task } from '../../types/task';
 import { Tweet } from '../../types/tweet';
 import { StatusComponent } from '../../components/status/status.component';
+import { FeaturedCoursesComponent } from "../../components/featured-courses/featured-courses.component";
 
 @Component({
   selector: 'app-home',
@@ -20,6 +21,7 @@ import { StatusComponent } from '../../components/status/status.component';
     HeroComponent,
     ContactFormComponent,
     ChangePasswordComponent,
+    FeaturedCoursesComponent,
     LikeComponent,
     NewCourseFormComponent,
     PanelComponent,
@@ -28,7 +30,8 @@ import { StatusComponent } from '../../components/status/status.component';
     ZippyComponent,
     InputFormatDirective,
     CommonModule,
-  ],
+    FeaturedCoursesComponent
+],
   templateUrl: './home.component.html',
 })
 export class HomeComponent {
