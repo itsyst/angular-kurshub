@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'contact-form',
+  selector: 'app-contact-form',
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './contact-form.component.html',
@@ -11,16 +11,16 @@ import { FormsModule } from '@angular/forms';
 })
 export class ContactFormComponent {
 
-  contactMethods:Array<{id:number, name:string}> = [
-    { id:1, name: 'Email'},
-    { id:2, name: 'Phone'}
+  contactMethods: Array<{ id: number, name: string }> = [
+    { id: 1, name: 'Email' },
+    { id: 2, name: 'Phone' }
   ];
 
   log(item: any) {
     console.log(item)
   }
 
-  submit(form:any) {
+  submit(form: any) {
     console.log(form.value)
   }
 }

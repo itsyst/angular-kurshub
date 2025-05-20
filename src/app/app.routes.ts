@@ -26,6 +26,10 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/register/register.component').then(m => m.RegisterComponent)
   },
   {
+    path: 'contact',
+    loadComponent: () => import('./pages/contact-form/contact-form.component').then(m => m.RegisterComponent)
+  },
+  {
     path: '**',
     redirectTo: 'not-found',
   }
