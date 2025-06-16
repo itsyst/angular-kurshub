@@ -1,0 +1,9 @@
+<div class="relative flex h-full w-full shrink-0 overflow-hidden rounded-full">
+  <ng-container *ngIf="src">
+    <img [src]="src" [alt]="name" class="aspect-square h-full w-full" />
+  </ng-container>
+
+  <div *ngIf="!src" class="flex h-full w-full items-center justify-center rounded-full bg-gray-200">
+    {{ getInitials() }}
+  </div>
+</div>
