@@ -1,106 +1,13 @@
 <section>
   <app-hero></app-hero>
-  <div class="flex-grow container mx-auto px-4 py-8">
+  <div class="flex-grow container mx-auto px-4 py-2">
     <app-status></app-status>
   </div>
   <app-featured-courses></app-featured-courses>
-  <div class="flex-grow container mx-auto px-4 py-8">
-    <tailwind-panel>
-      <ng-container class="heading">Heading</ng-container>
-      <div class="body">
-        <h2>Body</h2>
-        <p>Some Content</p>
-      </div>
-    </tailwind-panel>
-    <app-like [likesCount]="tweet.likesCount" [isActive]="tweet.isLiked">
-    </app-like>
-    <section class="pt-6">
-      <div *ngIf="courses.length > 0; then coursesList; else noCourses"></div>
-      <ng-template #coursesList> List of courses </ng-template>
-      <ng-template #noCourses> No courses yet... </ng-template>
-    </section>
-    <section>
-      <div [hidden]="courses.length == 0">List of courses</div>
-      <div [hidden]="courses.length > 0">No courses yet</div>
-    </section>
-    <hr class="pb-2" />
-    <ul>
-      <li *ngFor="let lesson of lessons; index as i">
-        {{ i }}-{{ lesson.name }}
-      </li>
-    </ul>
-    <hr class="pb-2" />
-    <ul>
-      <li *ngFor="let lesson of lessons; even as isEven">
-        {{ lesson.name }}<span *ngIf="isEven">(Even)</span>
-      </li>
-    </ul>
-    <a
-      class="text-blue-500"
-      href="https://angular.io/api/common/NgForOfhttps://angular.io/api/common/NgForOf"
-      >Exported variables</a
-    >
-    <hr class="pb-2" />
-    <section>
-      <button class="bg-blue-500 p-2 rounded mb-2" (click)="onAdd()">
-        Add
-      </button>
-      <ul>
-        <li *ngFor="let lesson of lessons">
-          {{ lesson.name }}
-          <button
-            class="bg-red-500 text-white m-2 p-1 rounded-sm"
-            (click)="onRemove(lesson)"
-          >
-            X
-          </button>
-          <button
-            class="bg-green-500 text-white m-2 p-1 rounded-sm"
-            (click)="onChange(lesson)"
-          >
-            ✔️
-          </button>
-        </li>
-      </ul>
-      <hr class="pb-2" />
-    </section>
-    <section>
-      <button class="bg-pink-300 rounded-md p-2" (click)="loadExercises()">
-        Load Exercises
-      </button>
-      <ul>
-        <li *ngFor="let exercise of exercises; trackBy: trackExercise">
-          {{ exercise.name }}
-        </li>
-      </ul>
-      <hr class="pb-2" />
-    </section>
-    <hr class="pb-2" />
-    <button
-      class="p-2 rounded-lg"
-      [style.background]="canSave ? 'blue' : 'gray'"
-      [style.color]="canSave ? 'white' : 'black'"
-      [style.fontWeight]="canSave ? 'bold' : 'normal'"
-    >
-      Save
-    </button>
-    <button
-      class="ml-2 p-2 rounded-lg"
-      [ngStyle]="{
-        background: canSave ? 'blue' : 'gray',
-        color: canSave ? 'white' : 'black'
-      }"
-    >
-      Save
-    </button>
-    <br />
-    <span class="text-5xl">
-      {{ task.assignee?.name }}
-    </span>
-    <hr />
-    <!-- <input type="text" appInputFormat [format]="'uppercase'"> -->
-    <input class="mb-4" type="text" [appInputFormat]="'uppercase'" />
-    <zippy title="Shipping Details"> Shipping Details Content </zippy>
-    <zippy title="Billing Details"> Billing Details Content </zippy>
+  <div class="flex-grow container mx-auto px-4 py-2">
+    <div class="text-center">Bläddra bland toppkategorier</div>
+    <div class="text-center">Toppinstruktörer</div>
+    <div class="text-center">Vad våra studenter säger</div>
+    <div class="text-center">Redo att påbörja din läranderesa?</div>
   </div>
 </section>
