@@ -15,7 +15,7 @@ import { SummaryPipe } from '../../pipes/summary.pipe';
   templateUrl: './courses.component.html',
 })
 export class CoursesComponent implements OnInit {
-  title: string = 'List of courses';
+  title: string = 'Listan över kurserna';
   courses: Array<Course>;
   text =
     'Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum laudantium, magnam autem, impedit eaque non doloremque necessitatibus quisquam, vel debitis pariatur. Repellendus, fugiat! Suscipit minima incidunt hic reprehenderit ad at, assumenda velit. Beatae id nulla eaque temporibus ipsa. Enim aspernatur doloremque quisquam consectetur reiciendis vero cum neque necessitatibus assumenda a?';

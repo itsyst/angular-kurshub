@@ -1,12 +1,13 @@
-import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, Input } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { Course } from '../../types/course';
+import { BadgeComponent } from '../badge/badge.component';
 
 @Component({
   standalone: true,
   selector: 'app-course-card',
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, BadgeComponent],
   templateUrl: './course-card.component.html',
   styleUrls: ['./course-card.component.css']
 })

@@ -1,0 +1,692 @@
+<section class="bg-gray-50 pt-8 pb-16">
+  <div class="bg-white shadow-sm py-10 mb-8">
+    <div class="container mx-auto px-4">
+      <div class="flex flex-col lg:flex-row">
+        <!-- Vänster sektion -->
+        <div class="lg:w-2/3 lg:pr-8">
+          <div class="flex items-center mb-2">
+            <a
+              routerLink="/courses"
+              class="text-sm text-gray-500 hover:text-purple-600"
+              >Kurser</a
+            >
+            <span class="mx-2 text-gray-400">›</span>
+            <a
+              [routerLink]="['/courses']"
+              [queryParams]="{ category: course?.category }"
+              class="text-sm text-gray-500 hover:text-purple-600"
+            >
+              {{ course?.category }}
+            </a>
+          </div>
+          <h1 class="text-3xl md:text-4xl font-bold mb-4">
+            {{ course?.title }}
+          </h1>
+          <p class="text-lg text-gray-700 mb-4">{{ course?.description }}</p>
+          <!-- Statistik -->
+          <div class="flex flex-wrap items-center gap-4 mb-6">
+            <div class="flex items-center">
+              <div class="flex items-center text-yellow-500 mr-1">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                >
+                  <path
+                    d="M12 2l2.45 7.613h7.975l-6.438 4.691 2.45 7.613-6.437-4.691-6.438 4.691 2.45-7.613-6.438-4.691h7.975z"
+                  />
+                </svg>
+                <span class="ml-1 font-bold">{{
+                  course?.rating?.toFixed(1)
+                }}</span>
+              </div>
+              <span class="text-sm text-gray-500"
+                >({{ course?.totalReviews }} recensioner)</span
+              >
+            </div>
+            <div class="flex items-center text-gray-600">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M2 3h6a4 4 0 0 1 4 4v14a4 4 0 0 1-4-4H2z"></path>
+                <path d="M22 3h-6a4 4 0 0 0-4 4v14a4 4 0 0 0 4-4h6z"></path>
+              </svg>
+              <span>{{ course?.lessons }} lektioner</span>
+            </div>
+            <div class="flex items-center text-gray-600">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
+              </svg>
+              <span>{{ course?.duration }}</span>
+            </div>
+            <div class="flex items-center text-gray-600 capitalize">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <circle cx="12" cy="8" r="7"></circle>
+                <polyline
+                  points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"
+                ></polyline>
+              </svg>
+              <span>{{ course?.level }}</span>
+            </div>
+            <span
+              class="inline-flex items-center rounded-md bg-purple-50 px-2 py-1 text-xs font-medium text-purple-700 ring-1 ring-inset ring-purple-700/10"
+            >
+              {{ course?.category }}
+            </span>
+          </div>
+          <!-- Instruktör -->
+          <div class="flex items-center mb-6">
+            <div
+              class="h-12 w-12 mr-3 rounded-full overflow-hidden border border-gray-200"
+            >
+              <img
+                [src]="author?.avatar"
+                alt="{{ author?.name }}"
+                class="w-full h-full object-cover"
+              />
+            </div>
+            <div>
+              <p class="text-sm text-gray-500">Instruktör</p>
+              <a
+                [routerLink]="['/authors', author?.id]"
+                class="font-medium hover:text-purple-600"
+              >
+                {{ author?.name }}
+              </a>
+            </div>
+          </div>
+          <!-- Uppdaterad & Antal registrerade -->
+          <div class="flex items-center space-x-3 mb-8">
+            <span class="text-gray-600 text-sm"
+              >Senast uppdaterad
+              {{ format(course?.updatedAt?.toISOString() ?? "") }}</span
+            >
+            <span class="text-gray-400">|</span>
+            <span class="text-gray-600 text-sm"
+              >{{ enrolledCount }} studenter registrerade</span
+            >
+          </div>
+        </div>
+        <!-- Höger sektion - Kurskort -->
+        <div class="lg:w-1/3 mt-8 lg:mt-0">
+          <div
+            class="bg-white rounded-lg shadow-lg border border-gray-100 overflow-hidden sticky top-24"
+          >
+            <div class="relative">
+              <img
+                [src]="course?.thumbnail"
+                [alt]="course?.title"
+                class="w-full h-48 object-cover"
+              />
+              <div
+                class="absolute inset-0 bg-black/30 bg-opacity-25 flex items-center justify-center"
+              >
+                <button
+                  type="button"
+                  class="text-white bg-black/30 hover:bg-black/50 rounded-full p-3 transition"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="48"
+                    height="48"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                  >
+                    <path d="M8 5v14l11-7z" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <div class="p-6">
+              <div class="mb-4 flex items-center justify-between">
+                <div class="flex items-center">
+                  <span class="text-3xl font-bold text-green-600"
+                    >{{ course?.discountPrice ?? course?.price }} kr</span
+                  >
+                  <span
+                    *ngIf="course?.discountPrice"
+                    class="ml-2 line-through text-gray-500"
+                    >${{ course?.price }}</span
+                  >
+                  <span
+                    *ngIf="course?.discountPrice"
+                    class="ml-2 bg-green-100 text-green-700 py-1 px-2 rounded-md text-xs font-medium"
+                  >
+                    {{
+                      Math.round(
+                        (1 - course?.discountPrice! / course?.price!) * 100
+                      )
+                    }}% rabatt
+                  </span>
+                </div>
+              </div>
+              <!-- Knappar -->
+              <button
+                *ngIf="getEnrollmentStatus()"
+                type="button"
+                class="w-full mb-3 bg-gray-700 hover:bg-gray-800 text-white font-semibold py-2 px-4 rounded cursor-pointer"
+              >
+                Fortsätt lära
+              </button>
+              <ng-container *ngIf="!getEnrollmentStatus()">
+                <button
+                  type="button"
+                  class="w-full mb-3 bg-purple-600 hover:bg-purple-700 text-white font-semibold py-2 px-4 rounded cursor-pointer"
+                >
+                  Registrera dig nu
+                </button>
+                <button
+                  type="button"
+                  class="w-full mb-4 border border-gray-300 text-gray-700 font-semibold py-2 px-4 rounded hover:bg-gray-100 cursor-pointer"
+                >
+                  Lägg till i önskelista
+                </button>
+              </ng-container>
+              <!-- Fördelar -->
+              <div class="text-sm text-gray-600">
+                <p class="mb-2 flex items-center">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="lucide lucide-circle-check-big h-4 w-4 mr-2 text-green-500"
+                    data-lov-id="src/pages/CourseDetail.tsx:223:24"
+                    data-lov-name="CheckCircle"
+                    data-component-path="src/pages/CourseDetail.tsx"
+                    data-component-line="223"
+                    data-component-file="CourseDetail.tsx"
+                    data-component-name="CheckCircle"
+                    data-component-content="%7B%22className%22%3A%22h-4%20w-4%20mr-2%20text-green-500%22%7D"
+                  >
+                    <path d="M21.801 10A10 10 0 1 1 17 3.335"></path>
+                    <path d="m9 11 3 3L22 4"></path>
+                  </svg>
+                  Fullständig livslång tillgång
+                </p>
+                <p class="mb-2 flex items-center">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="lucide lucide-circle-check-big h-4 w-4 mr-2 text-green-500"
+                    data-lov-id="src/pages/CourseDetail.tsx:223:24"
+                    data-lov-name="CheckCircle"
+                    data-component-path="src/pages/CourseDetail.tsx"
+                    data-component-line="223"
+                    data-component-file="CourseDetail.tsx"
+                    data-component-name="CheckCircle"
+                    data-component-content="%7B%22className%22%3A%22h-4%20w-4%20mr-2%20text-green-500%22%7D"
+                  >
+                    <path d="M21.801 10A10 10 0 1 1 17 3.335"></path>
+                    <path d="m9 11 3 3L22 4"></path>
+                  </svg>
+                  Tillgänglig på mobil och TV
+                </p>
+                <p class="mb-2 flex items-center">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="lucide lucide-circle-check-big h-4 w-4 mr-2 text-green-500"
+                    data-lov-id="src/pages/CourseDetail.tsx:223:24"
+                    data-lov-name="CheckCircle"
+                    data-component-path="src/pages/CourseDetail.tsx"
+                    data-component-line="223"
+                    data-component-file="CourseDetail.tsx"
+                    data-component-name="CheckCircle"
+                    data-component-content="%7B%22className%22%3A%22h-4%20w-4%20mr-2%20text-green-500%22%7D"
+                  >
+                    <path d="M21.801 10A10 10 0 1 1 17 3.335"></path>
+                    <path d="m9 11 3 3L22 4"></path>
+                  </svg>
+                  Slutförandebevis
+                </p>
+                <p class="flex items-center">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="lucide lucide-circle-check-big h-4 w-4 mr-2 text-green-500"
+                    data-lov-id="src/pages/CourseDetail.tsx:223:24"
+                    data-lov-name="CheckCircle"
+                    data-component-path="src/pages/CourseDetail.tsx"
+                    data-component-line="223"
+                    data-component-file="CourseDetail.tsx"
+                    data-component-name="CheckCircle"
+                    data-component-content="%7B%22className%22%3A%22h-4%20w-4%20mr-2%20text-green-500%22%7D"
+                  >
+                    <path d="M21.801 10A10 10 0 1 1 17 3.335"></path>
+                    <path d="m9 11 3 3L22 4"></path>
+                  </svg>
+                  30 dagars återbetalningsgaranti
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Flikar -->
+  <div class="container mx-auto px-4">
+    <div class="flex flex-col lg:flex-row gap-8">
+      <div class="lg:w-2/3">
+        <div class="mb-6 flex flex-wrap gap-2">
+          <button
+            (click)="activeTab = 'overview'"
+            [class]="
+              activeTab === 'overview'
+                ? 'bg-purple-600 text-white'
+                : 'bg-gray-200 text-gray-800'
+            "
+            class="px-4 py-2 rounded-md transition-colors"
+          >
+            Översikt
+          </button>
+          <button
+            (click)="activeTab = 'curriculum'"
+            [class]="
+              activeTab === 'curriculum'
+                ? 'bg-purple-600 text-white'
+                : 'bg-gray-200 text-gray-800'
+            "
+            class="px-4 py-2 rounded-md transition-colors"
+          >
+            Lektionsplanering
+          </button>
+          <button
+            (click)="activeTab = 'instructor'"
+            [class]="
+              activeTab === 'instructor'
+                ? 'bg-purple-600 text-white'
+                : 'bg-gray-200 text-gray-800'
+            "
+            class="px-4 py-2 rounded-md transition-colors"
+          >
+            Instruktör
+          </button>
+          <button
+            (click)="activeTab = 'reviews'"
+            [class]="
+              activeTab === 'reviews'
+                ? 'bg-purple-600 text-white'
+                : 'bg-gray-200 text-gray-800'
+            "
+            class="px-4 py-2 rounded-md transition-colors"
+          >
+            Recensioner
+          </button>
+        </div>
+        <!-- Innehåll för flikar -->
+        <div
+          class="bg-white rounded-lg shadow-sm p-6"
+          [hidden]="activeTab !== 'overview'"
+        >
+          <h3 class="text-xl font-bold mb-4">Vad du kommer att lära dig</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-6">
+            <div *ngFor="let item of Array(6)" class="flex">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="mr-3 text-green-500 flex-shrink-0"
+              >
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+              <p class="text-gray-700">
+                {{
+                  item.index === 0
+                    ? "Behärska nyckelkoncept inom " + course?.category
+                    : item.index === 1
+                    ? "Bygg professionella projekt från verkligheten"
+                    : item.index === 2
+                    ? "Förstå avancerade tekniker och bästa praxis"
+                    : item.index === 3
+                    ? "Lär dig lösa komplexa problem effektivt"
+                    : item.index === 4
+                    ? "Utveckla kritiskt tänkande och analytisk förmåga"
+                    : "Håll dig uppdaterad med branschens standarder"
+                }}
+              </p>
+            </div>
+          </div>
+          <!-- Beskrivning -->
+          <h3 class="text-xl font-bold mb-4">Beskrivning</h3>
+          <div class="text-gray-700 space-y-4">
+            <p>
+              Den här omfattande kursen {{ course?.title }} är utformad för att
+              ta dig från nybörjare till proffs inom
+              {{ course?.category?.toLowerCase() }}.
+            </p>
+            <p>
+              Du kommer att lära dig genom praktiska projekt, engagerande
+              föreläsningar och verkliga exempel.
+            </p>
+            <p>
+              När kursen är klar har du fått en gedigen förståelse för alla
+              väsentliga aspekter inom {{ course?.category?.toLowerCase() }}.
+            </p>
+          </div>
+          <!-- Krav -->
+          <h3 class="text-xl font-bold mt-8 mb-4">Förkunskaper</h3>
+          <ul class="list-disc pl-5 text-gray-700 space-y-2">
+            <li>Förståelse av {{ course?.category?.toLowerCase() }}-koncept</li>
+            <li>En dator med internetanslutning</li>
+            <li>Vilja att lära och öva</li>
+          </ul>
+          <!-- Målgrupp -->
+          <h3 class="text-xl font-bold mt-8 mb-4">Vem passar denna kurs?</h3>
+          <ul class="list-disc pl-5 text-gray-700 space-y-2">
+            <li>Alla som vill lära sig {{ course?.category }}</li>
+            <li>Studenter som vill förbättra sina kunskaper</li>
+            <li>Professionella som vill hålla sig uppdaterade</li>
+            <li>Nybörjare utan tidigare erfarenhet</li>
+          </ul>
+        </div>
+        <!-- Lektionsplanering -->
+        <div
+          class="bg-white rounded-lg shadow-sm p-6"
+          [hidden]="activeTab !== 'curriculum'"
+        >
+          <h3 class="text-xl font-bold mb-4">Kursinnehåll</h3>
+          <div class="mb-4">
+            <p class="text-gray-600">
+              {{ course?.lessons }} lektioner • {{ course?.duration }} total
+              längd
+            </p>
+          </div>
+          <div
+            *ngFor="let section of curriculum"
+            class="mb-4 border border-gray-200 rounded-lg overflow-hidden"
+          >
+            <div class="bg-gray-50 p-4 flex justify-between items-center">
+              <h4 class="font-medium">{{ section.title }}</h4>
+              <span class="text-sm text-gray-500"
+                >{{ section.lessons.length }} lektioner</span
+              >
+            </div>
+            <div class="divide-y divide-gray-200">
+              <div
+                *ngFor="let lesson of section.lessons"
+                class="p-4 flex justify-between items-center"
+              >
+                <div class="flex items-center">
+                  <svg
+                    *ngIf="lesson.preview"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    class="mr-3 text-purple-600"
+                  >
+                    <path d="M8 5v14l11-7z" />
+                  </svg>
+                  <svg
+                    *ngIf="!lesson.preview"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="mr-3 text-gray-400"
+                  >
+                    <rect
+                      x="3"
+                      y="3"
+                      width="18"
+                      height="18"
+                      rx="2"
+                      ry="2"
+                    ></rect>
+                    <path d="M7 3v18"></path>
+                  </svg>
+                  <span class="text-gray-700">{{ lesson.title }}</span>
+                </div>
+                <span class="text-sm text-gray-500">{{ lesson.duration }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Instruktör -->
+        <div
+          class="bg-white rounded-lg shadow-sm p-6"
+          [hidden]="activeTab !== 'instructor'"
+        >
+          <div
+            class="flex flex-col sm:flex-row items-start sm:items-center mb-6"
+          >
+            <div
+              class="h-20 w-20 mr-5 mb-4 sm:mb-0 rounded-full overflow-hidden border border-gray-200"
+            >
+              <img
+                [src]="author?.avatar"
+                alt="{{ author?.name }}"
+                class="w-full h-full object-cover"
+              />
+            </div>
+            <div>
+              <h3 class="text-xl font-bold mb-2">{{ author?.name }}</h3>
+              <div class="flex items-center mb-2">
+                <div class="flex items-center text-yellow-500 mr-2">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                  >
+                    <path
+                      d="M12 2l2.45 7.613h7.975l-6.438 4.691 2.45 7.613-6.437-4.691-6.438 4.691 2.45-7.613-6.438-4.691h7.975z"
+                    />
+                  </svg>
+                  <span class="ml-1"
+                    >{{ author?.rating }} Betyg som instruktör</span
+                  >
+                </div>
+                <span class="text-gray-500">•</span>
+                <span class="ml-2 text-gray-500"
+                  >{{ author?.courses?.length }} Kurser</span
+                >
+              </div>
+            </div>
+          </div>
+          <h4 class="text-lg font-medium mb-3">Om instruktören</h4>
+          <p class="text-gray-700 mb-6">{{ author?.bio }}</p>
+          <h4 class="text-lg font-medium mb-3">Expertisområden</h4>
+          <div class="flex flex-wrap gap-2 mb-6">
+            <span
+              *ngFor="let skill of author?.expertise"
+              class="inline-flex items-center rounded-md bg-gray-100 px-2 py-1 text-xs font-medium text-gray-700 ring-1 ring-inset ring-gray-500/10"
+            >
+              {{ skill }}
+            </span>
+          </div>
+          <a [routerLink]="['/authors', author?.id]">
+            <button
+              type="button"
+              class="border border-gray-300 text-gray-700 font-semibold py-2 px-4 rounded hover:bg-gray-100 cursor-pointer"
+            >
+              Visa profil
+            </button>
+          </a>
+        </div>
+        <!-- Recensioner -->
+        <div
+          class="bg-white rounded-lg shadow-sm p-6"
+          [hidden]="activeTab !== 'reviews'"
+        >
+          <div
+            class="flex flex-col md:flex-row md:items-center justify-between mb-8"
+          >
+            <div>
+              <h3 class="text-xl font-bold mb-1">Studentrecensioner</h3>
+              <p class="text-gray-600">
+                {{ course?.totalReviews }} recensioner för denna kurs
+              </p>
+            </div>
+            <div class="mt-4 md:mt-0 flex items-center">
+              <div class="flex items-center text-yellow-500 mr-3">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="32"
+                  height="32"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                >
+                  <path
+                    d="M12 2l2.45 7.613h7.975l-6.438 4.691 2.45 7.613-6.437-4.691-6.438 4.691 2.45-7.613-6.438-4.691h7.975z"
+                  />
+                </svg>
+                <span class="text-2xl font-bold ml-2">{{
+                  course?.rating?.toFixed(1)
+                }}</span>
+              </div>
+              <div>
+                <div class="flex items-center">
+                  <div class="text-sm text-gray-600 mr-2">5 stjärnor</div>
+                  <div class="w-24 bg-gray-200 rounded-full h-2">
+                    <div
+                      class="bg-yellow-500 h-2 rounded-full"
+                      style="width: 70%"
+                    ></div>
+                  </div>
+                  <div class="text-sm text-gray-600 ml-2">70%</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Sidofält -->
+      <div class="lg:w-1/3">
+        <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
+          <h3 class="text-xl font-bold mb-4">Relaterade kurser</h3>
+          <div class="space-y-4">
+            <ng-container *ngIf="relatedCourses.length > 0; else noRelated">
+              <a
+                *ngFor="let rc of relatedCourses"
+                [routerLink]="['/courses', rc.id]"
+                class="flex gap-3 hover:bg-gray-50 p-2 rounded-md transition-colors"
+              >
+                <img
+                  [src]="rc.thumbnail"
+                  alt="{{ rc.title }}"
+                  class="w-20 h-14 object-cover rounded"
+                />
+                <div>
+                  <h4 class="font-medium text-sm line-clamp-2">
+                    {{ rc.title }}
+                  </h4>
+                  <div class="flex items-center mt-1 text-xs text-gray-500">
+                    <div class="flex items-center text-yellow-500 mr-1">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="12"
+                        height="12"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                      >
+                        <path
+                          d="M12 2l2.45 7.613h7.975l-6.438 4.691 2.45 7.613-6.437-4.691-6.438 4.691 2.45-7.613-6.438-4.691h7.975z"
+                        />
+                      </svg>
+                      <span class="ml-1">{{ rc.rating }}</span>
+                    </div>
+                    <span>•</span>
+                    <span class="ml-1">{{ rc.lessons }} lektioner</span>
+                  </div>
+                </div>
+              </a>
+            </ng-container>
+            <ng-template #noRelated>
+              <p class="text-gray-600">Inga relaterade kurser hittades.</p>
+            </ng-template>
+          </div>
+        </div>
+        <div class="bg-purple-600 text-white rounded-lg p-6">
+          <h3 class="text-xl font-bold mb-2">Osäker?</h3>
+          <p class="mb-4 opacity-90">
+            Testa vårt riskfria köp. Få full återbetalning inom 30 dagar om du
+            inte är nöjd.
+          </p>
+          <button
+            type="button"
+            class="w-full bg-white text-purple-600 hover:bg-gray-100 font-semibold py-2 px-4 rounded transition cursor-pointer"
+            routerLink="/register"
+            routerLinkActive="active"
+            [queryParams]="{ courseId: course?.id }"
+          >
+            Registrera dig nu
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
