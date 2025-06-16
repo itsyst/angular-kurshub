@@ -1,0 +1,29 @@
+<a [routerLink]="['/authors', author.id]">
+  <div class="bg-white rounded-lg shadow-md overflow-hidden h-full">
+    <div class="p-6 flex flex-col items-center text-center">
+      <app-avatar [src]="author.avatar" [name]="author.name" class="h-24 w-24 mb-4"></app-avatar>
+      <h3 class="font-bold text-xl mb-1">{{ author.name }}</h3>
+
+      <div class="flex items-center text-yellow-500 mb-3">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4">
+          <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+        </svg>
+        <span class="ml-1 text-sm font-medium">{{ author.rating }}</span>
+      </div>
+
+      <div class="mb-4 flex flex-wrap justify-center gap-2">
+        <span *ngFor="let skill of author.expertise.slice(0, 3)" class="text-xs border border-gray-300 px-2 py-1 rounded-full">
+          {{ skill }}
+        </span>
+      </div>
+
+      <p class="text-gray-600 text-sm line-clamp-3">
+        {{ author.bio }}
+      </p>
+
+      <div class="mt-4 text-sm text-purple-600 font-medium">
+        {{ author.courses.length }} {{ author.courses.length === 1 ? 'Course' : 'Courses' }}
+      </div>
+    </div>
+  </div>
+</a>
