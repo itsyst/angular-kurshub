@@ -1,10 +1,14 @@
 import { Injectable } from '@angular/core';
+import { Author } from '../types/author';
+import { authors } from './../data/authors';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-export class AuthorsService {
-  getAuthors():string[] {
-    return ["author1","author2","author3"]
+export class AuthorService {
+  authors: Array<Author> = authors;
+
+  getAuthors() {
+    return this.authors;
   }
 }
