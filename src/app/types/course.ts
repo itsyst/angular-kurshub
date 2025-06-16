@@ -1,16 +1,19 @@
 export interface Course {
-  id: number,
+  id: number | string;
   title?: string;
   description?: string;
+  category?: string;
   rating?: number;
   level?: string;
-  thumbnail?: string;
-  totalReviews?: number;
   lessons?: number;
   duration?: string;
   students?: number;
   price?: number;
-  discountPrice?: number;
+  discountPrice?: number | null;
   releaseDate?: Date;
-  category?: string
+  totalReviews?: number;
+  thumbnail?: string;
+  updatedAt: Date;
+  authorId: number | string;
+  featured: boolean;
 }
