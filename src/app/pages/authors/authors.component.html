@@ -1,38 +1,65 @@
-<div class="flex-grow container mx-auto px-4 py-8 h-screen">
-  <h2 class="px-6 font-bold mt-8">List of authors</h2>
-  <h2 class="px-6 font-bold mt-8">{{ authors.length }} Authors</h2>
-  <ul>
-    <li *ngFor="let author of authors" class="px-9 text-green-500">
-      {{ author }}
-    </li>
-  </ul>
-  <div class="flex flex-row px-6 py-2">
-    <img src="{{ imageUrl }}" class="mr-2" />
-    <img [src]="imageUrl" />
+<section class="bg-purple-600 text-white py-16">
+  <div class="container mx-auto px-4">
+    <h1 class="text-3xl md:text-4xl font-bold mb-4">Våra expertinstruktörer</h1>
+    <p class="md:text-lg opacity-90 max-w-3xl">
+      Lär dig av branschexperter som brinner för att undervisa och dela med sig av sina kunskaper. Våra instruktörer har många års yrkeserfarenhet och hjälper dig att bemästra nya färdigheter.
+    </p>
   </div>
-  <table>
-    <tr>
-      <td [attr.colspan]="colSpan"></td>
-    </tr>
-  </table>
-  <div (click)="onDivClick()" class="flex flex-row">
-    <button
-      class="bg-blue-600 text-white font-bold mx-6 p-2 border border-black rounded-lg"
-      [class.active]="isActive"
-      (click)="onSave($event)"
-    >
-      Save
-    </button>
-    <button
-      class="text-white font-bold mx-6 p-2 border border-black rounded-lg"
-      [style.backgroundColor]="isActive ? 'red' : 'blue'"
-    >
-      Submit
-    </button>
+</section>
+
+<!-- Search Section -->
+<section class="container mx-auto px-4 -mt-6 mb-10">
+  <div class="bg-white rounded-lg shadow-md p-4">
+    <div class="relative">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="absolute left-3 top-3 h-4 w-4 text-gray-400"
+        viewBox="0 0 20 20"
+        fill="currentColor"
+      >
+        <path
+          fill-rule="evenodd"
+          d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+          clip-rule="evenodd"
+        />
+      </svg>
+      <input
+        type="text"
+        placeholder="Sök efter instruktörer efter namn eller expertis..."
+        [(ngModel)]="searchTerm"
+        (input)="onSearch()"
+        class="pl-10 w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
+    </div>
   </div>
-  <input
-    [(ngModel)]="email"
-    (keyup.enter)="onKeyUp()"
-    class="m-6 p-2 border border-gray-400 rounded-lg"
-  />
+</section>
+
+<!-- Author Grid -->
+<section class="container mx-auto px-4">
+  <div
+    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+  >
+    <app-author-card
+      *ngFor="let author of filteredAuthors"
+      [author]="author"
+    ></app-author-card>
+  </div>
+</section>
+<div *ngIf="filteredAuthors.length === 0" class="text-center py-10 text-gray-500">
+  Inga instruktörer hittades.
 </div>
+
+<section class="container mx-auto px-4 mt-16">
+  <div class="bg-white rounded-lg shadow-md p-8 text-center">
+    <h2 class="text-2xl font-bold mb-4">Gå med i vårt lärarcommunity</h2>
+    <p class="text-gray-600 mb-6 max-w-2xl mx-auto">
+      Dela med dig av din expertis till miljontals studenter över hela världen. Bli en instruktör och förändra liv – inklusive ditt eget.
+    </p>
+    <a
+      routerLink="/become-instructor"
+      class="inline-block bg-purple-600 hover:bg-purple-700 text-white py-3 px-6 rounded-md font-medium"
+    >
+    Börja undervisa idag
+    </a>
+  </div>
+</section>

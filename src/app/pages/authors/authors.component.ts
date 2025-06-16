@@ -1,36 +1,38 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { AuthorsService } from '../../services/authors.service';
+import { AuthorCardComponent } from '../../components/author-card/author-card.component';
+import { AuthorService } from '../../services/authors.service';
+import { Author } from '../../types/author';
 
 @Component({
-  selector: 'authors',
+  selector: 'app-authors',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, AuthorCardComponent, FormsModule],
   templateUrl: './authors.component.html',
 })
-export class AuthorsComponent implements OnInit {
-  authors: string[];
-  imageUrl =
-    'https://i.picsum.photos/id/1/200/300.jpg?hmac=jH5bDkLr6Tgy3oAg5khKCHeunZMHq0ehBZr6vGifPLY';
-  colSpan = 2;
-  isActive = true;
-  email!: string;
+export class AuthorsComponent {
+  authors: Author[] = [];
+  filteredAuthors: Author[] = [];
+  searchTerm = '';
 
-  onDivClick() {
-    console.log('Div bubbling!');
-  }
-  onSave($event: MouseEvent) {
-    $event.stopPropagation();
-    console.log('Button was clicked!', $event.target);
+  constructor (private authorService: AuthorService) {
+    const allAuthors = this.authorService.getAuthors();
+    this.authors = allAuthors.filter(author => author.role === 'author');
+    this.filteredAuthors = [...this.authors]; // Initialize with all authors
   }
 
-  onKeyUp() {
-    console.log(this.email);
-  }
+  onSearch(): void {
+    const term = this.searchTerm.toLowerCase().trim();
 
-  constructor (service: AuthorsService) {
-    this.authors = service.getAuthors();
+    if (!term) {
+      this.filteredAuthors = [...this.authors];
+      return;
+    }
+
+    this.filteredAuthors = this.authors.filter(author =>
+      author.name.toLowerCase().includes(term) ||
+      author.expertise.some(skill => skill.toLowerCase().includes(term))
+    );
   }
-  ngOnInit(): void { }
 }
