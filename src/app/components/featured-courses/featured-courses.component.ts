@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { CoursesService } from '../../services/courses.service';
 import { Course } from '../../types/course';
 import { CourseCardComponent } from '../course-card/course-card.component';
@@ -7,7 +8,7 @@ import { CourseCardComponent } from '../course-card/course-card.component';
 @Component({
   selector: 'app-featured-courses',
   standalone: true,
-  imports: [CommonModule, CourseCardComponent],
+  imports: [CommonModule, CourseCardComponent, RouterModule],
   templateUrl: './featured-courses.component.html',
 })
 export class FeaturedCoursesComponent {
