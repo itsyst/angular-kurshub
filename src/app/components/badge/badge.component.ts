@@ -6,7 +6,7 @@ import { cn } from '../../common/utils/utils';
   selector: 'app-badge',
   templateUrl: './badge.component.html',
   host: {
-    class: 'inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2'
+    class: 'inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs  text-gray-400 font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2'
   }
 })
 export class BadgeComponent {
