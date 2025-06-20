@@ -28,6 +28,13 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'authors/:id',
+    loadComponent: () =>
+      import('./pages/author-detail/author-detail.component').then(
+        (m) => m.AuthorDetailComponent
+      ),
+  },
+  {
     path: 'about',
     loadComponent: () =>
       import('./pages/about/about.component').then((m) => m.AboutComponent),

@@ -11,4 +11,9 @@ export class AuthorService {
   getAuthors() {
     return this.authors;
   }
+
+  findAuthorById(id: string): Author | null {
+    const foundAuthor = this.authors.find((author) => author.id === id);
+    return foundAuthor || null;
+  }
 }

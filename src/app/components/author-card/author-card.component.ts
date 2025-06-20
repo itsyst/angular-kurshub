@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { AvatarComponent } from '../avatar/avatar.component';
+import { Expertise } from '../../types/author';
 
 @Component({
   selector: 'app-author-card',
@@ -15,7 +16,7 @@ export class AuthorCardComponent {
     name: string;
     avatar?: string;
     bio?: string | undefined;
-    expertise: string[];
+    expertise: Expertise[];
     rating: number;
     courses: string[];
     email: string;

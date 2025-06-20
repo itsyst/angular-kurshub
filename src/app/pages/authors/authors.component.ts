@@ -32,7 +32,7 @@ export class AuthorsComponent {
 
     this.filteredAuthors = this.authors.filter(author =>
       author.name.toLowerCase().includes(term) ||
-      author.expertise.some(skill => skill.toLowerCase().includes(term))
+      author.expertise.some(skill => skill.domain.toLowerCase().includes(term))
     );
   }
 }

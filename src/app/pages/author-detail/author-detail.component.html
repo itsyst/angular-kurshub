@@ -1,1 +1,185 @@
-<p>author-detail works!</p>
+<section class="bg-gray-50 pt-8 pb-16">
+  <section class="bg-white shadow-sm py-10 mb-8">
+    <div class="container mx-auto px-4">
+      <div class="flex flex-col md:flex-row items-center md:items-start gap-8">
+        <!-- Avatar -->
+        <div class="h-32 w-32 rounded-full overflow-hidden relative">
+          <!-- <img
+            [src]="author?.avatar"
+            [alt]="author?.name"
+            class="w-full h-full object-cover"
+          />
+          <div
+            class="absolute inset-0 flex items-center justify-center bg-gray-200 text-gray-700 font-bold"
+            *ngIf="!author?.avatar"
+          >
+            {{ getInitials(author?.name || "") }}
+          </div> -->
+          <app-avatar
+            [src]="author?.avatar"
+            class="h-24 w-24 mb-4"
+          ></app-avatar>
+        </div>
+
+        <!-- Author Info -->
+        <div class="text-center md:text-left flex-grow">
+          <h1 class="text-3xl md:text-4xl font-bold mb-3">
+            {{ author?.name }}
+          </h1>
+          <p class="text-xl text-gray-600 mb-4">
+            {{ getExpertiseDomains(author?.expertise || []) }}
+          </p>
+
+          <!-- Stats -->
+          <div
+            class="flex flex-wrap items-center justify-center md:justify-start gap-4 mb-6"
+          >
+            <div class="flex items-center">
+              <span class="text-yellow-500 mr-1">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                >
+                  <path
+                    d="M12 2l2.45 7.55H22l-6.1 4.45 2.45 7.55L12 17.1l-6.4 4.45 2.45-7.55L2 9.55h7.55L12 2z"
+                  />
+                </svg>
+              </span>
+              <span class="font-bold text-yellow-500">{{
+                author?.rating?.toFixed(1)
+              }}</span>
+              <span class="ml-1 text-sm text-gray-500"> Instruktörsbetyg</span>
+            </div>
+
+            <div class="flex items-center text-gray-600">
+              <div class="mr-1">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="9" cy="7" r="4"></circle>
+                  <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                </svg>
+              </div>
+              <span>{{ totalStudents.toLocaleString() }} Studenter</span>
+            </div>
+
+            <div class="flex items-center text-gray-600">
+              <div class="mr-1">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                  <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+                </svg>
+              </div>
+              <span>{{ author?.courses?.length }} Kurser</span>
+            </div>
+          </div>
+
+          <!-- Skills Badges -->
+          <div
+            class="flex flex-wrap gap-2 mb-6 justify-center md:justify-start"
+          >
+            <app-badge
+              class="bg-purple-100 text-purple-700 px-2 py-1 rounded text-sm"
+              *ngFor="let skill of author?.expertise"
+              >{{ skill.domain }}</app-badge
+            >
+          </div>
+
+          <button
+            class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded"
+          >
+            Följ
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tabs -->
+  <div class="container mx-auto px-4">
+    <app-tabs
+      [tabs]="[
+        { label: 'Om', value: 'about' },
+        { label: 'Kurser', value: 'courses' }
+      ]"
+      (activeTabChange)="onTabChange($event)"
+    >
+      <!-- About Tab -->
+      <section
+        *ngIf="currentTab === 'about'"
+        class="bg-white rounded-lg shadow-sm p-6 mb-6"
+      >
+        <h2 class="text-2xl font-bold mb-4">Om {{ author?.name }}</h2>
+        <div class="text-gray-700 space-y-4">
+          <p>{{ author?.bio }}</p>
+          <p [innerHTML]="author?.presentation || '' | nl2br"></p>
+        </div>
+
+        <h3 class="text-xl font-bold mt-8 mb-3">Kompetens</h3>
+        <div class="flex flex-wrap gap-2 mb-6">
+          <app-badge
+            variant="outline"
+            class="text-sm"
+            *ngFor="let skill of author?.expertise"
+            >{{ skill.domain }}</app-badge
+          >
+        </div>
+
+        <h3 class="text-xl font-bold mt-8 mb-3">Erfarenhet</h3>
+        <div class="space-y-4">
+          <div *ngIf="author?.expertise?.length">
+            <div *ngFor="let skill of author?.expertise;" class="mb-2">
+              <h4 class="font-medium">{{ skill.domain }}</h4>
+              <p class="text-gray-600">
+                {{ skill.company || "Okänt företag" }} •
+                {{ skill.date || "Datum saknas" }}
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- Courses Tab -->
+      <section
+        *ngIf="currentTab === 'courses'"
+        class="bg-white rounded-lg shadow-sm p-6"
+      >
+        <h2 class="text-2xl font-bold mb-6">Kurser av {{ author?.name }}</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <ng-container *ngFor="let course of authorCourses">
+            <app-course-card [course]="course"></app-course-card>
+          </ng-container>
+        </div>
+        <ng-template #noCourses>
+          <p class="text-gray-600">
+            Inga kurser hittades för denna instruktör.
+          </p>
+        </ng-template>
+      </section>
+    </app-tabs>
+  </div>
+</section>
