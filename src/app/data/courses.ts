@@ -14,6 +14,7 @@ export const courses: Course[] = [
     "duration": "10h 15m",
     "price": 1000,
     "discountPrice": 800,
+    "createdAt": new Date("2025-06-16T12:33:00Z"),
     "updatedAt": new Date("2025-06-16T12:33:00Z"),
     "authorId": "a1",
     "featured": true
@@ -31,6 +32,7 @@ export const courses: Course[] = [
     "duration": "15h 45m",
     "price": 1500,
     "discountPrice": 1200,
+    "createdAt": new Date("2025-06-16T12:33:00Z"),
     "updatedAt": new Date("2025-06-16T12:33:00Z"),
     "authorId": "a1",
     "featured": false
@@ -48,6 +50,7 @@ export const courses: Course[] = [
     "duration": "8h 30m",
     "price": 800,
     "discountPrice": 600,
+    "createdAt": new Date("2025-06-16T12:33:00Z"),
     "updatedAt": new Date("2025-06-16T12:33:00Z"),
     "authorId": "a2",
     "featured": false
@@ -65,6 +68,7 @@ export const courses: Course[] = [
     "duration": "12h 20m",
     "price": 1200,
     "discountPrice": 900,
+    "createdAt": new Date("2025-06-16T12:33:00Z"),
     "updatedAt": new Date("2025-06-16T12:33:00Z"),
     "authorId": "a1",
     "featured": false
@@ -82,6 +86,7 @@ export const courses: Course[] = [
     "duration": "20h 30m",
     "price": 2000,
     "discountPrice": 1600,
+    "createdAt": new Date("2025-06-16T12:33:00Z"),
     "updatedAt": new Date("2025-06-16T12:33:00Z"),
     "authorId": "a2",
     "featured": true
@@ -99,6 +104,7 @@ export const courses: Course[] = [
     "duration": "9h 10m",
     "price": 900,
     "discountPrice": 700,
+    "createdAt": new Date("2025-06-16T12:33:00Z"),
     "updatedAt": new Date("2025-06-16T12:33:00Z"),
     "authorId": "a1",
     "featured": false
@@ -116,6 +122,7 @@ export const courses: Course[] = [
     "duration": "11h 25m",
     "price": 1100,
     "discountPrice": 850,
+    "createdAt": new Date("2025-06-16T12:33:00Z"),
     "updatedAt": new Date("2025-06-16T12:33:00Z"),
     "authorId": "a3",
     "featured": false
@@ -133,6 +140,7 @@ export const courses: Course[] = [
     "duration": "14h 40m",
     "price": 1400,
     "discountPrice": 1100,
+    "createdAt": new Date("2025-06-16T12:33:00Z"),
     "updatedAt": new Date("2025-06-16T12:33:00Z"),
     "authorId": "a3",
     "featured": true
@@ -150,6 +158,7 @@ export const courses: Course[] = [
     "duration": "7h 5m",
     "price": 700,
     "discountPrice": 550,
+    "createdAt": new Date("2025-06-16T12:33:00Z"),
     "updatedAt": new Date("2025-06-16T12:33:00Z"),
     "authorId": "a1",
     "featured": false
@@ -167,6 +176,7 @@ export const courses: Course[] = [
     "duration": "18h 50m",
     "price": 1800,
     "discountPrice": 1400,
+    "createdAt": new Date("2025-06-16T12:33:00Z"),
     "updatedAt": new Date("2025-06-16T12:33:00Z"),
     "authorId": "a1",
     "featured": false

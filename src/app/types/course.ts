@@ -1,4 +1,5 @@
 export interface Course {
+  createdAt: string | number | Date;
   id: number | string;
   title?: string;
   description?: string;

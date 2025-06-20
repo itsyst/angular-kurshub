@@ -1,0 +1,93 @@
+<div class="relative">
+  <!-- Trigger Button -->
+  <button
+    type="button"
+    [class]="getTriggerClasses()"
+    (click)="toggleDropdown()"
+    (blur)="onBlur()"
+    [disabled]="disabled"
+    [attr.aria-expanded]="isOpen"
+    [attr.aria-haspopup]="true"
+    #triggerRef
+  >
+    <span class="line-clamp-1">
+      {{ getDisplayValue() }}
+    </span>
+    <svg
+      class="h-4 w-4 opacity-50"
+      [class.rotate-180]="isOpen"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+    >
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+    </svg>
+  </button>
+
+  <!-- Dropdown Content -->
+  <div
+    *ngIf="isOpen"
+    [class]="getContentClasses()"
+    role="listbox"
+    [attr.aria-labelledby]="'select-trigger'"
+  >
+    <!-- Scroll Up Button (if needed) -->
+    <button
+      *ngIf="showScrollButtons"
+      type="button"
+      class="flex cursor-default items-center justify-center py-1"
+      (click)="scrollUp()"
+    >
+      <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+      </svg>
+    </button>
+
+    <!-- Options Container -->
+    <div class="max-h-60 overflow-y-auto" #optionsContainer>
+      <div
+        *ngFor="let option of options; trackBy: trackByFn"
+        class="relative flex w-full cursor-default select-none items-center py-1.5 pl-8 pr-2 text-sm outline-none bg-white hover:bg-purple-500 hover:text-white"
+        [class.bg-accent]="option.value === selectedValue"
+        [class.text-accent-foreground]="option.value === selectedValue"
+        [class.pointer-events-none]="option.disabled"
+        [class.opacity-50]="option.disabled"
+        (click)="selectOption(option)"
+        role="option"
+        [attr.aria-selected]="option.value === selectedValue"
+      >
+        <span class="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
+          <svg
+            *ngIf="option.value === selectedValue"
+            class="h-4 w-4"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+          </svg>
+        </span>
+        {{ option.label }}
+      </div>
+    </div>
+
+    <!-- Scroll Down Button (if needed) -->
+    <button
+      *ngIf="showScrollButtons"
+      type="button"
+      class="flex cursor-default items-center justify-center py-1"
+      (click)="scrollDown()"
+    >
+      <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+      </svg>
+    </button>
+  </div>
+</div>
+
+<!-- Backdrop to close dropdown -->
+<div
+  *ngIf="isOpen"
+  class="fixed inset-0 z-40"
+  (click)="closeDropdown()"
+></div>
