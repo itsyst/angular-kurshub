@@ -8,8 +8,7 @@ import { RouterModule } from '@angular/router';
 //   AccordionComponent,
 //   AccordionItem,
 // } from '../components/accordion.component';
-// import { SelectComponent, SelectOption } from '../components/select.component';
-import { CourseCardComponent } from "../../components/course-card/course-card.component";
+ import { CourseCardComponent } from "../../components/course-card/course-card.component";
 import { SelectComponent, SelectOption } from '../../components/select/select.component';
 import { CoursesService } from '../../services/courses.service';
 import { Course } from '../../types/course';

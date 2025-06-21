@@ -44,7 +44,7 @@ export class AuthorDetailComponent implements OnInit {
 
       const allCourses = this.courses.getCourses();
       this.authorCourses = allCourses.filter((course) =>
-        foundAuthor.courses.includes(String(course.id))
+        course.authorId === foundAuthor.id
       );
     }
   }
