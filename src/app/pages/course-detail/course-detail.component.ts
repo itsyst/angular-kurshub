@@ -4,15 +4,15 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
+import { BadgeComponent } from '../../components/badge/badge.component';
 import { TabsComponent } from '../../components/tabs/tabs.component';
 import { authors } from '../../data/authors';
 import { comments } from '../../data/comments';
-import { students } from '../../data/students';
 import { CoursesService } from '../../services/courses.service';
 import { Author } from '../../types/author';
 import { EnrichedComment } from '../../types/comment';
 import { Course } from '../../types/course';
-import { BadgeComponent } from "../../components/badge/badge.component";
+import { students } from './../../data/students';
 
 @Component({
   selector: 'app-course-detail',
@@ -98,11 +98,11 @@ export class CourseDetailComponent {
   });
 
   public enrolledCount = computed<number>(() => {
-    const courseId = this.course()?.id;
+    const courseIdAsString = String(this.course()?.id);
 
-    if (!courseId) return 0;
+    if (!courseIdAsString) return 0;
     return students.filter((s) =>
-      s.enrolledCourses.filter((e) => e.courseId === courseId)
+      s.enrolledCourses.some((e) => e.courseId === courseIdAsString)
     ).length;
   });
 
