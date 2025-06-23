@@ -68,7 +68,7 @@ export const authors: Author[] = [
   {
     id: 'a3',
     name: 'David Kim',
-    avatar: 'https://i.pravatar.cc/150?img=8',
+    avatar: 'https://i.pravatar.cc/150?img=12',
     bio: 'Tech lead på ett toppföretag, älskar TypeScript och ren kodpraktik.',
     presentation:
       'Fokuserad på att bygga skalbara och underhållbara system med moderna verktyg.\nMed en passion för undervisning och expertis inom TypeScript, Angular och React, har David Kim inspirerat tusentals studenter att skriva ren och effektiv kod.\nDavid Kim integrerar sina erfarenheter från ledande tech-projekt i sina kurser, vilket ger studenterna en unik inblick i hur teori möter praktik i verkligheten.\nNär David inte undervisar, älskar han att dyka ner i open source-projekt, diskutera kodarkitektur på konferenser och mentorera unga talanger inom programmering.',
@@ -99,7 +99,7 @@ export const authors: Author[] = [
   },
   {
     id: 'a4',
-    name: 'Emma Larsson',
+    name: 'Emanuel Larsson',
     avatar: 'https://i.pravatar.cc/150?img=11',
     bio: 'UX-designer med passion för tillgänglighet och användarcentrerad design.',
     presentation:

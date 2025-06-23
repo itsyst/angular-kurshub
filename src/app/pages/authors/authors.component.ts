@@ -1,38 +1,41 @@
+import { authors } from './../../data/authors';
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AuthorCardComponent } from '../../components/author-card/author-card.component';
 import { AuthorService } from '../../services/authors.service';
 import { Author } from '../../types/author';
+import { RouterModule } from '@angular/router';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-authors',
   standalone: true,
-  imports: [CommonModule, AuthorCardComponent, FormsModule],
+  imports: [CommonModule, AuthorCardComponent, FormsModule, RouterModule],
   templateUrl: './authors.component.html',
 })
 export class AuthorsComponent {
-  authors: Author[] = [];
-  filteredAuthors: Author[] = [];
-  searchTerm = '';
+  private authorService = inject(AuthorService);
 
-  constructor (private authorService: AuthorService) {
-    const allAuthors = this.authorService.getAuthors();
-    this.authors = allAuthors.filter(author => author.role === 'author');
-    this.filteredAuthors = [...this.authors]; // Initialize with all authors
-  }
+  public searchTerm = signal('');
 
-  onSearch(): void {
-    const term = this.searchTerm.toLowerCase().trim();
+  private allAuthors = signal<Author[]>(this.authorService.getAuthors());
+
+  public filteredAuthors = computed(() => {
+    const authors = this.allAuthors().filter((author) => author.role === 'author' || !author.role);
+    const term = this.searchTerm().toLowerCase().trim();
 
     if (!term) {
-      this.filteredAuthors = [...this.authors];
-      return;
+      return authors; // If no search term, return the full list
     }
 
-    this.filteredAuthors = this.authors.filter(author =>
-      author.name.toLowerCase().includes(term) ||
-      author.expertise.some(skill => skill.domain.toLowerCase().includes(term))
+    // Filter by name or expertise
+    return authors.filter(
+      (author) =>
+        author.name.toLowerCase().includes(term) ||
+        author.expertise.some((skill) =>
+          skill.domain.toLowerCase().includes(term)
+        )
     );
-  }
+  });
 }

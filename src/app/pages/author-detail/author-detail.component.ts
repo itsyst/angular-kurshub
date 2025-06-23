@@ -1,15 +1,16 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, RouterModule } from '@angular/router';
+import { of, switchMap } from 'rxjs';
 import { AvatarComponent } from '../../components/avatar/avatar.component';
 import { BadgeComponent } from '../../components/badge/badge.component';
 import { CourseCardComponent } from '../../components/course-card/course-card.component';
 import { TabsComponent } from '../../components/tabs/tabs.component';
+import { Nl2brPipe } from '../../pipes/nl2br.pipe';
 import { AuthorService } from '../../services/authors.service';
 import { CoursesService } from '../../services/courses.service';
-import { Author, Expertise } from '../../types/author';
 import { Course } from '../../types/course';
-import { Nl2brPipe } from '../../pipes/nl2br.pipe';
 
 @Component({
   selector: 'app-author-detail',
@@ -21,47 +22,52 @@ import { Nl2brPipe } from '../../pipes/nl2br.pipe';
     AvatarComponent,
     TabsComponent,
     CourseCardComponent,
-    Nl2brPipe
+    Nl2brPipe,
   ],
-  templateUrl: './author-detail.component.html'
+  templateUrl: './author-detail.component.html',
 })
-export class AuthorDetailComponent implements OnInit {
-  author: Author | null = null;
-  authorCourses: Course[] = [];
-  totalStudents = 0;
-  currentTab: string = 'about';
-
+export class AuthorDetailComponent {
   private route = inject(ActivatedRoute);
-  private authors = inject(AuthorService);
-  private courses = inject(CoursesService);
+  private authorService = inject(AuthorService);
+  private courseService = inject(CoursesService);
 
-  ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('id') || '';
+  public currentTab = signal('about');
 
-    const foundAuthor = this.authors.findAuthorById(id);
-    if (foundAuthor) {
-      this.author = foundAuthor;
+  public author = toSignal(
+    this.route.paramMap.pipe(
+      switchMap((params) => {
+        const authorId = params.get('id');
+        return of(
+          authorId ? this.authorService.findAuthorById(authorId) : null
+        );
+      })
+    )
+  );
 
-      const allCourses = this.courses.getCourses();
-      this.authorCourses = allCourses.filter((course) =>
-        course.authorId === foundAuthor.id
-      );
-    }
-  }
+  private allCourses = toSignal(this.courseService.getCourses(), {
+    initialValue: [] as Course[],
+  });
+
+  public authorCourses = computed(() => {
+    const authorId = this.author()?.id;
+    if (!authorId) return [];
+    return this.allCourses().filter((course) => course.authorId === authorId);
+  });
+
+  public totalStudents = computed(() => {
+    return this.authorCourses().reduce(
+      (sum, course) => sum + (course.students ?? 0),
+      0
+    );
+  });
+
+  public expertiseDomains = computed(() => {
+    const expertise = this.author()?.expertise;
+    if (!expertise) return '';
+    return expertise.map((e) => e.domain).join(', ');
+  });
 
   onTabChange(tabValue: string) {
-    this.currentTab = tabValue;
-  }
-
-  getExpertiseDomains(expertises: Expertise[]): string {
-    return expertises.map((e) => e.domain).join(', ');
-  }
-
-  getInitials(name: string): string {
-    return name
-      .split(' ')
-      .map((n) => n[0])
-      .join('')
-      .toUpperCase();
+    this.currentTab.set(tabValue);
   }
 }

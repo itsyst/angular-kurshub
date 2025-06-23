@@ -1,86 +1,131 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { format } from 'date-fns';
+import { of } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
+import { TabsComponent } from '../../components/tabs/tabs.component';
 import { authors } from '../../data/authors';
 import { comments } from '../../data/comments';
 import { students } from '../../data/students';
 import { CoursesService } from '../../services/courses.service';
 import { Author } from '../../types/author';
-import { Comment } from '../../types/comment';
+import { EnrichedComment } from '../../types/comment';
 import { Course } from '../../types/course';
+import { BadgeComponent } from "../../components/badge/badge.component";
 
 @Component({
   selector: 'app-course-detail',
   templateUrl: './course-detail.component.html',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, TabsComponent, BadgeComponent],
 })
 export class CourseDetailComponent {
-  Array(arg0: number): any {
-    throw new Error('Method not implemented.');
-  }
-  Math: any;
-  courses: Course[];
-  courseId: string;
-  course: Course | null = null;
-  author: Author | null = null;
-  courseComments: Comment[] = [];
-  relatedCourses: Course[] = [];
-  enrolledCount = 0;
-  activeTab: 'overview' | 'curriculum' | 'instructor' | 'reviews' = 'overview';
+  private route = inject(ActivatedRoute);
+  private service = inject(CoursesService);
 
-  constructor (private service: CoursesService, private route: ActivatedRoute) {
-    this.courses = service.getCourses();
-    this.courseId = this.route.snapshot.paramMap.get('id')!;
+  // 1. Convert the main data stream (course by ID) to a signal.
+  public course = toSignal<Course | undefined>(
+    this.route.paramMap.pipe(
+      switchMap((params) => {
+        const courseId = Number(params.get('id'));
+        return isNaN(courseId)
+          ? of(undefined)
+          : this.service.getCourseById(courseId);
+      })
+    )
+  );
 
-    const foundCourse = this.courses.find(
-      (c) => c.id.toString() === this.courseId
+  // 2. Create computed signals for all data derived from the course.
+  // These are memoized and only recalculate when the course() signal changes.
+  public author = computed<Author | undefined>(() => {
+    const currentCourse = this.course();
+    return currentCourse
+      ? authors.find((a) => a.id === currentCourse.authorId)
+      : undefined;
+  });
+
+  public courseComments = computed<EnrichedComment[]>(() => {
+    const courseId = this.course()?.id;
+    if (!courseId) return [];
+
+    const filteredComments = comments.filter((c) => c.courseId === courseId);
+    return filteredComments.map((comment) => {
+      const student = students.find((s) => s.id === comment.userId);
+      return {
+        ...comment,
+        authorName: student?.name || 'Anonymous User',
+        authorAvatar: student?.avatar || 'https://i.pravatar.cc/150',
+      };
+    });
+  });
+
+  public ratingDistribution = computed(() => {
+    const distribution: {
+      [key: number]: { count: number; percentage: number };
+    } = {
+      1: { count: 0, percentage: 0 },
+      2: { count: 0, percentage: 0 },
+      3: { count: 0, percentage: 0 },
+      4: { count: 0, percentage: 0 },
+      5: { count: 0, percentage: 0 },
+    };
+    const comments = this.courseComments();
+    if (comments.length === 0) return distribution;
+
+    comments.forEach((c) => distribution[c.rating].count++);
+    Object.values(distribution).forEach(
+      (d) => (d.percentage = (d.count / comments.length) * 100)
     );
-    if (foundCourse) {
-      this.course = foundCourse;
-      this.author =
-      authors.find(
-        (a: { id: string | number }) => a.id === foundCourse.authorId
-      ) || null;
-      this.courseComments = comments.filter(
-        (c: Comment) => String(c.courseId) === this.courseId
-      );
-      this.relatedCourses = this.courses
+    return distribution;
+  });
+
+  // 3. For related courses, we need all courses. Fetch them once.
+  private allCourses = toSignal(this.service.getCourses(), {
+    initialValue: [] as Course[],
+  });
+
+  public relatedCourses = computed<Course[]>(() => {
+    const currentCourse = this.course();
+
+    if (!currentCourse) return [];
+    return this.allCourses()
       .filter(
-        (c) => c.category === foundCourse.category && c.id !== foundCourse.id
+        (c) =>
+          c.category === currentCourse.category && c.id !== currentCourse.id
       )
       .slice(0, 3);
-      this.enrolledCount = students.filter((s: { enrolledCourses: any[] }) =>
-        s.enrolledCourses.some((e) => e.courseId === this.courseId)
-      ).length;
-    }
-  }
+  });
 
-  curriculum = [
-    {
-      title: 'Komma igång',
-      lessons: [
-        { title: 'Introduktion till kursen', duration: '10:15', preview: true },
-        { title: 'Sätta upp din miljö', duration: '15:30', preview: false },
-        { title: 'Översikt över verktyg', duration: '12:45', preview: true },
-      ],
-    },
-    {
-      title: 'Kärnkoncept',
-      lessons: [
-        { title: 'Grundläggande principer', duration: '18:20', preview: false },
-        { title: 'Förstå arkitekturen', duration: '22:15', preview: false },
-        { title: 'Arbeta med komponenter', duration: '16:40', preview: false },
-      ],
-    },
-  ];
+  public enrolledCount = computed<number>(() => {
+    const courseId = this.course()?.id;
 
-  getEnrollmentStatus(): boolean {
-    return Math.random() > 0.5;
-  }
+    if (!courseId) return 0;
+    return students.filter((s) =>
+      s.enrolledCourses.filter((e) => e.courseId === courseId)
+    ).length;
+  });
 
-  format(date: string): string {
-    return format(new Date(date), 'MMMM yyyy');
+  // 4. Manage UI state (like the active tab) with a writable signal.
+  public currentTab = signal('overview');
+
+  public courseBenefits = computed(() => {
+    const benefits = [
+      { id: 1, label: 'Full livstidstillgång' },
+      { id: 2, label: 'Tillgång via mobil och TV' },
+      { id: 3, label: 'Certifikat vid slutförande' },
+      { id: 4, label: '30 dagars pengarna-tillbaka-garanti' },
+      { id: 5, label: 'Tillgång till exklusivt innehåll' },
+    ];
+
+    return benefits;
+  });
+
+  public authorCourseCount = computed(() => {
+    return this.author()?.courses?.length ?? 0;
+  });
+
+  onTabChange(tabValue: string): void {
+    this.currentTab.set(tabValue);
   }
 }

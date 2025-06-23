@@ -1,5 +1,7 @@
 <!-- Tab Buttons -->
-<div class="inline-flex h-10 items-center justify-center rounded-md bg-gray-100 p-1 text-gray-500 mb-6">
+<div
+  class="inline-flex h-10 items-center justify-center rounded-md bg-gray-100 p-1 text-gray-500 mb-6"
+>
   <ng-container *ngFor="let tab of tabs">
     <button
       (click)="setTab(tab.value)"
@@ -7,7 +9,7 @@
         'bg-white text-gray-900 shadow-sm': isActiveTab(tab.value),
         'text-gray-500': !isActiveTab(tab.value)
       }"
-      class="inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-500 focus-visible:ring-offset-2"
+      class="inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-500 focus-visible:ring-offset-2 cursor-pointer"
     >
       {{ tab.label }}
     </button>

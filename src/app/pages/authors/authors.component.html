@@ -1,33 +1,40 @@
+<!-- Hero Section -->
 <section class="bg-purple-600 text-white py-16">
   <div class="container mx-auto px-4">
     <h1 class="text-3xl md:text-4xl font-bold mb-4">Våra expertinstruktörer</h1>
     <p class="md:text-lg opacity-90 max-w-3xl">
-      Lär dig av branschexperter som brinner för att undervisa och dela med sig av sina kunskaper. Våra instruktörer har många års yrkeserfarenhet och hjälper dig att bemästra nya färdigheter.
+      Lär dig av branschexperter som brinner för att undervisa och dela med sig
+      av sina kunskaper. Våra instruktörer har många års yrkeserfarenhet och
+      hjälper dig att bemästra nya färdigheter.
     </p>
   </div>
 </section>
 
 <!-- Search Section -->
-<section class="container mx-auto px-4 -mt-6 mb-10">
-  <div class="bg-white rounded-lg shadow-md p-4">
+<section class="container mx-auto px-4 -mt-8 mb-10">
+  <div class="bg-white rounded-lg shadow-md p-4 mx-auto">
     <div class="relative">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        class="absolute left-3 top-3 h-4 w-4 text-gray-400"
-        viewBox="0 0 20 20"
-        fill="currentColor"
+      <div
+        class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3"
       >
-        <path
-          fill-rule="evenodd"
-          d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
-          clip-rule="evenodd"
-        />
-      </svg>
+        <svg
+          class="h-5 w-5 text-gray-400"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z"
+            clip-rule="evenodd"
+          />
+        </svg>
+      </div>
+      <!-- Bind directly to the searchTerm signal. No (input) event needed. -->
       <input
         type="text"
         placeholder="Sök efter instruktörer efter namn eller expertis..."
         [(ngModel)]="searchTerm"
-        (input)="onSearch()"
         class="pl-10 w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
       />
     </div>
@@ -36,31 +43,44 @@
 
 <!-- Author Grid -->
 <section class="container mx-auto px-4">
-  <div
-    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
-  >
-    <app-author-card
-      *ngFor="let author of filteredAuthors"
-      [author]="author"
-    ></app-author-card>
-  </div>
+  <!-- Use the computed signal here -->
+  <ng-container *ngIf="filteredAuthors().length > 0; else noAuthors">
+    <div
+      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+    >
+      <!-- Loop over the signal's value -->
+      <app-author-card
+        *ngFor="let author of filteredAuthors()"
+        [author]="author"
+      ></app-author-card>
+    </div>
+  </ng-container>
+
+  <ng-template #noAuthors>
+    <div class="text-center py-10">
+      <h3 class="text-xl font-medium text-gray-800">
+        Inga instruktörer hittades
+      </h3>
+      <p class="text-gray-500 mt-2">
+        Prova en annan sökterm eller se hela listan genom att rensa sökfältet.
+      </p>
+    </div>
+  </ng-template>
 </section>
-<div *ngIf="filteredAuthors.length === 0" class="text-center py-10 text-gray-500">
-  Inga instruktörer hittades.
-</div>
 
 <!-- Teach Section -->
 <section class="container mx-auto px-4 mt-16">
   <div class="bg-white rounded-lg shadow-md p-8 text-center">
     <h2 class="text-2xl font-bold mb-4">Gå med i vårt lärarcommunity</h2>
     <p class="text-gray-600 mb-6 max-w-2xl mx-auto">
-      Dela med dig av din expertis till miljontals studenter över hela världen. Bli en instruktör och förändra liv – inklusive ditt eget.
+      Dela med dig av din expertis till miljontals studenter över hela världen.
+      Bli en instruktör och förändra liv – inklusive ditt eget.
     </p>
     <a
-      routerLink="/become-instructor"
-      class="inline-block bg-purple-600 hover:bg-purple-700 text-white py-3 px-6 rounded-md font-medium cursor-pointer"
+      routerLink="/register"
+      class="inline-block bg-purple-600 hover:bg-purple-700 text-white py-3 px-6 rounded-md font-medium transition-colors"
     >
-    Börja undervisa idag
+      Börja undervisa idag
     </a>
   </div>
 </section>

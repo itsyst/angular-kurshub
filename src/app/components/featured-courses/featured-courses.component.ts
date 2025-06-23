@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { RouterModule } from '@angular/router';
 import { CoursesService } from '../../services/courses.service';
 import { Course } from '../../types/course';
@@ -12,13 +13,13 @@ import { CourseCardComponent } from '../course-card/course-card.component';
   templateUrl: './featured-courses.component.html',
 })
 export class FeaturedCoursesComponent {
-  courses: Array<Course>;
+  private coursesService = inject(CoursesService);
 
-  constructor(service: CoursesService) {
-    this.courses = service.getCourses();
-  }
+  private allCourses = toSignal(this.coursesService.getCourses(), {
+    initialValue: [] as Course[],
+  });
 
-  get featuredCourses() {
-    return this.courses.filter((courses) => courses.featured);
-  }
+  public featuredCourses = computed(() =>
+    this.allCourses().filter((course) => course.featured)
+  );
 }
