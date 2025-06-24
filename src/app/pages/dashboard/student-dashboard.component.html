@@ -1,0 +1,576 @@
+<main class="bg-gray-50 min-h-screen py-8">
+  <div class="container mx-auto px-4">
+    <div class="flex flex-col md:flex-row gap-8">
+      <!-- Sidebar -->
+      <aside class="md:w-1/4 flex-shrink-0">
+        <div
+          *ngIf="student() as student"
+          class="bg-white rounded-lg shadow-sm p-6 mb-6"
+        >
+          <div class="flex items-center mb-6">
+            <app-avatar
+              [src]="student.avatar"
+              [name]="student.name"
+              class="h-16 w-16 mr-4"
+            ></app-avatar>
+            <div>
+              <h2 class="text-xl font-bold">{{ student.name }}</h2>
+              <p class="text-gray-600">{{ student.email }}</p>
+            </div>
+          </div>
+          <nav class="space-y-2">
+            <a
+              routerLink="/dashboard"
+              routerLinkActive="text-purple-600 bg-purple-50"
+              [routerLinkActiveOptions]="{ exact: true }"
+              class="flex items-center font-medium py-2 px-3 rounded-md hover:bg-gray-100 transition-colors"
+            >
+              <svg
+                class="h-5 w-5 mr-3"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
+                />
+              </svg>
+              Mina Kurser
+            </a>
+            <a
+              routerLink="/dashboard/settings"
+              routerLinkActive="text-purple-600 bg-purple-50"
+              class="flex items-center font-medium py-2 px-3 rounded-md hover:bg-gray-100 transition-colors"
+            >
+              <svg
+                class="h-5 w-5 mr-3"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                ></path>
+              </svg>
+              Önskelista
+            </a>
+            <a
+              routerLink="/dashboard/settings"
+              routerLinkActive="text-purple-600 bg-purple-50"
+              class="flex items-center font-medium py-2 px-3 rounded-md hover:bg-gray-100 transition-colors"
+            >
+              <svg
+                class="h-5 w-5 mr-3"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                ></path>
+              </svg>
+              Certifikat
+            </a>
+            <a
+              routerLink="/dashboard/settings"
+              routerLinkActive="text-purple-600 bg-purple-50"
+              class="flex items-center font-medium py-2 px-3 rounded-md hover:bg-gray-100 transition-colors"
+            >
+              <svg
+                class="h-5 w-5 mr-3"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+                ></path>
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                ></path>
+              </svg>
+              Inställningar
+            </a>
+          </nav>
+        </div>
+      </aside>
+
+      <!-- Main Content & Recommended Courses -->
+      <div class="md:w-3/4 flex flex-col gap-8">
+        <div class="bg-white rounded-lg shadow-sm p-6">
+          <h1 class="text-2xl font-bold mb-6">Min Dashboard</h1>
+          <div
+            class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-8"
+          >
+            <!-- Cards for stats -->
+            <div
+              class="p-6 flex items-center bg-white rounded-lg border border-gray-200"
+            >
+              <div class="mr-4 bg-purple-100 p-3 rounded-full">
+                <svg
+                  class="h-6 w-6 text-purple-600"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
+                  />
+                </svg>
+              </div>
+              <div>
+                <p class="text-gray-500 text-sm">Registrerade kurser</p>
+                <p class="text-2xl font-bold">{{ enrolledCount() }}</p>
+              </div>
+            </div>
+            <div
+              class="p-6 flex items-center bg-white rounded-lg border border-gray-200"
+            >
+              <div class="mr-4 bg-green-100 p-3 rounded-full">
+                <svg
+                  class="h-6 w-6 text-green-500"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+              </div>
+              <div>
+                <p class="text-gray-500 text-sm">Slutförda</p>
+                <p class="text-2xl font-bold">{{ completedCount() }}</p>
+              </div>
+            </div>
+            <div
+              class="p-6 flex items-center bg-white rounded-lg border border-gray-200"
+            >
+              <div class="mr-4 bg-yellow-100 p-3 rounded-full">
+                <svg
+                  class="h-6 w-6 text-yellow-500"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+              </div>
+              <div>
+                <p class="text-gray-500 text-sm">Pågående</p>
+                <p class="text-2xl font-bold">{{ inProgressCount() }}</p>
+              </div>
+            </div>
+          </div>
+
+          <h2 class="text-xl font-bold mb-4">Din Inlärning</h2>
+          <div>
+            <!-- Learning progress -->
+            <app-tabs
+              [tabs]="[
+                { label: 'Pågående', value: 'in-progress' },
+                { label: 'Slutförda', value: 'completed' },
+                { label: 'Alla Kurser', value: 'all' }
+              ]"
+              (activeTabChange)="onTabChange($event)"
+            ></app-tabs>
+
+            <!-- The content area is now after the tabs component, and controlled by activeTab() -->
+            <div class="py-6 rounded-b-lg">
+              <div class="space-y-4">
+                <!-- Content for 'Pågående' tab -->
+                <ng-container
+                  *ngIf="
+                    activeTab() === 'in-progress' &&
+                    (enrolledCourses() | filterByProgress : 'in-progress')
+                      .length > 0
+                  "
+                >
+                  <div
+                    *ngFor="
+                      let enrollment of enrolledCourses()
+                        | filterByProgress : 'in-progress'
+                    "
+                    class="bg-gray-50 border border-gray-200 rounded-lg p-4 flex flex-col sm:flex-row"
+                  >
+                    <div class="sm:w-1/4 mb-4 sm:mb-0">
+                      <img
+                        [src]="enrollment.course?.thumbnail"
+                        [alt]="enrollment.course?.title"
+                        class="w-full h-full object-cover rounded-md"
+                      />
+                    </div>
+                    <div class="sm:w-3/4 sm:pl-6">
+                      <h3 class="font-bold text-lg mb-2">
+                        {{ enrollment.course?.title }}
+                      </h3>
+                      <div class="mb-3">
+                        <div class="flex justify-between text-sm mb-1">
+                          <span>Framsteg</span
+                          ><span>{{ enrollment.progress }}%</span>
+                        </div>
+                        <app-progress
+                          [value]="enrollment.progress"
+                        ></app-progress>
+                      </div>
+                      <div class="flex items-center text-sm text-gray-500 mb-4">
+                        <svg
+                          class="h-4 w-4 mr-1.5"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                          />
+                        </svg>
+                        <span
+                          >Senast åtkomst:
+                          {{
+                            getRelativeTime(enrollment.lastAccessedDate)
+                          }}</span
+                        >
+                      </div>
+                      <a
+                        [routerLink]="['/courses', enrollment.courseId]"
+                        class="inline-block bg-purple-600 text-white py-2 px-4 rounded-md hover:bg-purple-700"
+                      >
+                        Fortsätt Inlärning
+                      </a>
+                    </div>
+                  </div>
+                </ng-container>
+
+                <!-- Content for 'Slutförda' tab -->
+                <ng-container
+                  *ngIf="
+                    activeTab() === 'completed' &&
+                    (enrolledCourses() | filterByProgress : 'completed')
+                      .length > 0
+                  "
+                >
+                  <div
+                    *ngFor="
+                      let enrollment of enrolledCourses()
+                        | filterByProgress : 'completed'
+                    "
+                    class="bg-gray-50 border border-gray-200 rounded-lg p-4 flex flex-col sm:flex-row"
+                  >
+                    <div class="sm:w-1/4 mb-4 sm:mb-0">
+                      <img
+                        [src]="enrollment.course?.thumbnail"
+                        [alt]="enrollment.course?.title"
+                        class="w-full h-32 object-cover rounded-md"
+                      />
+                    </div>
+                    <div class="sm:w-3/4 sm:pl-6">
+                      <div class="flex justify-between items-start mb-2">
+                        <h3 class="font-bold text-lg">
+                          {{ enrollment.course?.title }}
+                        </h3>
+                        <span
+                          class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full flex items-center"
+                        >
+                          <svg
+                            class="h-3 w-3 mr-1"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="2"
+                              d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                            />
+                          </svg>
+                          Slutförd
+                        </span>
+                      </div>
+                      <div class="mb-3">
+                        <app-progress [value]="100"></app-progress>
+                      </div>
+
+                      <div class="flex items-center text-sm text-gray-500 mb-4">
+                        <svg
+                          class="h-4 w-4 mr-1"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                          ></path>
+                        </svg>
+                        <span
+                          >Slutförd:
+                          {{
+                            enrollment?.completedDate | date : "longDate"
+                          }}</span
+                        >
+                      </div>
+                      <div class="flex flex-wrap gap-2">
+                        <button
+                          class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-gray-400 bg-gray-100 hover:bg-purple-600 hover:text-white h-9 px-3 py-2 cursor-pointer"
+                        >
+                          Visa Certifikat
+                        </button>
+                        <a
+                          [routerLink]="['/courses', enrollment.courseId]"
+                          class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-9 px-3 py-2 text-purple-600 hover:bg-purple-50"
+                        >
+                          Recensera Kurs
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </ng-container>
+
+                <!-- Content for 'Alla Kurser' tab -->
+                <ng-container
+                  *ngIf="activeTab() === 'all' && enrolledCourses().length > 0"
+                >
+                  <div
+                    *ngFor="
+                      let enrollment of enrolledCourses()
+                        | filterByProgress : 'all'
+                    "
+                    class="bg-gray-50 border border-gray-200 rounded-lg p-4 flex flex-col sm:flex-row"
+                  >
+                    <div class="sm:w-1/4 mb-4 sm:mb-0">
+                      <img
+                        [src]="enrollment.course?.thumbnail"
+                        [alt]="enrollment.course?.title"
+                        class="w-full h-full object-cover rounded-md"
+                      />
+                    </div>
+                    <div class="sm:w-3/4 sm:pl-6">
+                      <div class="flex justify-between items-start mb-2">
+                        <h3 class="font-bold text-lg">
+                          {{ enrollment.course?.title }}
+                        </h3>
+                        <span
+                          *ngIf="enrollment.progress === 100"
+                          class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full flex items-center"
+                        >
+                          <svg
+                            class="h-3 w-3 mr-1"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="2"
+                              d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                            />
+                          </svg>
+                          Slutförd
+                        </span>
+                        <span
+                          *ngIf="enrollment.progress < 100"
+                          class="bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded-full flex items-center"
+                        >
+                          <svg
+                            class="h-3 w-3 mr-1"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="2"
+                              d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                            />
+                          </svg>
+                          Pågående
+                        </span>
+                      </div>
+                      <div class="mb-3">
+                        <div class="flex justify-between text-sm mb-1">
+                          <span>Framsteg</span
+                          ><span>{{ enrollment.progress }}%</span>
+                        </div>
+                        <app-progress
+                          [value]="enrollment.progress"
+                        ></app-progress>
+                      </div>
+                      <div class="flex items-center text-sm text-gray-500 mb-4">
+                        <svg
+                          class="h-4 w-4 mr-1"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                          ></path>
+                        </svg>
+                        <span
+                          >Registrerad:
+                          {{
+                            enrollment.enrollmentDate | date : "longDate"
+                          }}</span
+                        >
+                      </div>
+                      <a
+                        [routerLink]="['/courses', enrollment.courseId]"
+                        class="inline-block bg-purple-600 text-white py-2 px-4 rounded-md hover:bg-purple-700"
+                      >
+                        {{
+                          enrollment.progress === 100
+                            ? "Visa Kurs"
+                            : "Fortsätt Inlärning"
+                        }}
+                      </a>
+                    </div>
+                  </div>
+                </ng-container>
+
+                <!-- No Courses Found message for any tab -->
+                <ng-template #noCoursesInTab>
+                  <div class="text-center py-8">
+                    <svg
+                      class="h-12 w-12 text-gray-400 mx-auto mb-3"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M13 7l5 5m0 0l-5 5m5-5H6"
+                      />
+                    </svg>
+                    <h3 class="text-lg font-medium mb-2">
+                      Inga kurser hittades
+                    </h3>
+                    <p class="text-gray-500 mb-6">
+                      Det finns inga kurser att visa i den här kategorin.
+                    </p>
+                    <a
+                      routerLink="/courses"
+                      class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 px-4 py-2 bg-purple-600 text-white hover:bg-purple-700"
+                    >
+                      Bläddra bland kurser
+                    </a>
+                  </div>
+                </ng-template>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recommended Courses Section -->
+        <div class="bg-white rounded-lg shadow-sm p-6">
+          <div class="flex justify-between items-center mb-6">
+            <h2 class="text-xl font-bold">Rekommenderade Kurser</h2>
+            <a
+              routerLink="/courses"
+              class="text-purple-600 hover:underline text-sm font-medium"
+            >
+              Visa Alla
+            </a>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <ng-container *ngFor="let course of recommendedCourses()">
+              <div
+                class="border border-gray-200 rounded-lg overflow-hidden flex flex-col sm:flex-row"
+              >
+                <div class="sm:w-1/3 flex-shrink-0">
+                  <img
+                    [src]="course.thumbnail"
+                    [alt]="course.title"
+                    class="w-full h-24 sm:h-full object-cover"
+                  />
+                </div>
+                <div class="p-4 sm:w-2/3">
+                  <h3 class="font-medium text-sm mb-1 line-clamp-1">
+                    {{ course.title }}
+                  </h3>
+                  <div class="flex items-center text-xs text-gray-500 mb-2">
+                    <svg
+                      class="h-3 w-3 mr-1"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path d="M2 3h6a4 4 0 0 1 4 4v14a4 4 0 0 1-4-4H2z"></path>
+                      <path
+                        d="M22 3h-6a4 4 0 0 0-4 4v14a4 4 0 0 0 4-4h6z"
+                      ></path>
+                    </svg>
+                    <span>{{ course.lessons }} lektioner</span>
+                    <span class="mx-2">•</span>
+                    <svg
+                      class="h-3 w-3 mr-1"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
+                    </svg>
+                    <span>{{ course.duration }}</span>
+                  </div>
+                  <a
+                    [routerLink]="['/courses', course.id]"
+                    class="text-xs text-purple-600 font-medium hover:underline"
+                  >
+                    Visa Kurs
+                  </a>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

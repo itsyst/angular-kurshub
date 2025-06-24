@@ -1,3 +1,4 @@
+import { StudentDashboardComponent } from './pages/dashboard/student-dashboard.component';
 import { PrivacyPolicyComponent } from './pages/privacy/privacy.component';
 import { Routes } from '@angular/router';
 
@@ -53,9 +54,16 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'dashboard',
+    loadComponent: () =>
+      import('./pages/dashboard/student-dashboard.component').then(
+        (m) => m.StudentDashboardComponent
+      ),
+  },
+  {
     path: 'contact',
     loadComponent: () =>
-      import('./pages/contact-us/contact-us.component').then(
+      import('./pages/faq/contact-us/contact-us.component').then(
         (m) => m.ContactUsComponent
       ),
   },

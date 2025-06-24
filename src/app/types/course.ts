@@ -1,5 +1,4 @@
 export interface Course {
-  createdAt: string | number | Date;
   id: number | string;
   title?: string;
   description?: string;
@@ -14,6 +13,7 @@ export interface Course {
   releaseDate?: Date;
   totalReviews?: number;
   thumbnail?: string;
+  createdAt: string | number | Date;
   updatedAt: Date;
   authorId: number | string;
   featured: boolean;
@@ -42,4 +42,17 @@ export interface Lesson {
   title: string;
   duration: string;
   preview: boolean;
+}
+
+export interface EnrolledCourse {
+  courseId: string;
+  progress: number;
+  completed?: boolean;
+  enrollmentDate?: string;
+}
+
+export interface EnrichedEnrollment extends EnrolledCourse {
+  course?: Course;
+  completedDate?: Date;
+  lastAccessedDate?: Date;
 }
