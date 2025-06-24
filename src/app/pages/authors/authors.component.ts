@@ -1,11 +1,10 @@
-import { authors } from './../../data/authors';
 import { CommonModule } from '@angular/common';
 import { Component, computed, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { AuthorCardComponent } from '../../components/author-card/author-card.component';
-import { AuthorService } from '../../services/authors.service';
-import { Author } from '../../types/author';
 import { RouterModule } from '@angular/router';
+import { AuthorCardComponent } from '../../components/author-card/author-card.component';
+import { AuthorsService } from '../../services/authors.service';
+import { Author } from '../../types/author';
 import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
@@ -15,11 +14,13 @@ import { toSignal } from '@angular/core/rxjs-interop';
   templateUrl: './authors.component.html',
 })
 export class AuthorsComponent {
-  private authorService = inject(AuthorService);
+  private authorsService = inject(AuthorsService);
 
   public searchTerm = signal('');
 
-  private allAuthors = signal<Author[]>(this.authorService.getAuthors());
+  private allAuthors = toSignal(this.authorsService.getAuthors(), {
+    initialValue: [] as Author[],
+  });
 
   public filteredAuthors = computed(() => {
     const authors = this.allAuthors().filter((author) => author.role === 'author' || !author.role);

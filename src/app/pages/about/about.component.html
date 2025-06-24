@@ -1,7 +1,7 @@
 <div class="flex-grow container mx-auto px-4 py-8">
   <!-- Header Section -->
   <section class="text-center mb-12">
-    <p class="text-lg text-gray-600 max-w-3xl nt-8 mx-auto">
+    <p class="text-2xl font-bold text-gray-800 max-w-3xl nt-8 mx-auto">
       Välkommen till KursHub din partner i lärande och professionell utveckling!
     </p>
   </section>
@@ -60,29 +60,44 @@
 
   <!-- Target Audience Section -->
   <section class="bg-white rounded-lg shadow-md p-8 mb-12">
-    <h2 class="text-2xl font-semibold text-gray-800 mb-6 text-center">
-      Vem är KursHub till för?
-    </h2>
-    <p class="text-gray-600 max-w-3xl mx-auto text-center mb-6">
-      KursHub är idealisk för alla som vill förbättra sina tekniska kunskaper,
-      från frontend- och backendutveckling till UX-design och AI. Vi erbjuder en
-      användarvänlig miljö för både nybörjare och avancerade användare.
-    </p>
-  </section>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+      <div class="flex items-start">
+        <div class="text-gray-700 space-y-4">
+          <h2 class="text-2xl font-semibold text-gray-800 mb-6">
+            Vem är KursHub till för?
+          </h2>
+          <p class="text-gray-600 max-w-3xl mx-auto mb-6">
+            KursHub är idealisk för alla som vill förbättra sina tekniska
+            kunskaper, från frontend- och backendutveckling till UX-design och
+            AI. Vi erbjuder en användarvänlig miljö för både nybörjare och
+            avancerade användare.
+          </p>
+        </div>
+      </div>
 
-  <!-- Instructor Support Section -->
-  <section class="text-center">
-    <h2 class="text-2xl font-semibold text-gray-800 mb-4">För instruktörer</h2>
-    <p class="text-gray-600 max-w-2xl mx-auto mb-6">
-      KursHub är engagerad i att stödja instruktörer genom att erbjuda verktyg
-      för kursadministration och möjligheter att nå en global publik. Dela med
-      dig av din expertis och inspirera nästa generation!
-    </p>
-    <a
+      <!-- Instructor Support Section -->
+
+      <div class="flex items-start">
+        <div class="text-gray-700 space-y-4">
+          <h2 class="text-2xl font-semibold text-gray-800 mb-4">
+            För instruktörer
+          </h2>
+          <p class="text-gray-600 max-w-2xl mx-auto mb-6">
+            KursHub är engagerad i att stödja instruktörer genom att erbjuda
+            verktyg för kursadministration och möjligheter att nå en global
+            publik. Dela med dig av din expertis och inspirera nästa generation!
+          </p>
+        </div>
+      </div>
+    </div>
+    <div  class="text-center">
+      <a
       routerLink="/register"
       class="inline-block bg-purple-600 hover:bg-purple-700 text-white py-3 px-6 rounded-md font-medium cursor-pointer"
     >
       Bli instruktör idag
     </a>
+    </div>
+
   </section>
 </div>

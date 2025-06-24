@@ -1,3 +1,4 @@
+import { PrivacyPolicyComponent } from './pages/privacy/privacy.component';
 import { Routes } from '@angular/router';
 
 export const routes: Routes = [
@@ -54,8 +55,29 @@ export const routes: Routes = [
   {
     path: 'contact',
     loadComponent: () =>
-      import('./pages/contact-form/contact-form.component').then(
-        (m) => m.ContactFormComponent
+      import('./pages/contact-us/contact-us.component').then(
+        (m) => m.ContactUsComponent
+      ),
+  },
+  {
+    path: 'faq',
+    loadComponent: () =>
+      import('./pages/faq/faq.component').then(
+        (m) => m.FaqComponent
+      ),
+  },
+  {
+    path: 'terms',
+    loadComponent: () =>
+      import('./pages/terms/terms.component').then(
+        (m) => m.TermsOfServiceComponent
+      ),
+  },
+  {
+    path: 'privacy',
+    loadComponent: () =>
+      import('./pages/privacy/privacy.component').then(
+        (m) => m.PrivacyPolicyComponent
       ),
   },
   {

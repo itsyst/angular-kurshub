@@ -8,7 +8,7 @@ import { BadgeComponent } from '../../components/badge/badge.component';
 import { CourseCardComponent } from '../../components/course-card/course-card.component';
 import { TabsComponent } from '../../components/tabs/tabs.component';
 import { Nl2brPipe } from '../../pipes/nl2br.pipe';
-import { AuthorService } from '../../services/authors.service';
+import { AuthorsService } from '../../services/authors.service';
 import { CoursesService } from '../../services/courses.service';
 import { Course } from '../../types/course';
 
@@ -28,7 +28,7 @@ import { Course } from '../../types/course';
 })
 export class AuthorDetailComponent {
   private route = inject(ActivatedRoute);
-  private authorService = inject(AuthorService);
+  private authorsService = inject(AuthorsService);
   private courseService = inject(CoursesService);
 
   public currentTab = signal('about');
@@ -37,9 +37,9 @@ export class AuthorDetailComponent {
     this.route.paramMap.pipe(
       switchMap((params) => {
         const authorId = params.get('id');
-        return of(
-          authorId ? this.authorService.findAuthorById(authorId) : null
-        );
+        return authorId
+          ? this.authorsService.getAuthorById(authorId)
+          : of(undefined);
       })
     )
   );
