@@ -1,5 +1,3 @@
-import { StudentDashboardComponent } from './pages/dashboard/student-dashboard.component';
-import { PrivacyPolicyComponent } from './pages/privacy/privacy.component';
 import { Routes } from '@angular/router';
 
 export const routes: Routes = [
@@ -56,7 +54,7 @@ export const routes: Routes = [
   {
     path: 'dashboard',
     loadComponent: () =>
-      import('./pages/dashboard/student-dashboard.component').then(
+      import('./pages/student-dashboard/student-dashboard.component').then(
         (m) => m.StudentDashboardComponent
       ),
   },
