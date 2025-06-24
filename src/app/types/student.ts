@@ -1,4 +1,4 @@
- import { EnrolledCourse } from "./enrolled-course";
+import { EnrolledCourse } from "./enrolled-course";
 import { User } from "./user";
 
 export interface Student extends User {

@@ -97,7 +97,11 @@
               </svg>
               <span>{{ course()?.level || "–" }}</span>
             </div>
-            <app-badge variant="outline" class="bg-purple-50 px-2 py-1 text-xs font-medium text-purple-700 ring-1 ring-inset ring-purple-700/10">{{ course()?.category }}</app-badge>
+            <app-badge
+              variant="outline"
+              class="bg-purple-50 px-2 py-1 text-xs font-medium text-purple-700 ring-1 ring-inset ring-purple-700/10"
+              >{{ course()?.category }}</app-badge
+            >
           </div>
           <!-- Instruktör -->
           <div class="flex items-center mb-6">
@@ -134,6 +138,7 @@
           </div>
         </div>
 
+        <!-- Course and discount -->
         <div class="lg:w-1/3 mt-8 lg:mt-0">
           <div
             class="bg-white rounded-lg shadow-lg border border-gray-100 overflow-hidden sticky top-24"
@@ -199,6 +204,7 @@
                 <button
                   type="button"
                   class="w-full mb-3 bg-gray-700 hover:bg-gray-800 text-white font-semibold py-3 rounded-lg cursor-pointer"
+                  routerLink="/login"
                 >
                   Fortsätt lära
                 </button>
@@ -298,6 +304,55 @@
                 <p>{{ outcome.description }}</p>
               </div>
             </div>
+            <!-- Beskrivning -->
+            <h3 class="text-xl font-bold mb-4">Beskrivning</h3>
+            <div class="grid grid-cols-1 md:grid-cols-1 gap-4 mb-6">
+              <div class="flex items-start">
+                <div class="text-gray-700 space-y-4">
+                  <p>
+                    Den här omfattande kursen {{ course()?.title }} är utformad
+                    för att ta dig från nybörjare till proffs inom
+                    {{ course()?.category?.toLowerCase() }}.
+                  </p>
+                  <p>
+                    Du kommer att lära dig genom praktiska projekt, engagerande
+                    föreläsningar och verkliga exempel.
+                  </p>
+                  <p>
+                    När kursen är klar har du fått en gedigen förståelse för
+                    alla väsentliga aspekter inom
+                    {{ course()?.category?.toLowerCase() }}.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <!-- Krav -->
+            <h3 class="text-xl font-bold mb-4">Förkunskaper</h3>
+            <div class="grid grid-cols-1 md:grid-cols-1 gap-4 mb-6">
+              <div class="flex items-start">
+                <div class="text-gray-700 space-y-4">
+                  <ul class="list-disc pl-5 text-gray-700 space-y-2">
+                    <li>Förståelse av {{ course()?.category?.toLowerCase() }}-koncept</li>
+                    <li>En dator med internetanslutning</li>
+                    <li>Vilja att lära och öva</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+             <!-- Målgrupp -->
+             <h3 class="text-xl font-bold mb-4">Vem passar denna kurs?</h3>
+             <div class="grid grid-cols-1 md:grid-cols-1 gap-4 mb-6">
+               <div class="flex items-start">
+                 <div class="text-gray-700 space-y-4">
+                  <ul class="list-disc pl-5 text-gray-700 space-y-2">
+                    <li>Alla som vill lära sig {{ course()?.category }}</li>
+                    <li>Studenter som vill förbättra sina kunskaper</li>
+                    <li>Professionella som vill hålla sig uppdaterade</li>
+                    <li>Nybörjare utan tidigare erfarenhet</li>
+                  </ul>
+                 </div>
+               </div>
+             </div>
           </section>
 
           <!-- Curriculum -->
@@ -418,7 +473,8 @@
                   </div>
                   <span class="text-gray-500">•</span>
                   <span *ngIf="author()" class="ml-2 text-gray-500">
-                    {{ authorCourseCount() }} {{ authorCourseCount() === 1 ? 'Kurs' : 'Kurser' }}
+                    {{ authorCourseCount() }}
+                    {{ authorCourseCount() === 1 ? "Kurs" : "Kurser" }}
                   </span>
                 </div>
               </div>
@@ -429,9 +485,13 @@
             <div class="flex flex-wrap gap-2 mb-6">
               <span
                 *ngFor="let skill of author()?.expertise"
-                class="inline-flex items-center rounded-md "
+                class="inline-flex items-center rounded-md"
               >
-                <app-badge variant="outline" class="bg-gray-100 px-2 py-1 text-xs font-medium text-gray-700 ring-1 ring-inset ring-gray-500/10">{{ skill.domain }}</app-badge>
+                <app-badge
+                  variant="outline"
+                  class="bg-gray-100 px-2 py-1 text-xs font-medium text-gray-700 ring-1 ring-inset ring-gray-500/10"
+                  >{{ skill.domain }}</app-badge
+                >
               </span>
             </div>
             <a [routerLink]="['/authors', author()?.id]">
@@ -444,13 +504,13 @@
             </a>
           </section>
 
-          <!-- Reviews -->
+          <!-- Reviews Tab -->
           <section
             *ngIf="currentTab() === 'reviews'"
-            class="bg-white rounded-lg shadow-sm p-6 mb-6"
+            class="bg-white rounded-lg shadow-sm p-6"
           >
             <div
-              class="flex flex-col md:flex-row md:items-center justify-between mb-8"
+              class="flex flex-col md:flex-row md:items-start justify-between mb-8"
             >
               <div>
                 <h3 class="text-xl font-bold mb-1">Studentrecensioner</h3>
@@ -458,10 +518,9 @@
                   {{ course()?.totalReviews }} recensioner för denna kurs
                 </p>
               </div>
-              <div class="mt-4 md:mt-0 flex items-center">
+              <div class="mt-4 md:mt-0 flex items-start gap-4">
                 <div class="flex items-center text-yellow-500 mr-3">
                   <svg
-                    xmlns="http://www.w3.org/2000/svg"
                     width="32"
                     height="32"
                     viewBox="0 0 24 24"
@@ -471,29 +530,62 @@
                       d="M12 2l2.45 7.613h7.975l-6.438 4.691 2.45 7.613-6.437-4.691-6.438 4.691 2.45-7.613-6.438-4.691h7.975z"
                     />
                   </svg>
-                  <span class="text-2xl font-bold ml-2">{{
+                  <span class="text-4xl font-bold ml-2">{{
                     course()?.rating?.toFixed(1)
                   }}</span>
                 </div>
-                <div>
-                  <div class="flex items-center">
-                    <div class="text-sm text-gray-600 mr-2">5 stjärnor</div>
-                    <div class="w-24 bg-gray-200 rounded-full h-2">
+                <div class="shrink-0">
+                  <div
+                    *ngFor="let i of [5, 4, 3, 2, 1]"
+                    class="flex items-center gap-2"
+                  >
+                    <div class="text-sm text-gray-600 mr-2">
+                      {{ i }} stjärnor
+                    </div>
+                    <div class="w-28 bg-gray-200 rounded-full h-2">
                       <div
-                        class="bg-yellow-500 h-2 rounded-full"
-                        style="width: 70%"
+                        class="bg-yellow-400 h-2 rounded-full"
+                        [style.width.%]="ratingDistribution()[i].percentage"
                       ></div>
                     </div>
-                    <div class="text-sm text-gray-600 ml-2">70%</div>
+                    <div class="text-xs text-gray-600 w-8 text-right">
+                      {{
+                        ratingDistribution()[i].percentage | number : "1.0-0"
+                      }}%
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
+            <div
+              *ngIf="courseComments().length > 0; else noReviews"
+              class="space-y-6"
+            >
+              <div *ngFor="let comment of courseComments()" class="flex gap-4">
+                <app-avatar
+                  [src]="comment.userAvatar"
+                  [name]="comment.userName"
+                  class="h-10 w-10"
+                ></app-avatar>
+                <div>
+                  <h4 class="font-medium">{{ comment.userName }}</h4>
+                  <div
+                    class="flex items-center gap-2 text-sm text-gray-500 mb-1"
+                  >
+                    <span>{{ comment.createdAt | date : "longDate" }}</span>
+                  </div>
+                  <p class="text-gray-700">{{ comment.content }}</p>
+                </div>
+              </div>
+            </div>
+            <ng-template #noReviews
+              ><p class="text-gray-600">Inga recensioner ännu.</p></ng-template
+            >
           </section>
         </app-tabs>
       </div>
 
-      <!-- Related Courses -->
+      <!-- Right Sidebar for Related Courses -->
       <div class="lg:w-1/3">
         <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
           <h3 class="text-xl font-bold mb-4">Relaterade kurser</h3>

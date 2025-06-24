@@ -1,5 +1,4 @@
 export interface Comment {
-  rating: number;
   id: number | string;
   courseId: number | string;
   userId: number | string;
@@ -8,6 +7,6 @@ export interface Comment {
 }
 
 export interface EnrichedComment extends Comment {
-  authorName: string;
-  authorAvatar?: string;
+  userName: string;
+  userAvatar?: string;
 }
