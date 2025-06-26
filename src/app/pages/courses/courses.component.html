@@ -13,14 +13,38 @@
 
   <!-- Search and Sort Bar -->
   <div class="container mx-auto px-4 -mt-6">
-    <div class="bg-white rounded-lg shadow-md p-4 flex flex-col md:flex-row items-center gap-4">
+    <div
+      class="bg-white rounded-lg shadow-md p-4 flex flex-col md:flex-row items-center gap-4"
+    >
       <div class="relative flex-grow w-full">
-        <svg class="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+        <svg
+          class="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+          />
+        </svg>
         <!-- Two-way binding directly to the searchTerm signal -->
-        <input type="text" placeholder="Sök kurser..." [(ngModel)]="searchTerm" class="h-10 w-full rounded-md border border-input bg-background px-3 py-2 pl-10 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-600"/>
+        <input
+          type="text"
+          placeholder="Sök kurser..."
+          [(ngModel)]="searchTerm"
+          class="h-10 w-full rounded-md border border-input bg-background px-3 py-2 pl-10 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-600"
+        />
       </div>
       <div class="w-full md:w-auto">
-        <app-select [options]="sortOptions" [(ngModel)]="sortOption" placeholder="Sortera efter" className="w-full md:w-[180px]"></app-select>
+        <app-select
+          [options]="sortOptions"
+          [(ngModel)]="sortOption"
+          placeholder="Sortera efter"
+          className="w-full md:w-[180px]"
+        ></app-select>
       </div>
     </div>
   </div>
@@ -33,17 +57,42 @@
         <div class="bg-white rounded-lg shadow-md p-6">
           <div class="flex items-center justify-between mb-4">
             <h2 class="text-lg font-semibold">Filter</h2>
-            <button (click)="clearAllFilters()" class="text-sm font-medium text-purple-600 hover:text-purple-800">Rensa alla</button>
+            <button
+              (click)="clearAllFilters()"
+              class="text-sm font-medium text-purple-600 hover:text-purple-800"
+            >
+              Rensa alla
+            </button>
           </div>
 
           <!-- Category Filter -->
           <div class="py-4 border-b">
             <h3 class="font-medium mb-3">Kategori</h3>
             <div class="space-y-2">
-              <div *ngFor="let category of categories()" class="flex items-center">
-                <input type="radio" name="category-filter" [id]="category" [value]="category" [checked]="selectedCategory() === category" (change)="toggleCategory(category!)" class="h-4 w-4 accent-purple-600"/>
-                <label [for]="category" class="ml-2 text-sm text-gray-700">{{ category }}</label>
+              <!--
+                1. Loop over `allCategories()` to access both `id` and `name`.
+                2. Bind `checked` and `change` to the category's `id`.
+                3. Use `category.name` for the display label.
+              -->
+              @for (category of allCategories(); track category.id) {
+              <div class="flex items-center">
+                <input
+                  type="radio"
+                  name="category-filter"
+                  [id]="'cat-' + category.id"
+                  [value]="category.id"
+                  [checked]="selectedCategoryId() === category.id"
+                  (change)="toggleCategory(category.id)"
+                  class="h-4 w-4 accent-purple-600"
+                />
+                <label
+                  [for]="'cat-' + category.id"
+                  class="ml-2 text-sm text-gray-700"
+                >
+                  {{ category.name }}
+                </label>
               </div>
+              }
             </div>
           </div>
 
@@ -52,8 +101,18 @@
             <h3 class="font-medium mb-3">Nivå</h3>
             <div class="space-y-2">
               <div *ngFor="let level of levels" class="flex items-center">
-                <input type="radio" name="level-filter" [id]="level" [value]="level" [checked]="selectedLevel() === level" (change)="toggleLevel(level)" class="h-4 w-4 accent-purple-600"/>
-                <label [for]="level" class="ml-2 text-sm text-gray-700">{{ level | titlecase }}</label>
+                <input
+                  type="radio"
+                  name="level-filter"
+                  [id]="level"
+                  [value]="level"
+                  [checked]="selectedLevel() === level"
+                  (change)="toggleLevel(level)"
+                  class="h-4 w-4 accent-purple-600"
+                />
+                <label [for]="level" class="ml-2 text-sm text-gray-700">{{
+                  level | titlecase
+                }}</label>
               </div>
             </div>
           </div>
@@ -62,9 +121,24 @@
           <div class="pt-4">
             <h3 class="font-medium mb-3">Betyg</h3>
             <div class="space-y-2">
-              <div *ngFor="let rating of ratingOptions" class="flex items-center">
-                <input type="radio" name="rating-filter" [id]="'rating-' + rating" [value]="rating" [checked]="selectedRating() === rating" (change)="toggleRating(rating)" class="h-4 w-4 accent-purple-600"/>
-                <label [for]="'rating-' + rating" class="ml-2 text-sm text-gray-700">{{ rating }}+ stjärnor</label>
+              <div
+                *ngFor="let rating of ratingOptions"
+                class="flex items-center"
+              >
+                <input
+                type="radio"
+                name="rating-filter"
+                [id]="'rating-' + rating"
+                  [value]="rating"
+                  [checked]="selectedRating() === rating"
+                  (change)="toggleRating(rating)"
+                  class="h-4 w-4 accent-purple-600"
+                />
+                <label
+                  [for]="'rating-' + rating"
+                  class="ml-2 text-sm text-gray-700"
+                  >{{ rating }}+ stjärnor</label
+                >
               </div>
             </div>
           </div>
@@ -75,14 +149,26 @@
       <div class="lg:w-3/4">
         <div class="mb-6">
           <p class="text-gray-600">
-            Visar <span class="font-medium">{{ filteredAndSortedCourses().length }}</span> kurser
+            Visar
+            <span class="font-medium">{{
+              filteredAndSortedCourses().length
+            }}</span>
+            kurser
           </p>
         </div>
 
         <!-- Course Grid -->
-        <ng-container *ngIf="filteredAndSortedCourses().length > 0; else noCourses">
+        <ng-container
+          *ngIf="filteredAndSortedCourses().length > 0; else noCourses"
+        >
           <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-            <app-course-card *ngFor="let course of filteredAndSortedCourses(); trackBy: trackByCourse" [course]="course"></app-course-card>
+            @for (course of filteredAndSortedCourses(); track course.id) {
+            <!-- Pass both the 'course' and the full 'allCategories' list -->
+            <app-course-card
+              [course]="course"
+              [categories]="allCategories()"
+            ></app-course-card>
+            }
           </div>
         </ng-container>
 
@@ -90,8 +176,15 @@
         <ng-template #noCourses>
           <div class="bg-white rounded-lg p-8 text-center">
             <h3 class="text-xl font-medium mb-2">Inga kurser hittades</h3>
-            <p class="text-gray-600 mb-4">Prova att justera dina filter för att hitta det du letar efter.</p>
-            <button (click)="clearAllFilters()" class="text-purple-600 font-medium hover:underline">Rensa alla filter</button>
+            <p class="text-gray-600 mb-4">
+              Prova att justera dina filter för att hitta det du letar efter.
+            </p>
+            <button
+              (click)="clearAllFilters()"
+              class="text-purple-600 font-medium hover:underline"
+            >
+              Rensa alla filter
+            </button>
           </div>
         </ng-template>
       </div>

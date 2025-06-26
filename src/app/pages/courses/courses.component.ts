@@ -3,20 +3,23 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 
+// Child Components
 import { CourseCardComponent } from '../../components/course-card/course-card.component';
-import {
-  SelectComponent,
-  SelectOption,
-} from '../../components/select/select.component';
+import { SelectComponent } from '../../components/select/select.component';
+
+// Services and Types
 import { CoursesService } from '../../services/courses.service';
+import { CategoriesService } from '../../services/categories.service';
 import { Course } from '../../types/course';
+import { Category } from '../../types/category';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-courses',
   standalone: true,
   imports: [
     CommonModule,
-    FormsModule, // Needed for [(ngModel)] with signals
+    FormsModule,
     TitleCasePipe,
     CourseCardComponent,
     SelectComponent,
@@ -24,44 +27,63 @@ import { Course } from '../../types/course';
   templateUrl: './courses.component.html',
 })
 export class CoursesComponent {
+  // --- 1. Services and Raw Data Signals ---
   private coursesService = inject(CoursesService);
+  private categoriesService = inject(CategoriesService);
+  private route = inject(ActivatedRoute);
 
-  public searchTerm = signal('');
-  public selectedCategory = signal<string | null>(null);
-  public selectedLevel = signal<string | null>(null);
-  public selectedRating = signal<number | null>(null);
-  public sortOption = signal('popular');
-  public showMobileFilters = signal(false);
-
-  public readonly sortOptions: SelectOption[] = [
-    { value: 'popular', label: 'Populärast' },
-    { value: 'newest', label: 'Nyaste' },
-    { value: 'price-low', label: 'Pris: Lågt till högt' },
-    { value: 'price-high', label: 'Pris: Högt till lågt' },
-    { value: 'rating', label: 'Högst betyg' },
-  ];
-  public readonly levels: string[] = ['beginner', 'intermediate', 'advanced'];
-  public readonly ratingOptions: number[] = [4.5, 4, 3.5, 3];
-
-
-  // 1. Fetch all courses and convert the Observable to a read-only signal.
-  private allCourses = toSignal(this.coursesService.getCourses(), {
+  public allCourses = toSignal(this.coursesService.getCourses(), {
     initialValue: [] as Course[],
   });
+  public allCategories = toSignal(this.categoriesService.getCategories(), {
+    initialValue: [] as Category[],
+  });
 
-  // 2. Derive unique categories automatically when `allCourses` changes.
-  public categories = computed(() =>
-    Array.from(new Set(this.allCourses().map((course) => course.category)))
-  );
+  // --- 2. State Management with Writable Signals  ---
+  public searchTerm = signal('');
+  public sortOption = signal('popular');
+  public selectedLevel = signal<string | null>(null);
+  public selectedRating = signal<number | null>(null);
+  public selectedCategoryId = signal<number | null>(null);
 
-  // 3. Create a single computed signal that filters and sorts the courses.
-  //    It automatically re-runs whenever any dependent signal (e.g., searchTerm, sortOption) changes.
+  // --- 3. Static Data for Filters ---
+  public readonly levels = ['Beginner', 'Intermediate', 'Advanced'];
+  public readonly ratingOptions = [4, 3, 2, 1];
+  public readonly sortOptions = [
+    { value: 'popular', label: 'Popularitet' },
+    { value: 'newest', label: 'Nyast' },
+    { value: 'price-low', label: 'Pris (Lågt till Högt)' },
+    { value: 'price-high', label: 'Pris (Högt till Lågt)' },
+    { value: 'rating', label: 'Betyg' },
+  ];
+
+  // Constructor to react to query parameters on component initialization
+  constructor () {
+    this.route.queryParamMap.subscribe(params => {
+      // Get the 'categoryId' from the URL, e.g., "?categoryId=1"
+      const categoryIdStr = params.get('categoryId');
+
+
+      if (categoryIdStr) {
+        const categoryId = Number(categoryIdStr);
+        if (!isNaN(categoryId)) {
+          this.selectedCategoryId.set(categoryId);
+        } else {
+          this.selectedCategoryId.set(null); // Reset if invalid
+        }
+      } else {
+        this.selectedCategoryId.set(null); // Reset if param is removed
+      }
+    });
+  }
+
+  // --- 4. Main Computed Signal for Filtering and Sorting (Corrected) ---
   public filteredAndSortedCourses = computed(() => {
     const courses = this.allCourses();
     const term = this.searchTerm().toLowerCase();
-    const category = this.selectedCategory();
-    const level = this.selectedLevel();
-    const rating = this.selectedRating();
+    const categoryId = this.selectedCategoryId(); // Use the ID here
+    const selectedLevel = this.selectedLevel();
+    const selectedRatingFilter = this.selectedRating();
     const sort = this.sortOption();
 
     const filtered = courses.filter((course) => {
@@ -69,62 +91,79 @@ export class CoursesComponent {
         ? (course.title ?? '').toLowerCase().includes(term) ||
         (course.description ?? '').toLowerCase().includes(term)
         : true;
-      const categoryMatch = category ? course.category === category : true;
-      const levelMatch = level ? course.level === level : true;
-      const ratingMatch = rating ? (course.rating ?? 0) >= rating : true;
+      const categoryMatch = categoryId ? course.categoryId === categoryId : true;
+      const levelMatch = selectedLevel
+        ? (course.level ?? '').toLowerCase() === selectedLevel.toLowerCase()
+        : true;
+      const ratingMatch = (() => {
+        // If no rating filter is selected, all courses match this criterion.
+        if (selectedRatingFilter === null) {
+          return true;
+        }
+        // If a rating filter is selected, but the course itself has no rating, it doesn't match.
+        if (course.rating === undefined || course.rating === null) {
+          return false;
+        }
+        // Otherwise, compare the course's rating against the selected filter (X+).
+        return (
+          course.rating >= selectedRatingFilter &&
+          course.rating < selectedRatingFilter + 1
+        );
+      })();
       return searchMatch && categoryMatch && levelMatch && ratingMatch;
     });
 
     return [...filtered].sort((a, b) => {
       switch (sort) {
         case 'newest':
+          // Using createdAt for 'newest' as it often represents creation date
           return (
-            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+            new Date(b.createdAt ?? '').getTime() - new Date(a.createdAt ?? '').getTime()
           );
         case 'price-low':
-          return (
-            (a.discountPrice ?? a.price ?? 0) -
-            (b.discountPrice ?? b.price ?? 0)
-          );
+          // Prioritize discountPrice if available, otherwise regular price
+          const priceA = a.discountPrice ?? a.price ?? 0;
+          const priceB = b.discountPrice ?? b.price ?? 0;
+          return priceA - priceB;
         case 'price-high':
-          return (
-            (b.discountPrice ?? b.price ?? 0) -
-            (a.discountPrice ?? a.price ?? 0)
-          );
+          const priceAHigh = a.discountPrice ?? a.price ?? 0;
+          const priceBHigh = b.discountPrice ?? b.price ?? 0;
+          return priceBHigh - priceAHigh;
         case 'rating':
           return (b.rating ?? 0) - (a.rating ?? 0);
         case 'popular':
         default:
-          return (b.totalReviews ?? 0) - (a.totalReviews ?? 0);
+          return (b.totalReviews ?? 0) - (a.totalReviews ?? 0); // Popular is based on total reviews
       }
     });
   });
 
-  toggleCategory(category: string): void {
-    this.selectedCategory.update((current) =>
-      current === category ? null : category
+  // 5. Event Handlers (Corrected)
+  // Method now accepts a number (the category ID)
+  public toggleCategory(categoryId: number): void {
+    this.selectedCategoryId.set(
+      this.selectedCategoryId() === categoryId ? null : categoryId
     );
   }
 
-  toggleLevel(level: string): void {
-    this.selectedLevel.update((current) => (current === level ? null : level));
+  public toggleLevel(level: string): void {
+    this.selectedLevel.set(this.selectedLevel() === level ? null : level);
   }
 
-  toggleRating(rating: number): void {
-    this.selectedRating.update((current) =>
-      current === rating ? null : rating
-    );
+  public toggleRating(rating: number): void {
+    this.selectedRating.set(this.selectedRating() === rating ? null : rating);
   }
 
-  clearAllFilters(): void {
+
+  public clearAllFilters(): void {
     this.searchTerm.set('');
-    this.selectedCategory.set(null);
+    this.selectedCategoryId.set(null); // Reset the ID
     this.selectedLevel.set(null);
     this.selectedRating.set(null);
     this.sortOption.set('popular');
   }
 
-  trackByCourse(index: number, course: Course): number | string {
+  public trackByCourse(index: number, course: Course): number | string {
     return index || course.id;
   }
 }
