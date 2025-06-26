@@ -1,0 +1,36 @@
+<section class="py-16 bg-gray-50 px-4">
+  <div class="container mx-auto">
+    <div class="flex justify-between items-center mb-8">
+      <h2 class="text-2xl md:text-3xl font-bold">
+        {{ "Toppinstruktörer" | titleCase }}
+      </h2>
+      <a
+        routerLink="/authors"
+        class="text-purple-700 hover:underline font-medium cursor-pointer"
+      >
+        Visa alla instruktörer
+      </a>
+    </div>
+    <!-- Author Grid -->
+    <div class="container mx-auto">
+      <ng-container *ngIf="topInstructors().length > 0; else noAuthors">
+        <div
+          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+        >
+          <app-author-card
+            *ngFor="let author of topInstructors()"
+            [author]="author"
+          ></app-author-card>
+        </div>
+      </ng-container>
+
+      <ng-template #noAuthors>
+        <div class="text-center py-10">
+          <h3 class="text-xl font-medium text-gray-800">
+            Inga instruktörer hittades
+          </h3>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</section>
