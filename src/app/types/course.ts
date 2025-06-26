@@ -1,8 +1,10 @@
+import { Category } from "./category";
+
 export interface Course {
   id: number | string;
   title?: string;
   description?: string;
-  category?: string;
+  categoryId?: number;
   rating?: number;
   level?: string;
   lessons?: number;

@@ -1,6 +1,5 @@
 export interface Category {
   id: number;
-  name: string;
   icon: string;
-  count?: number;
+  name: string;
 }
