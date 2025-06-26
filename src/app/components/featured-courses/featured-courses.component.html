@@ -10,9 +10,12 @@
       </a>
     </div>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      <ng-container *ngFor="let course of featuredCourses()">
-        <app-course-card [course]="course"></app-course-card>
-      </ng-container>
+      @for (course of featuredCourses(); track course.id) {
+        <app-course-card
+          [course]="course"
+          [categories]="allCategories()"
+        ></app-course-card>
+      }
     </div>
   </div>
 </section>
