@@ -21,6 +21,13 @@ export const students: Student[] = [
     ],
     role: 'student',
     email: 'alice.johnson@kurshub.com',
+    testimonials: [
+      {
+        id: 1,
+        content:
+          'Kursen i Angular-utveckling var precis vad jag behövde för att ta mina färdigheter till nästa nivå. Läraren var kunnig och innehållet välstrukturerat.',
+      },
+    ],
   },
   {
     id: 's2',
@@ -36,6 +43,9 @@ export const students: Student[] = [
     ],
     role: 'student',
     email: 'michael.lee@kurshub.com',
+    testimonials: [
+      { id: 1, content: 'Jag kunde byta karriär tack vare kurserna här!' },
+    ],
   },
   {
     id: 's3',
@@ -57,6 +67,7 @@ export const students: Student[] = [
     ],
     role: 'student',
     email: 'emily.smith@kurshub.com',
+    testimonials: [],
   },
   {
     id: 's4',
@@ -78,6 +89,12 @@ export const students: Student[] = [
     ],
     role: 'student',
     email: 'james.brown@kurshub.com',
+    testimonials: [
+      {
+        id: 1,
+        content: 'Lärarna är engagerade och materialet är alltid uppdaterat.',
+      },
+    ],
   },
   {
     id: 's5',
@@ -99,6 +116,7 @@ export const students: Student[] = [
     ],
     role: 'student',
     email: 'olivia.martinez@kurshub.com',
+    testimonials: [],
   },
   {
     id: 's6',
@@ -114,6 +132,7 @@ export const students: Student[] = [
     ],
     role: 'student',
     email: 'daniel.garcia@kurshub.com',
+    testimonials: [],
   },
   {
     id: 's7',
@@ -129,6 +148,7 @@ export const students: Student[] = [
     ],
     role: 'student',
     email: 'sophia.rodriguez@kurshub.com',
+    testimonials: [],
   },
   {
     id: 's8',
@@ -150,6 +170,13 @@ export const students: Student[] = [
     ],
     role: 'student',
     email: 'liam.wilson@kurshub.com',
+    testimonials: [
+      {
+        id: 1,
+        content:
+          'Jag har testat många onlineplattformar, men CourseHub har de bästa kurserna. Python Bootcamp hjälpte mig att byta karriär till data science!',
+      },
+    ],
   },
   {
     id: 's9',
@@ -165,6 +192,7 @@ export const students: Student[] = [
     ],
     role: 'student',
     email: 'isabella.anderson@kurshub.com',
+    testimonials: [],
   },
   {
     id: 's10',
@@ -180,5 +208,6 @@ export const students: Student[] = [
     ],
     role: 'student',
     email: 'noah.taylor@kurshub.com',
+    testimonials: [],
   },
 ];
