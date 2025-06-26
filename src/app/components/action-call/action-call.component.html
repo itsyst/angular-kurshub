@@ -1,0 +1,29 @@
+<section class="py-16 bg-purple-600">
+  <div class="container mx-auto px-4">
+    <h2 class="text-2xl text-white md:text-3xl font-bold mb-8 text-center">
+      {{ "Redo att påbörja din läranderesa?" | titleCase }}
+    </h2>
+    <div class="mb-8 md:mb-0">
+      <p class="text-xl mb-6 text-white text-center">
+        Gå med bland tusentals studenter som redan lär sig på KursHub. Få
+        obegränsad tillgång till vårt kursbibliotek.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 mt-10 justify-center">
+        <a routerLink="/courses">
+          <button
+            class="bg-white text-purple-700 hover:bg-gray-100 px-4 py-2 rounded-lg text-lg cursor-pointer"
+          >
+            Sök Bland Kurser
+          </button>
+        </a>
+        <a routerLink="/register">
+          <button
+            class="border-white text-white hover:bg-white/10 border-2 px-4 py-1.5 rounded-lg text-lg cursor-pointer"
+          >
+            Registrera Dig Gratis
+          </button>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
