@@ -8,11 +8,11 @@ import { CourseCardComponent } from '../../components/course-card/course-card.co
 import { SelectComponent } from '../../components/select/select.component';
 
 // Services and Types
-import { CoursesService } from '../../services/courses.service';
-import { CategoriesService } from '../../services/categories.service';
-import { Course } from '../../types/course';
-import { Category } from '../../types/category';
 import { ActivatedRoute } from '@angular/router';
+import { CategoriesService } from '../../services/categories.service';
+import { CoursesService } from '../../services/courses.service';
+import { Category } from '../../types/category';
+import { Course } from '../../types/course';
 
 @Component({
   selector: 'app-courses',
@@ -58,14 +58,14 @@ export class CoursesComponent {
   ];
 
   // Constructor to react to query parameters on component initialization
-  constructor () {
-    this.route.queryParamMap.subscribe(params => {
+  constructor() {
+    this.route.queryParamMap.subscribe((params) => {
       // Get the 'categoryId' from the URL, e.g., "?categoryId=1"
       const categoryIdStr = params.get('categoryId');
 
-
       if (categoryIdStr) {
         const categoryId = Number(categoryIdStr);
+
         if (!isNaN(categoryId)) {
           this.selectedCategoryId.set(categoryId);
         } else {
@@ -74,12 +74,27 @@ export class CoursesComponent {
       } else {
         this.selectedCategoryId.set(null); // Reset if param is removed
       }
+
+      const searchQueryFromUrl = params.get('search');
+
+      if (searchQueryFromUrl) {
+        const searchStr = Number(searchQueryFromUrl);
+
+        if (!isNaN(searchStr)) {
+          this.selectedCategoryId.set(searchStr);
+        } else {
+          this.searchTerm.set(searchQueryFromUrl);
+        }
+      } else {
+        this.searchTerm.set(''); // Reset if param is removed
+      }
     });
   }
 
   // --- 4. Main Computed Signal for Filtering and Sorting (Corrected) ---
   public filteredAndSortedCourses = computed(() => {
     const courses = this.allCourses();
+    const categories = this.allCategories();
     const term = this.searchTerm().toLowerCase();
     const categoryId = this.selectedCategoryId(); // Use the ID here
     const selectedLevel = this.selectedLevel();
@@ -87,14 +102,27 @@ export class CoursesComponent {
     const sort = this.sortOption();
 
     const filtered = courses.filter((course) => {
+      const categoryOfCourse = categories.find(
+        (c) => c.id === course.categoryId
+      );
+      const categoryName = categoryOfCourse
+        ? categoryOfCourse.name.toLowerCase()
+        : '';
+
       const searchMatch = term
         ? (course.title ?? '').toLowerCase().includes(term) ||
-        (course.description ?? '').toLowerCase().includes(term)
+          (course.description ?? '').toLowerCase().includes(term) ||
+          categoryName.includes(term)
         : true;
-      const categoryMatch = categoryId ? course.categoryId === categoryId : true;
+
+      const categoryMatch = categoryId
+        ? course.categoryId === categoryId
+        : true;
+
       const levelMatch = selectedLevel
         ? (course.level ?? '').toLowerCase() === selectedLevel.toLowerCase()
         : true;
+
       const ratingMatch = (() => {
         // If no rating filter is selected, all courses match this criterion.
         if (selectedRatingFilter === null) {
@@ -118,7 +146,8 @@ export class CoursesComponent {
         case 'newest':
           // Using createdAt for 'newest' as it often represents creation date
           return (
-            new Date(b.createdAt ?? '').getTime() - new Date(a.createdAt ?? '').getTime()
+            new Date(b.createdAt ?? '').getTime() -
+            new Date(a.createdAt ?? '').getTime()
           );
         case 'price-low':
           // Prioritize discountPrice if available, otherwise regular price
@@ -153,7 +182,6 @@ export class CoursesComponent {
   public toggleRating(rating: number): void {
     this.selectedRating.set(this.selectedRating() === rating ? null : rating);
   }
-
 
   public clearAllFilters(): void {
     this.searchTerm.set('');
