@@ -154,9 +154,10 @@
           <ng-container *ngIf="authorCourses().length > 0; else noCourses">
             <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
               <app-course-card
-                *ngFor="let course of authorCourses()"
-                [course]="course"
-              ></app-course-card>
+              *ngFor="let course of authorCourses()"
+              [course]="course"
+              [categories]="allCategories()"
+            ></app-course-card>
             </div>
           </ng-container>
 

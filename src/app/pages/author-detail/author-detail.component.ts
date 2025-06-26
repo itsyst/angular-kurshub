@@ -11,6 +11,8 @@ import { Nl2brPipe } from '../../pipes/nl2br.pipe';
 import { AuthorsService } from '../../services/authors.service';
 import { CoursesService } from '../../services/courses.service';
 import { Course } from '../../types/course';
+import { CategoriesService } from '../../services/categories.service';
+import { Category } from '../../types/category';
 
 @Component({
   selector: 'app-author-detail',
@@ -30,6 +32,7 @@ export class AuthorDetailComponent {
   private route = inject(ActivatedRoute);
   private authorsService = inject(AuthorsService);
   private courseService = inject(CoursesService);
+  private categoriesService = inject(CategoriesService);
 
   public currentTab = signal('about');
 
@@ -47,11 +50,13 @@ export class AuthorDetailComponent {
   private allCourses = toSignal(this.courseService.getCourses(), {
     initialValue: [] as Course[],
   });
+  public allCategories = toSignal(this.categoriesService.getCategories(), {
+    initialValue: [] as Category[],
+  });
 
   public authorCourses = computed(() => {
     const authorId = this.author()?.id;
-    if (!authorId) return [];
-    return this.allCourses().filter((course) => course.authorId === authorId);
+    return authorId ? this.allCourses().filter(c => c.authorId === authorId) : [];
   });
 
   public totalStudents = computed(() => {
