@@ -1,19 +1,27 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { Component, computed, inject, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
+
+// Child Components
 import { AvatarComponent } from '../../components/avatar/avatar.component';
 import { BadgeComponent } from '../../components/badge/badge.component';
 import { TabsComponent } from '../../components/tabs/tabs.component';
+
+// Services and Data
+import { CoursesService } from '../../services/courses.service';
+import { CategoriesService } from '../../services/categories.service'; // **** FIX: Import CategoriesService ****
 import { authors } from '../../data/authors';
 import { comments } from '../../data/comments';
-import { CoursesService } from '../../services/courses.service';
+import { students } from '../../data/students';
+
+// Types
 import { Author } from '../../types/author';
+import { Category } from '../../types/category'; // **** FIX: Import Category type ****
 import { EnrichedComment } from '../../types/comment';
-import { Course } from '../../types/course';
-import { students } from './../../data/students';
+import { Course, CourseBenefit } from '../../types/course';
 
 @Component({
   selector: 'app-course-detail',
@@ -29,7 +37,8 @@ import { students } from './../../data/students';
 })
 export class CourseDetailComponent {
   private route = inject(ActivatedRoute);
-  private service = inject(CoursesService);
+  private coursesService = inject(CoursesService);
+  private categoriesService = inject(CategoriesService);
 
   // 1. Convert the main data stream (course by ID) to a signal.
   public course = toSignal<Course | undefined>(
@@ -38,18 +47,53 @@ export class CourseDetailComponent {
         const courseId = Number(params.get('id'));
         return isNaN(courseId)
           ? of(undefined)
-          : this.service.getCourseById(courseId);
+          : this.coursesService.getCourseById(courseId);
       })
     )
   );
 
+  private allCourses = toSignal(this.coursesService.getCourses(), { initialValue: [] as Course[] });
+  private allCategories = toSignal(this.categoriesService.getCategories(), { initialValue: [] as Category[] });
+
+  // Manage UI state (like the active tab) with a writable signal.
+  public currentTab = signal('overview');
+
   // 2. Create computed signals for all data derived from the course.
+  // Create a new computed signal to get the full Category object
+  public categoryDetails = computed<Category | undefined>(() => {
+    const currentCourse = this.course();
+    const categories = this.allCategories();
+    if (!currentCourse || !categories.length) return undefined;
+    return categories.find(cat => cat.id === currentCourse.categoryId);
+  });
+
   // These are memoized and only recalculate when the course() signal changes.
   public author = computed<Author | undefined>(() => {
     const currentCourse = this.course();
     return currentCourse
       ? authors.find((a) => a.id === currentCourse.authorId)
       : undefined;
+  });
+
+  public relatedCourses = computed<Course[]>(() => {
+    const currentCourse = this.course();
+
+    if (!currentCourse) return [];
+    return this.allCourses()
+      .filter(
+        (c) =>
+          c.categoryId === currentCourse.categoryId && c.id !== currentCourse.id
+      )
+      .slice(0, 3);
+  });
+
+  public enrolledCount = computed<number>(() => {
+    const courseIdAsString = String(this.course()?.id);
+
+    if (!courseIdAsString) return 0;
+    return students.filter((s) =>
+      s.enrolledCourses.some((e) => e.courseId === courseIdAsString)
+    ).length;
   });
 
   public courseComments = computed<EnrichedComment[]>(() => {
@@ -67,36 +111,7 @@ export class CourseDetailComponent {
     });
   });
 
-  // 3. For related courses, we need all courses. Fetch them once.
-  private allCourses = toSignal(this.service.getCourses(), {
-    initialValue: [] as Course[],
-  });
-
-  public relatedCourses = computed<Course[]>(() => {
-    const currentCourse = this.course();
-
-    if (!currentCourse) return [];
-    return this.allCourses()
-      .filter(
-        (c) =>
-          c.category === currentCourse.category && c.id !== currentCourse.id
-      )
-      .slice(0, 3);
-  });
-
-  public enrolledCount = computed<number>(() => {
-    const courseIdAsString = String(this.course()?.id);
-
-    if (!courseIdAsString) return 0;
-    return students.filter((s) =>
-      s.enrolledCourses.some((e) => e.courseId === courseIdAsString)
-    ).length;
-  });
-
-  // 4. Manage UI state (like the active tab) with a writable signal.
-  public currentTab = signal('overview');
-
-  public courseBenefits = computed(() => {
+  public courseBenefits = computed<CourseBenefit[]>(() => {
     const benefits = [
       { id: 1, label: 'Full livstidstillgång' },
       { id: 2, label: 'Tillgång via mobil och TV' },
@@ -108,7 +123,7 @@ export class CourseDetailComponent {
     return benefits;
   });
 
-  public authorCourseCount = computed(() => {
+  public authorCourseCount = computed<number>(() => {
     return this.author()?.courses?.length ?? 0;
   });
 

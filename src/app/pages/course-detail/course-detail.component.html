@@ -8,10 +8,10 @@
             <span class="mx-2 text-gray-400">›</span>
             <a
               [routerLink]="['/courses']"
-              [queryParams]="{ category: course()?.category ?? '' }"
+              [queryParams]="{ categoryId: categoryDetails()?.id ?? '' }"
               class="hover:text-purple-600"
             >
-              {{ course()?.category || "Kategori" }}
+              {{ categoryDetails()?.name || "Kategori" }}
             </a>
           </nav>
 
@@ -99,8 +99,9 @@
             </div>
             <app-badge
               variant="outline"
+              shape="pill"
               class="bg-purple-50 px-2 py-1 text-xs font-medium text-purple-700 ring-1 ring-inset ring-purple-700/10"
-              >{{ course()?.category }}</app-badge
+              >{{ categoryDetails()?.name?.toLowerCase() }}</app-badge
             >
           </div>
           <!-- Instruktör -->
@@ -305,7 +306,7 @@
                   <p>
                     Den här omfattande kursen {{ course()?.title }} är utformad
                     för att ta dig från nybörjare till proffs inom
-                    {{ course()?.category?.toLowerCase() }}.
+                    {{ categoryDetails()?.name?.toLowerCase() }}.
                   </p>
                   <p>
                     Du kommer att lära dig genom praktiska projekt, engagerande
@@ -314,7 +315,7 @@
                   <p>
                     När kursen är klar har du fått en gedigen förståelse för
                     alla väsentliga aspekter inom
-                    {{ course()?.category?.toLowerCase() }}.
+                    {{ categoryDetails()?.name?.toLowerCase() }}.
                   </p>
                 </div>
               </div>
@@ -325,7 +326,7 @@
               <div class="flex items-start">
                 <div class="text-gray-700 space-y-4">
                   <ul class="list-disc pl-5 text-gray-700 space-y-2">
-                    <li>Förståelse av {{ course()?.category?.toLowerCase() }}-koncept</li>
+                    <li>Förståelse av {{ categoryDetails()?.name?.toLowerCase() }}-koncept</li>
                     <li>En dator med internetanslutning</li>
                     <li>Vilja att lära och öva</li>
                   </ul>
@@ -338,7 +339,7 @@
                <div class="flex items-start">
                  <div class="text-gray-700 space-y-4">
                   <ul class="list-disc pl-5 text-gray-700 space-y-2">
-                    <li>Alla som vill lära sig {{ course()?.category }}</li>
+                    <li>Alla som vill lära sig {{ categoryDetails()?.name }}</li>
                     <li>Studenter som vill förbättra sina kunskaper</li>
                     <li>Professionella som vill hålla sig uppdaterade</li>
                     <li>Nybörjare utan tidigare erfarenhet</li>
