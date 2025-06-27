@@ -1,12 +1,10 @@
-import { Category } from "./category";
-
 export interface Course {
   id: number | string;
   title?: string;
   description?: string;
   categoryId?: number;
   rating?: number;
-  level?: string;
+  level?: CourseLevel;
   lessons?: number;
   duration?: string;
   students?: number;
@@ -57,4 +55,10 @@ export interface EnrichedEnrollment extends EnrolledCourse {
   course?: Course;
   completedDate?: Date;
   lastAccessedDate?: Date;
+}
+
+export enum CourseLevel {
+  BEGINNER = 'Nybörjare',
+  INTERMEDIATE = 'Medelnivå',
+  ADVANCED = 'Avancerad',
 }

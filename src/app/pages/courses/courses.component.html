@@ -126,9 +126,9 @@
                 class="flex items-center"
               >
                 <input
-                type="radio"
-                name="rating-filter"
-                [id]="'rating-' + rating"
+                  type="radio"
+                  name="rating-filter"
+                  [id]="'rating-' + rating"
                   [value]="rating"
                   [checked]="selectedRating() === rating"
                   (change)="toggleRating(rating)"
@@ -158,21 +158,34 @@
         </div>
 
         <!-- Course Grid -->
-        <ng-container
-          *ngIf="filteredAndSortedCourses().length > 0; else noCourses"
-        >
+        <ng-container *ngIf="paginatedCourses().length > 0; else noCourses">
           <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-            @for (course of filteredAndSortedCourses(); track course.id) {
-            <!-- Pass both the 'course' and the full 'allCategories' list -->
+            @for (course of paginatedCourses(); track trackByCourse($index,
+            course)) {
             <app-course-card
               [course]="course"
               [categories]="allCategories()"
-            ></app-course-card>
+              class="transform transition-transform duration-200 hover:scale-105"
+            >
+            </app-course-card>
             }
           </div>
-        </ng-container>
 
-        <!-- No Courses Template -->
+          <!-- Pagination -->
+          <app-pagination
+            [totalItems]="filteredAndSortedCourses().length"
+            [pageSize]="pageSize()"
+            [currentPage]="currentPage()"
+            [showInfo]="true"
+            [showPageSizeSelector]="true"
+            [pageSizeOptions]="[6,12, 24, 48, 96]"
+            (pageChange)="onPageChange($event)"
+            (pageSizeChange)="onPageSizeChange($event)"
+            (stateChange)="onPaginationStateChange($event)"
+          >
+          </app-pagination>
+        </ng-container>
+        <!-- No Courses Found -->
         <ng-template #noCourses>
           <div class="bg-white rounded-lg p-8 text-center">
             <h3 class="text-xl font-medium mb-2">Inga kurser hittades</h3>

@@ -1,12 +1,14 @@
-import { Component, Input, Output, EventEmitter, forwardRef, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import {
+  Component,
+  EventEmitter,
+  forwardRef,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-
-export interface SelectOption {
-  value: string;
-  label: string;
-  disabled?: boolean;
-}
+import { SelectState } from '../../types/states';
 
 @Component({
   selector: 'app-select',
@@ -16,25 +18,25 @@ export interface SelectOption {
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => SelectComponent),
-      multi: true
-    }
+      multi: true,
+    },
   ],
   templateUrl: './select.component.html',
 })
 export class SelectComponent implements ControlValueAccessor, OnInit {
-  @Input() options: SelectOption[] = [];
+  @Input() options: SelectState[] = [];
   @Input() placeholder: string = 'Select an option...';
   @Input() disabled: boolean = false;
   @Input() className: string = '';
   @Input() showScrollButtons: boolean = false;
-  @Output() selectionChange = new EventEmitter<SelectOption | null>();
+  @Output() selectionChange = new EventEmitter<SelectState | null>();
 
   selectedValue: string | null = null;
   isOpen: boolean = false;
 
   // ControlValueAccessor implementation
-  private onChange = (value: any) => { };
-  private onTouched = () => { };
+  private onChange = (value: any) => {};
+  private onTouched = () => {};
 
   ngOnInit() {
     // Close dropdown when clicking outside
@@ -71,7 +73,7 @@ export class SelectComponent implements ControlValueAccessor, OnInit {
     this.isOpen = false;
   }
 
-  selectOption(option: SelectOption) {
+  selectOption(option: SelectState) {
     if (!option.disabled) {
       this.selectedValue = option.value;
       this.onChange(option.value);
@@ -81,12 +83,15 @@ export class SelectComponent implements ControlValueAccessor, OnInit {
   }
 
   getDisplayValue(): string {
-    const selectedOption = this.options.find(opt => opt.value === this.selectedValue);
+    const selectedOption = this.options.find(
+      (opt) => opt.value === this.selectedValue
+    );
     return selectedOption ? selectedOption.label : this.placeholder;
   }
 
   getTriggerClasses(): string {
-    const baseClasses = 'flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-600 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50';
+    const baseClasses =
+      'flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-purple-600 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50';
     return `${baseClasses} ${this.className}`.trim();
   }
 
@@ -106,7 +111,7 @@ export class SelectComponent implements ControlValueAccessor, OnInit {
     // Implement scroll functionality if needed
   }
 
-  trackByFn(index: number, option: SelectOption): string {
+  trackByFn(index: number, option: SelectState): string {
     return option.value;
   }
 

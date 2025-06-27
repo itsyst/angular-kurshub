@@ -1,18 +1,28 @@
 import { CommonModule, TitleCasePipe } from '@angular/common';
-import { Component, computed, inject, signal } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import {
+  Component,
+  computed,
+  DestroyRef,
+  effect,
+  inject,
+  signal,
+} from '@angular/core';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { distinctUntilChanged } from 'rxjs/operators';
 
 // Child Components
 import { CourseCardComponent } from '../../components/course-card/course-card.component';
 import { SelectComponent } from '../../components/select/select.component';
 
 // Services and Types
-import { ActivatedRoute } from '@angular/router';
+import { PaginationComponent } from "../../components/pagination/pagination.component";
 import { CategoriesService } from '../../services/categories.service';
 import { CoursesService } from '../../services/courses.service';
 import { Category } from '../../types/category';
-import { Course } from '../../types/course';
+import { Course, CourseLevel } from '../../types/course';
+import { FilterState, PaginationState, SortState } from '../../types/states';
 
 @Component({
   selector: 'app-courses',
@@ -23,175 +33,360 @@ import { Course } from '../../types/course';
     TitleCasePipe,
     CourseCardComponent,
     SelectComponent,
+    PaginationComponent
   ],
   templateUrl: './courses.component.html',
 })
 export class CoursesComponent {
-  // --- 1. Services and Raw Data Signals ---
-  private coursesService = inject(CoursesService);
-  private categoriesService = inject(CategoriesService);
-  private route = inject(ActivatedRoute);
+  private readonly coursesService = inject(CoursesService);
+  private readonly categoriesService = inject(CategoriesService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  private readonly destroyRef = inject(DestroyRef);
 
-  public allCourses = toSignal(this.coursesService.getCourses(), {
+  // --- Data Signals ---
+  public readonly allCourses = toSignal(this.coursesService.getCourses(), {
     initialValue: [] as Course[],
   });
-  public allCategories = toSignal(this.categoriesService.getCategories(), {
-    initialValue: [] as Category[],
-  });
 
-  // --- 2. State Management with Writable Signals  ---
-  public searchTerm = signal('');
-  public sortOption = signal('popular');
-  public selectedLevel = signal<string | null>(null);
-  public selectedRating = signal<number | null>(null);
-  public selectedCategoryId = signal<number | null>(null);
+  public readonly allCategories = toSignal(
+    this.categoriesService.getCategories(),
+    {
+      initialValue: [] as Category[],
+    }
+  );
 
-  // --- 3. Static Data for Filters ---
-  public readonly levels = ['Beginner', 'Intermediate', 'Advanced'];
-  public readonly ratingOptions = [4, 3, 2, 1];
-  public readonly sortOptions = [
+  // --- Filter State Signals ---
+  public readonly sortOption = signal<string>('popular');
+  public readonly selectedLevel = signal<CourseLevel | null>(null);
+  public readonly selectedRating = signal<number | null>(null);
+  public readonly selectedCategoryId = signal<number | null>(null);
+  public readonly searchTerm = signal<string>('');
+  // Pagination state
+  readonly currentPage = signal<number>(1);
+  readonly pageSize = signal<number>(6);
+
+  // --- 4. Query Parameters Signal ---
+  private readonly queryParams = toSignal(
+    this.route.queryParamMap.pipe(
+      distinctUntilChanged(),
+      takeUntilDestroyed(this.destroyRef)
+    ),
+    { initialValue: null }
+  );
+
+  // --- Static Configuration ---
+  public readonly levels: readonly CourseLevel[] = [
+    CourseLevel.BEGINNER.toLowerCase() as CourseLevel,
+    CourseLevel.INTERMEDIATE.toLowerCase() as CourseLevel,
+    CourseLevel.ADVANCED.toLowerCase() as CourseLevel,
+  ] as const;
+  public readonly ratingOptions: readonly number[] = [4, 3, 2, 1] as const;
+  public readonly _sortOptions: readonly SortState[] = [
     { value: 'popular', label: 'Popularitet' },
     { value: 'newest', label: 'Nyast' },
     { value: 'price-low', label: 'Pris (Lågt till Högt)' },
     { value: 'price-high', label: 'Pris (Högt till Lågt)' },
     { value: 'rating', label: 'Betyg' },
-  ];
+  ] as const;
 
-  // Constructor to react to query parameters on component initialization
-  constructor() {
-    this.route.queryParamMap.subscribe((params) => {
-      // Get the 'categoryId' from the URL, e.g., "?categoryId=1"
+  // Getter that returns a mutable array for the template
+  public get sortOptions() {
+    return [...this._sortOptions];
+  }
+
+  // --- Constructor with Effects ---
+  constructor () {
+    // Effect to handle query parameter changes (read from URL)
+    effect(() => {
+      const params = this.queryParams();
+      if (!params) return;
+
+      // Handle categoryId parameter
       const categoryIdStr = params.get('categoryId');
+      const categoryId = this.parseToNumberOrNull(categoryIdStr);
+      this.selectedCategoryId.set(categoryId);
 
-      if (categoryIdStr) {
-        const categoryId = Number(categoryIdStr);
+      // Handle level parameter
+      const level = params.get('level');
+      this.selectedLevel.set(level as CourseLevel | null);
 
-        if (!isNaN(categoryId)) {
-          this.selectedCategoryId.set(categoryId);
+      // Handle rating parameter
+      const ratingStr = params.get('rating');
+      const rating = this.parseToNumberOrNull(ratingStr);
+      this.selectedRating.set(rating);
+
+      // Handle search parameter
+      const searchQuery = params.get('search');
+      if (searchQuery) {
+        // Check if search query is a number (might be a category ID)
+        const searchAsNumber = this.parseToNumberOrNull(searchQuery);
+        if (searchAsNumber !== null) {
+          this.selectedCategoryId.set(searchAsNumber);
+          this.searchTerm.set('');
         } else {
-          this.selectedCategoryId.set(null); // Reset if invalid
+          this.searchTerm.set(searchQuery);
         }
       } else {
-        this.selectedCategoryId.set(null); // Reset if param is removed
+        this.searchTerm.set('');
       }
 
-      const searchQueryFromUrl = params.get('search');
-
-      if (searchQueryFromUrl) {
-        const searchStr = Number(searchQueryFromUrl);
-
-        if (!isNaN(searchStr)) {
-          this.selectedCategoryId.set(searchStr);
-        } else {
-          this.searchTerm.set(searchQueryFromUrl);
-        }
-      } else {
-        this.searchTerm.set(''); // Reset if param is removed
+      // Handle sort parameter
+      const sort = params.get('sort');
+      if (sort && this.sortOptions.some((option) => option.value === sort)) {
+        this.sortOption.set(sort);
       }
+    });
+
+    // Effect to update URL when filters change (write to URL)
+    effect(() => {
+      const queryParams: { [key: string]: string | null } = {};
+
+      // Add non-null parameters to query params
+      const categoryId = this.selectedCategoryId();
+      if (categoryId !== null) {
+        queryParams['categoryId'] = categoryId.toString();
+      }
+
+      const level = this.selectedLevel();
+      if (level !== null) {
+        queryParams['level'] = level;
+      }
+
+      const rating = this.selectedRating();
+      if (rating !== null) {
+        queryParams['rating'] = rating.toString();
+      }
+
+      const search = this.searchTerm();
+      if (search.trim()) {
+        queryParams['search'] = search.trim();
+      }
+
+      const sort = this.sortOption();
+      if (sort !== 'popular') {
+        // Only add if not default
+        queryParams['sort'] = sort;
+      }
+
+      // Update URL without navigation
+      this.router.navigate([], {
+        relativeTo: this.route,
+        queryParams,
+        queryParamsHandling: 'replace',
+        replaceUrl: true,
+      });
+    });
+
+    // Reset to first page when filters change
+    effect(() => {
+      // Watch filter changes
+      this.searchTerm();
+      this.selectedCategoryId();
+      this.selectedLevel();
+      this.selectedRating();
+      this.sortOption();
+
+      // Reset to first page
+      this.currentPage.set(1);
     });
   }
 
-  // --- 4. Main Computed Signal for Filtering and Sorting (Corrected) ---
-  public filteredAndSortedCourses = computed(() => {
+  // --- Main Computed Signal for Filtering and Sorting ---
+  public readonly filteredAndSortedCourses = computed(() => {
     const courses = this.allCourses();
     const categories = this.allCategories();
-    const term = this.searchTerm().toLowerCase();
-    const categoryId = this.selectedCategoryId(); // Use the ID here
-    const selectedLevel = this.selectedLevel();
-    const selectedRatingFilter = this.selectedRating();
-    const sort = this.sortOption();
+    const filters = this.getFilterState();
 
-    const filtered = courses.filter((course) => {
-      const categoryOfCourse = categories.find(
-        (c) => c.id === course.categoryId
-      );
-      const categoryName = categoryOfCourse
-        ? categoryOfCourse.name.toLowerCase()
-        : '';
-
-      const searchMatch = term
-        ? (course.title ?? '').toLowerCase().includes(term) ||
-          (course.description ?? '').toLowerCase().includes(term) ||
-          categoryName.includes(term)
-        : true;
-
-      const categoryMatch = categoryId
-        ? course.categoryId === categoryId
-        : true;
-
-      const levelMatch = selectedLevel
-        ? (course.level ?? '').toLowerCase() === selectedLevel.toLowerCase()
-        : true;
-
-      const ratingMatch = (() => {
-        // If no rating filter is selected, all courses match this criterion.
-        if (selectedRatingFilter === null) {
-          return true;
-        }
-        // If a rating filter is selected, but the course itself has no rating, it doesn't match.
-        if (course.rating === undefined || course.rating === null) {
-          return false;
-        }
-        // Otherwise, compare the course's rating against the selected filter (X+).
-        return (
-          course.rating >= selectedRatingFilter &&
-          course.rating < selectedRatingFilter + 1
-        );
-      })();
-      return searchMatch && categoryMatch && levelMatch && ratingMatch;
-    });
-
-    return [...filtered].sort((a, b) => {
-      switch (sort) {
-        case 'newest':
-          // Using createdAt for 'newest' as it often represents creation date
-          return (
-            new Date(b.createdAt ?? '').getTime() -
-            new Date(a.createdAt ?? '').getTime()
-          );
-        case 'price-low':
-          // Prioritize discountPrice if available, otherwise regular price
-          const priceA = a.discountPrice ?? a.price ?? 0;
-          const priceB = b.discountPrice ?? b.price ?? 0;
-          return priceA - priceB;
-        case 'price-high':
-          const priceAHigh = a.discountPrice ?? a.price ?? 0;
-          const priceBHigh = b.discountPrice ?? b.price ?? 0;
-          return priceBHigh - priceAHigh;
-        case 'rating':
-          return (b.rating ?? 0) - (a.rating ?? 0);
-        case 'popular':
-        default:
-          return (b.totalReviews ?? 0) - (a.totalReviews ?? 0); // Popular is based on total reviews
-      }
-    });
+    const filtered = this.filterCourses(courses, categories, filters);
+    return this.sortCourses(filtered, filters.sortOption);
   });
 
-  // 5. Event Handlers (Corrected)
-  // Method now accepts a number (the category ID)
-  public toggleCategory(categoryId: number): void {
-    this.selectedCategoryId.set(
-      this.selectedCategoryId() === categoryId ? null : categoryId
-    );
+  // --- Public Event Handlers ---
+  public toggleCategory(categoryId: number | null): void {
+    if (categoryId === null) {
+      this.selectedCategoryId.set(null);
+    } else {
+      const current = this.selectedCategoryId();
+      this.selectedCategoryId.set(current === categoryId ? null : categoryId);
+    }
   }
 
-  public toggleLevel(level: string): void {
-    this.selectedLevel.set(this.selectedLevel() === level ? null : level);
+  public toggleLevel(level: string | null): void {
+    if (level === null) {
+      this.selectedLevel.set(null);
+    } else {
+      const current = this.selectedLevel();
+      this.selectedLevel.set(current === level ? null : (level as CourseLevel));
+    }
   }
 
-  public toggleRating(rating: number): void {
-    this.selectedRating.set(this.selectedRating() === rating ? null : rating);
+  public toggleRating(rating: number | null): void {
+    if (rating === null) {
+      this.selectedRating.set(null);
+    } else {
+      const current = this.selectedRating();
+      this.selectedRating.set(current === rating ? null : rating);
+    }
   }
 
   public clearAllFilters(): void {
     this.searchTerm.set('');
-    this.selectedCategoryId.set(null); // Reset the ID
+    this.selectedCategoryId.set(null);
     this.selectedLevel.set(null);
     this.selectedRating.set(null);
     this.sortOption.set('popular');
+
+    // Clear URL parameters
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: {},
+      replaceUrl: true,
+    });
   }
 
   public trackByCourse(index: number, course: Course): number | string {
-    return index || course.id;
+    return course.id ?? index;
   }
+
+  // --- 9. Private Helper Methods ---
+  private getFilterState(): FilterState {
+    return {
+      sortOption: this.sortOption(),
+      selectedLevel: this.selectedLevel(),
+      selectedRating: this.selectedRating(),
+      selectedCategoryId: this.selectedCategoryId(),
+      searchTerm: this.searchTerm().toLowerCase(),
+    };
+  }
+
+  private filterCourses(
+    courses: Course[],
+    categories: Category[],
+    filters: FilterState
+  ): Course[] {
+    return courses.filter((course) => {
+      return (
+        this.matchesSearch(course, categories, filters.searchTerm) &&
+        this.matchesCategory(course, filters.selectedCategoryId) &&
+        this.matchesLevel(course, filters.selectedLevel) &&
+        this.matchesRating(course, filters.selectedRating)
+      );
+    });
+  }
+
+  private matchesSearch(
+    course: Course,
+    categories: Category[],
+    searchTerm: string
+  ): boolean {
+    if (!searchTerm) return true;
+
+    const categoryName = this.getCategoryName(course, categories).toLowerCase();
+    const title = (course.title ?? '').toLowerCase();
+    const description = (course.description ?? '').toLowerCase();
+
+    return (
+      title.includes(searchTerm) ||
+      description.includes(searchTerm) ||
+      categoryName.includes(searchTerm)
+    );
+  }
+
+  private matchesCategory(course: Course, categoryId: number | null): boolean {
+    return categoryId === null || course.categoryId === categoryId;
+  }
+
+  private matchesLevel(course: Course, level: string | null): boolean {
+    return (
+      level === null ||
+      (course.level ?? '').toLowerCase() === level.toLowerCase()
+    );
+  }
+
+  private matchesRating(course: Course, ratingFilter: number | null): boolean {
+    if (ratingFilter === null) return true;
+    if (course.rating == null) return false;
+
+    return course.rating >= ratingFilter && course.rating < ratingFilter + 1;
+  }
+
+  private getCategoryName(course: Course, categories: Category[]): string {
+    const category = categories.find((c) => c.id === course.categoryId);
+    return category?.name ?? '';
+  }
+
+  private sortCourses(courses: Course[], sortOption: string): Course[] {
+    return [...courses].sort((a, b) => {
+      switch (sortOption) {
+        case 'newest':
+          return this.compareByDate(b.createdAt, a.createdAt);
+
+        case 'price-low':
+          return this.compareByPrice(a, b);
+
+        case 'price-high':
+          return this.compareByPrice(b, a);
+
+        case 'rating':
+          return (b.rating ?? 0) - (a.rating ?? 0);
+
+        case 'popular':
+        default:
+          return (b.totalReviews ?? 0) - (a.totalReviews ?? 0);
+      }
+    });
+  }
+
+  private compareByDate(
+    dateA: string | number | Date | undefined,
+    dateB: string | number | Date | undefined
+  ): number {
+    const timeA = dateA ? new Date(dateA).getTime() : 0;
+    const timeB = dateB ? new Date(dateB).getTime() : 0;
+    return timeA - timeB;
+  }
+
+  private compareByPrice(courseA: Course, courseB: Course): number {
+    const priceA = courseA.discountPrice ?? courseA.price ?? 0;
+    const priceB = courseB.discountPrice ?? courseB.price ?? 0;
+    return priceA - priceB;
+  }
+
+  private parseToNumberOrNull(value: string | null): number | null {
+    if (!value) return null;
+    const parsed = Number(value);
+    return isNaN(parsed) ? null : parsed;
+  }
+
+
+  // Paginated courses - detta är vad som faktiskt visas
+  readonly paginatedCourses = computed(() => {
+    const courses = this.filteredAndSortedCourses();
+    const start = (this.currentPage() - 1) * this.pageSize();
+    const end = start + this.pageSize();
+    return courses.slice(start, end);
+  });
+
+  // Pagination event handlers
+  onPageChange(page: number): void {
+    this.currentPage.set(page);
+    this.scrollToTop();
+  }
+
+  onPageSizeChange(newSize: number): void {
+    this.pageSize.set(newSize);
+    this.currentPage.set(1); // Reset to first page
+  }
+
+  onPaginationStateChange(state: PaginationState): void {
+    this.currentPage.set(state.currentPage);
+    this.pageSize.set(state.pageSize);
+    this.scrollToTop();
+  }
+
+  private scrollToTop(): void {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
 }

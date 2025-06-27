@@ -24,7 +24,7 @@ export class CourseCardComponent {
   @Input() course!: Course;
   @Input() categories: Category[] = [];
 
-  // This getter finds the category object, which was already correct.
+  // This getter finds the category object.
   public get category(): Category | undefined {
     return this.categories.find(cat => cat.id === this.course.categoryId);
   }
