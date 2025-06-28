@@ -1,24 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { Course } from '../../types/course';
-import { Category } from '../../types/category';
+import { Course, CourseLevel } from '../../types/course';
 import { BadgeComponent } from '../badge/badge.component';
-
-// Define the specific type for a valid course level
-type CourseLevel = 'beginner' | 'intermediate' | 'advanced';
-
-// A "Type Guard" function to check if a string is a valid CourseLevel
-function isCourseLevel(value: any): value is CourseLevel {
-  return ['beginner', 'intermediate', 'advanced'].includes(value);
-}
+import { Category } from '../../types/category';
 
 @Component({
   standalone: true,
   selector: 'app-course-card',
   imports: [CommonModule, RouterModule, BadgeComponent],
   templateUrl: './course-card.component.html',
-  styleUrls: ['./course-card.component.css']
 })
 export class CourseCardComponent {
   @Input() course!: Course;
@@ -26,15 +17,22 @@ export class CourseCardComponent {
 
   // This getter finds the category object.
   public get category(): Category | undefined {
-    return this.categories.find(cat => cat.id === this.course.categoryId);
+    return this.categories.find((cat) => cat.id === this.course.categoryId);
   }
 
-  // This getter acts as the "bridge" between the string and the specific CourseLevel type.
-  public get courseLevel(): CourseLevel | null {
-    if (isCourseLevel(this.course.level)) {
-      // If the string is 'beginner', 'intermediate', or 'advanced', return it.
-      return this.course.level;
+  public get courseLevel(): string  {
+    if (!this.course.level) return '';
+
+    // Convert enum to expected string
+    switch (this.course.level) {
+      case CourseLevel.BEGINNER:
+        return 'beginner';
+      case CourseLevel.INTERMEDIATE:
+        return 'intermediate';
+      case CourseLevel.ADVANCED:
+        return 'advanced';
+      default:
+        return this.course.level || String(this.course.level).toLowerCase();
     }
-    return null;
   }
 }

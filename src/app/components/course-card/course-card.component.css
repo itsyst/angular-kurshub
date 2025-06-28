@@ -1,7 +1,0 @@
-.course-card {
-  transition: transform 0.2s ease-in-out;
-}
-
-.course-card:hover {
-  transform: translateY(-5px);
-}
