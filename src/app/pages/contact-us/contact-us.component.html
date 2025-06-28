@@ -1,0 +1,359 @@
+<section class="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800">
+  <!-- Hero Section -->
+  <div class="relative bg-gray-900 text-white py-16 px-4">
+    <div
+      class="absolute inset-0 bg-gradient-to-r from-purple-900/20 to-blue-900/20"
+    ></div>
+    <div class="relative container mx-auto text-center">
+      <h1 class="text-4xl md:text-5xl font-bold mb-6">Kontakta oss</h1>
+      <p class="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+        Har du frågor, feedback eller behöver hjälp? Vi är här för att hjälpa
+        dig. Kontakta oss så återkommer vi till dig så snart som möjligt.
+      </p>
+
+      <!-- Quick Contact Stats -->
+      <div class="flex flex-wrap justify-center gap-8 mt-12 text-sm">
+        <div class="text-center">
+          <div class="text-2xl font-bold text-purple-400">< 2h</div>
+          <div class="text-gray-400">Genomsnittlig svarstid</div>
+        </div>
+        <div class="text-center">
+          <div class="text-2xl font-bold text-purple-400">24/7</div>
+          <div class="text-gray-400">Live chat support</div>
+        </div>
+        <div class="text-center">
+          <div class="text-2xl font-bold text-purple-400">98%</div>
+          <div class="text-gray-400">Nöjda kunder</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="container mx-auto px-4 py-12">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+      <!-- Left Column: Contact Information -->
+      <div class="space-y-8">
+        <!-- Contact Methods -->
+        <div class="bg-gray-800 rounded-lg p-8 border border-gray-700">
+          <h2 class="text-2xl font-semibold text-white mb-6 flex items-center">
+            <app-icon name="message" className="h-6 w-6 text-purple-400 mr-3" />
+            Så når du oss
+          </h2>
+
+          <div class="space-y-6">
+            <!-- Live Chat -->
+            <div
+              class="flex items-start p-4 bg-gray-750 rounded-lg hover:bg-gray-700 transition-colors"
+            >
+              <div
+                class="flex items-center bg-purple-600 p-2 rounded-lg mr-4 mt-1"
+              >
+                <app-icon name="message" className="h-5 w-5 text-white" />
+              </div>
+              <div class="flex-1">
+                <h3 class="font-semibold text-white">Live Chat</h3>
+                <p class="text-gray-300 text-sm mb-2">
+                  Chatta med oss direkt för snabb hjälp
+                </p>
+                <span
+                  class="inline-flex items-center px-2 py-1 bg-green-600 text-green-100 text-xs rounded-full"
+                >
+                  <span
+                    class="w-2 h-2 bg-green-300 rounded-full mr-1 animate-pulse"
+                  ></span>
+                  Online nu
+                </span>
+              </div>
+            </div>
+
+            <!-- Email -->
+            <div
+              class="flex items-start p-4 bg-gray-750 rounded-lg hover:bg-gray-700 transition-colors"
+            >
+              <div
+                class="flex items-center bg-purple-600 p-2 rounded-lg mr-4 mt-1"
+              >
+                <app-icon name="email" className="h-5 w-5 text-white" />
+              </div>
+              <div>
+                <h3 class="font-semibold text-white">E-post</h3>
+                <p class="text-gray-300 text-sm">{{ "info@kurshub.se" }}</p>
+                <p class="text-gray-400 text-xs">Svar inom 2 timmar</p>
+              </div>
+            </div>
+
+            <!-- Phone -->
+            <div
+              class="flex items-start p-4 bg-gray-750 rounded-lg hover:bg-gray-700 transition-colors"
+            >
+              <div
+                class="flex items-center bg-purple-600 p-2 rounded-lg mr-4 mt-1"
+              >
+                <app-icon name="phone" className="h-5 w-5 text-white" />
+              </div>
+              <div>
+                <h3 class="font-semibold text-white">Telefon</h3>
+                <p class="text-gray-300 text-sm">+46 8 000 458 88</p>
+                <p class="text-gray-400 text-xs">Vardagar 09:00-17:00</p>
+              </div>
+            </div>
+
+            <!-- Address -->
+            <div
+              class="flex items-start p-4 bg-gray-750 rounded-lg hover:bg-gray-700 transition-colors"
+            >
+              <div
+                class="flex items-center bg-purple-600 p-2 rounded-lg mr-4 mt-1"
+              >
+                <app-icon name="location" className="h-5 w-5 text-white" />
+              </div>
+              <div>
+                <h3 class="font-semibold text-white">Besöksadress</h3>
+                <p class="text-gray-300 text-sm">Kurshub AB</p>
+                <p class="text-gray-300 text-sm">Riddargatan 123</p>
+                <p class="text-gray-300 text-sm">114 45 Stockholm, Sverige</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Map -->
+        <div class="bg-gray-800 rounded-lg p-6 border border-gray-700">
+          <h3 class="text-xl font-semibold text-white mb-4 flex items-center">
+            <app-icon name="maps" className="h-5 w-5 text-purple-400 mr-2" />
+            Hitta hit
+          </h3>
+          <div class="rounded-lg overflow-hidden aspect-video bg-gray-700">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2001.3953437530517!2d18.080635490869977!3d59.33315916543174!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x465f9d507b13b7db%3A0x1324dfad02ec5d2c!2sRiddargatan%2C%20Stockholm!5e0!3m2!1sen!2sse!4v1750769162131!5m2!1sen!2sse"
+              class="w-full h-full"
+              style="border: 0; filter: invert(90%) hue-rotate(180deg)"
+              allowfullscreen=""
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+            >
+            </iframe>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Contact Form -->
+      <div class="bg-gray-800 rounded-lg p-8 border border-gray-700">
+        <h2 class="text-2xl font-semibold text-white mb-6 flex items-center">
+          <app-icon
+            name="send-message"
+            className="h-6 w-6 text-purple-400 mr-3"
+          />
+          Skicka oss ett meddelande
+        </h2>
+
+        <form (ngSubmit)="onSubmit()" class="space-y-6">
+          <!-- Name Field -->
+          <div>
+            <label
+              for="name"
+              class="block text-sm font-medium text-gray-300 mb-2"
+            >
+              Namn <span class="text-red-400">*</span>
+            </label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              [(ngModel)]="formData().name"
+              required
+              [disabled]="formSubmitted() && !submissionSuccess()"
+              class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-colors disabled:opacity-50"
+              placeholder="Ditt fullständiga namn"
+            />
+          </div>
+
+          <!-- Email Field -->
+          <div>
+            <label
+              for="email"
+              class="block text-sm font-medium text-gray-300 mb-2"
+            >
+              E-postadress <span class="text-red-400">*</span>
+            </label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              [(ngModel)]="formData().email"
+              required
+              [disabled]="formSubmitted() && !submissionSuccess()"
+              class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-colors disabled:opacity-50"
+              placeholder="din.epost@exempel.se"
+            />
+          </div>
+
+          <!-- Subject Field -->
+          <div>
+            <label
+              for="subject"
+              class="block text-sm font-medium text-gray-300 mb-2"
+            >
+              Ämne <span class="text-red-400">*</span>
+            </label>
+            <select
+              id="subject"
+              name="subject"
+              [(ngModel)]="formData().subject"
+              required
+              [disabled]="formSubmitted() && !submissionSuccess()"
+              class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-colors disabled:opacity-50"
+            >
+              <option value="" class="bg-gray-700">Välj ämne</option>
+              <option value="support" class="bg-gray-700">
+                Teknisk support
+              </option>
+              <option value="billing" class="bg-gray-700">
+                Fakturering & betalning
+              </option>
+              <option value="course" class="bg-gray-700">Kursfrågor</option>
+              <option value="partnership" class="bg-gray-700">
+                Partnerskap
+              </option>
+              <option value="feedback" class="bg-gray-700">
+                Feedback & förslag
+              </option>
+              <option value="other" class="bg-gray-700">Övrigt</option>
+            </select>
+          </div>
+
+          <!-- Message Field -->
+          <div>
+            <label
+              for="message"
+              class="block text-sm font-medium text-gray-300 mb-2"
+            >
+              Meddelande <span class="text-red-400">*</span>
+            </label>
+            <textarea
+              id="message"
+              name="message"
+              rows="5"
+              [(ngModel)]="formData().message"
+              required
+              [disabled]="formSubmitted() && !submissionSuccess()"
+              class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-colors disabled:opacity-50 resize-none"
+              placeholder="Beskriv ditt ärende så detaljerat som möjligt..."
+            ></textarea>
+            <div class="mt-1 text-xs text-gray-400">
+              Minimum 10 tecken krävs
+            </div>
+          </div>
+
+          <!-- Privacy Notice -->
+          <div class="bg-gray-750 p-4 rounded-lg border border-gray-600">
+            <div class="flex items-start">
+              <app-icon
+                name="privacy"
+                className="h-5 w-5 flex items-center text-blue-400 mr-2 mt-0.5 flex-shrink-0"
+              />
+              <div class="text-sm text-gray-300">
+                <p class="font-medium mb-1">Integritet & GDPR</p>
+                <p>
+                  Vi behandlar dina personuppgifter enligt GDPR.
+                  <a
+                    href="/privacy"
+                    class="text-purple-400 hover:text-purple-300 underline"
+                    >Läs mer</a
+                  >
+                  om hur vi skyddar din information.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <button
+            type="submit"
+            [disabled]="formSubmitted() && !submissionSuccess()"
+            class="w-full bg-purple-600 hover:bg-purple-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white py-3 px-6 rounded-lg font-semibold transition-colors duration-200 flex items-center justify-center cursor-pointer"
+          >
+            @if (formSubmitted() && !submissionSuccess()) {
+            <app-icon
+              name="spinner"
+              className="h-5 w-5 flex items-center animate-spin -ml-1 mr-3 text-white"
+            />
+            Skickar meddelande... } @else {
+            <app-icon
+              name="send-message"
+              className="h-5 w-5 flex items-center ml-1 mr-3 text-white"
+            />
+            Skicka meddelande }
+          </button>
+
+          <!-- Success/Status Message -->
+          @if (formSubmitted()) {
+          <div
+            class="mt-6 p-4 rounded-lg border animate-fade-in"
+            [class]="
+              submissionSuccess()
+                ? 'bg-green-900/50 border-green-500 text-green-300'
+                : 'bg-blue-900/50 border-blue-500 text-blue-300'
+            "
+          >
+            <div class="flex items-center">
+              @if (submissionSuccess()) {
+              <app-icon
+                name="check"
+                className="h-5 w-5 mr-2 text-green-400"
+                size="20"
+              />
+              <div>
+                <p class="font-semibold">Meddelandet skickat!</p>
+                <p class="text-sm mt-1">
+                  Tack för att du kontaktade oss. Vi återkommer inom 2 timmar.
+                </p>
+              </div>
+              } @else {
+              <app-icon
+                name="spinner"
+                className="h-5 w-5 animate-spin mr-3 text-blue-400"
+              />
+              <p>Skickar ditt meddelande...</p>
+              }
+            </div>
+          </div>
+          }
+        </form>
+      </div>
+    </div>
+
+    <!-- Additional Support Options -->
+    <div
+      class="mt-12 bg-gradient-to-r from-purple-900/50 to-blue-900/50 rounded-lg p-8 border border-purple-500/20"
+    >
+      <div class="text-center">
+        <h3 class="text-2xl font-semibold text-white mb-4">
+          Behöver du omedelbar hjälp?
+        </h3>
+        <p class="text-gray-300 mb-6 max-w-2xl mx-auto">
+          Kolla gärna våra vanliga frågor och svar eller använd vår live chat
+          för snabb support.
+        </p>
+        <div class="flex flex-col sm:flex-row justify-center gap-4">
+          <a
+            href="/faq"
+            class="inline-flex items-center px-6 py-3 bg-gray-700 hover:bg-gray-600 text-white rounded-lg font-medium transition-colors"
+          >
+            <app-icon name="help" className="h-5 w-5 mr-2" size="20" />
+            Vanliga frågor
+          </a>
+
+          <!-- Starta Chat -->
+          <button
+            class="inline-flex items-center px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-medium transition-colors cursor-pointer"
+          >
+            <app-icon name="message" className="h-5 w-5 mr-2" />
+            Starta live chat
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
