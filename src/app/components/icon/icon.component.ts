@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, inject, ElementRef, Renderer2 } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, SimpleChanges, inject, ElementRef, Renderer2 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IconRegistryService } from './icon-registry.service';
 
@@ -15,17 +15,25 @@ import { IconRegistryService } from './icon-registry.service';
     }
   `]
 })
-export class IconComponent implements OnInit {
+export class IconComponent implements OnInit, OnChanges {
   @Input() name!: string;
   @Input() size: string | number = 24;
   @Input() className: string = '';
+  @Input() rotation: number = 0;  // rotation in degrees
 
   private iconRegistry = inject(IconRegistryService);
   private elementRef = inject(ElementRef);
   private renderer = inject(Renderer2);
+  private svgElement: SVGElement | null = null;
 
   ngOnInit(): void {
     this.renderIcon();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['rotation'] && this.svgElement) {
+      this.updateRotation();
+    }
   }
 
   private renderIcon(): void {
@@ -54,6 +62,10 @@ export class IconComponent implements OnInit {
       });
     }
 
+    // Set initial rotation and transform origin
+    this.renderer.setStyle(svg, 'transform-origin', 'center');
+    this.updateRotationStyle(svg);
+
     // Set innerHTML
     this.renderer.setProperty(svg, 'innerHTML', iconData.content);
 
@@ -61,5 +73,18 @@ export class IconComponent implements OnInit {
     const hostElement = this.elementRef.nativeElement;
     this.renderer.setProperty(hostElement, 'innerHTML', '');
     this.renderer.appendChild(hostElement, svg);
+
+    // Store reference for updates
+    this.svgElement = svg;
+  }
+
+  private updateRotation(): void {
+    if (this.svgElement) {
+      this.updateRotationStyle(this.svgElement);
+    }
+  }
+
+  private updateRotationStyle(svg: SVGElement): void {
+    this.renderer.setStyle(svg, 'transform', `rotate(${this.rotation}deg)`);
   }
 }
