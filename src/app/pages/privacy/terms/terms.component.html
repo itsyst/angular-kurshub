@@ -1,0 +1,406 @@
+<section class="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800">
+  <!-- Hero Section -->
+  <div class="relative bg-gray-900 text-white py-16 px-4">
+    <div
+      class="absolute inset-0 bg-gradient-to-r from-blue-900/20 to-purple-900/20"
+    ></div>
+    <div class="relative container mx-auto text-center">
+      <div class="flex justify-center mb-6">
+        <div class="bg-blue-600/20 p-4 rounded-full">
+          <app-icon name="document" size="64" className="text-blue-400" />
+        </div>
+      </div>
+      <h1 class="text-4xl md:text-5xl font-bold mb-6">Användarvillkor</h1>
+      <p class="text-xl text-gray-300 mb-8 max-w-3xl mx-auto">
+        Transparenta och rättvisa villkor för användning av Kurshub. Vi tror på
+        tydlighet och enkla regler som skyddar både dig och vår community.
+      </p>
+
+      <!-- Legal Status -->
+      <div class="flex flex-wrap justify-center gap-6 mt-12">
+        <app-badge
+          className="flex items-center bg-green-600/20 text-green-300 px-4 py-2 rounded-full border border-green-500/30"
+        >
+          <app-icon
+            name="shield-check"
+            size="20"
+            className="mr-2 text-green-400"
+          />
+          Version {{ currentVersion() }}
+        </app-badge>
+        <app-badge
+          className="flex items-center bg-blue-600/20 text-blue-300 px-4 py-2 rounded-full border border-blue-500/30"
+        >
+          <app-icon name="id-card" size="20" className="mr-2 text-blue-300" />
+          <p class="text-blue-300">Svensk lag gäller</p>
+        </app-badge>
+        <app-badge
+          className="flex items-center bg-purple-600/20 text-purple-300 px-4 py-2 rounded-full border border-purple-500/30"
+        >
+          <app-icon
+            name="clock-time"
+            size="20"
+            className="mr-2 text-purple-300"
+          />
+          Träder i kraft: {{ effectiveDate() | date : "longDate" : "sv-SE" }}
+        </app-badge>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="container mx-auto px-4 py-12">
+    <!-- Quick Summary -->
+    <div class="bg-blue-900/30 border border-blue-500/30 rounded-lg p-8 mb-8">
+      <h2 class="text-2xl font-bold text-white mb-6 flex items-center">
+        <app-icon name="privacy" size="24" className="text-blue-400 mr-3" />
+        Snabb sammanfattning
+      </h2>
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="bg-gray-800 p-4 rounded-lg">
+          <h3 class="text-white font-semibold mb-2 flex items-center">
+            <app-icon
+              name="check-circle"
+              size="16"
+              className="text-green-400 mr-2"
+            />
+            Dina rättigheter
+          </h3>
+          <ul class="text-gray-300 text-sm space-y-1">
+            <li>• 30-dagars återbetalning</li>
+            <li>• Livstidsåtkomst till köpt innehåll</li>
+            <li>• GDPR-skyddad persondata</li>
+          </ul>
+        </div>
+        <div class="bg-gray-800 p-4 rounded-lg">
+          <h3 class="text-white font-semibold mb-2 flex items-center">
+            <app-icon
+              name="check-answer"
+              size="16"
+              className="text-blue-400 mr-2"
+            />
+            Ditt ansvar
+          </h3>
+          <ul class="text-gray-300 text-sm space-y-1">
+            <li>• Respektera andra användare</li>
+            <li>• Skydda dina inloggningsuppgifter</li>
+            <li>• Följ community-regler</li>
+          </ul>
+        </div>
+        <div class="bg-gray-800 p-4 rounded-lg">
+          <h3 class="text-white font-semibold mb-2 flex items-center">
+            <app-icon
+              name="lightbulb"
+              size="16"
+              className="text-yellow-400 mr-2"
+            />
+            Vad du får
+          </h3>
+          <ul class="text-gray-300 text-sm space-y-1">
+            <li>• Tillgång till kurser</li>
+            <li>• Community-medlemskap</li>
+            <li>• Certifikat vid slutförande</li>
+          </ul>
+        </div>
+        <div class="bg-gray-800 p-4 rounded-lg">
+          <h3 class="text-white font-semibold mb-2 flex items-center">
+            <app-icon
+              name="warning-triangle"
+              size="16"
+              className="text-red-400 mr-2"
+            />
+            Begränsningar
+          </h3>
+          <ul class="text-gray-300 text-sm space-y-1">
+            <li>• Ej kommersiell användning</li>
+            <li>• Ingen vidaredistribution</li>
+            <li>• Ansvar enligt svensk lag</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filter Tabs -->
+    <div class="bg-gray-800 rounded-lg p-6 mb-8 border border-gray-700">
+      <h2 class="text-white font-semibold mb-4">Filtrera efter kategori:</h2>
+      <div class="flex flex-wrap gap-4">
+        <button
+          (click)="setFilter('all')"
+          [class]="
+            activeFilter() === 'all'
+              ? 'bg-gray-600 text-white'
+              : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+          "
+          class="px-4 py-2 rounded-lg transition-colors font-medium"
+        >
+          Alla sektioner
+        </button>
+        <button
+          (click)="setFilter('legal')"
+          [class]="
+            activeFilter() === 'legal'
+              ? 'bg-blue-600 text-white'
+              : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+          "
+          class="px-4 py-2 rounded-lg transition-colors font-medium"
+        >
+          Juridiska villkor
+        </button>
+        <button
+          (click)="setFilter('usage')"
+          [class]="
+            activeFilter() === 'usage'
+              ? 'bg-purple-600 text-white'
+              : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+          "
+          class="px-4 py-2 rounded-lg transition-colors font-medium"
+        >
+          Användning
+        </button>
+        <button
+          (click)="setFilter('rights')"
+          [class]="
+            activeFilter() === 'rights'
+              ? 'bg-orange-600 text-white'
+              : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+          "
+          class="px-4 py-2 rounded-lg transition-colors font-medium"
+        >
+          Rättigheter
+        </button>
+        <button
+          (click)="setFilter('liability')"
+          [class]="
+            activeFilter() === 'liability'
+              ? 'bg-red-600 text-white'
+              : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+          "
+          class="px-4 py-2 rounded-lg transition-colors font-medium"
+        >
+          Ansvar
+        </button>
+      </div>
+    </div>
+
+    <!-- Terms Sections -->
+    <div class="grid lg:grid-cols-2 gap-6">
+      @for (section of filteredSections(); track section.id) {
+      <div
+        class="bg-gray-800 rounded-lg border border-gray-700 overflow-hidden hover:border-gray-600 transition-colors cursor-pointer"
+        (click)="selectSection(section.id)"
+      >
+        <!-- Section Header -->
+        <div class="p-6 border-b border-gray-700">
+          <div class="flex items-start justify-between">
+            <div class="flex items-start flex-1">
+              <div
+                [class]="
+                  getColorClasses(section.color)['bg'] +
+                  ' p-3 rounded-lg mr-4 mt-1 border ' +
+                  getColorClasses(section.color)['border'] +
+                  ' flex items-center justify-center'
+                "
+              >
+                <app-icon
+                  [name]="section.icon"
+                  size="24"
+                  [className]="getColorClasses(section.color)['text']"
+                >
+                </app-icon>
+              </div>
+              <div class="flex-1">
+                <h3 class="text-xl font-bold text-white mb-2">
+                  {{ section.title }}
+                </h3>
+                <p class="text-gray-300 text-sm mb-3">
+                  {{ section.description }}
+                </p>
+                <app-badge
+                  [className]="
+                    'bg-' +
+                    getCategoryColor(section.category) +
+                    '-600/20 text-' +
+                    getCategoryColor(section.category) +
+                    '-300 text-xs px-2 py-1 rounded-full border border-' +
+                    getCategoryColor(section.category) +
+                    '-500/30'
+                  "
+                >
+                  {{ getCategoryName(section.category) }}</app-badge
+                >
+              </div>
+            </div>
+
+            <!-- Expand Button -->
+            <button
+              class="p-2 text-gray-400 hover:text-white transition-colors"
+            >
+              <app-icon
+                name="chevron-down"
+                [rotation]="selectedSection() === section.id ? 180 : 0"
+                size="20"
+                [className]="
+                  'transform transition-transform ' +
+                  (selectedSection() === section.id ? 'rotate-180' : '')
+                "
+              >
+              </app-icon>
+            </button>
+          </div>
+        </div>
+
+        <!-- Expanded Content -->
+        @if (selectedSection() === section.id) {
+        <div class="p-6 bg-gray-750 animate-fade-in">
+          <!-- Content -->
+          <div class="mb-6">
+            <h4 class="text-white font-semibold mb-3">Detaljer:</h4>
+            <div
+              class="text-gray-300 text-sm whitespace-pre-line leading-relaxed"
+            >
+              {{ section.content }}
+            </div>
+          </div>
+
+          <!-- Key Points -->
+          <div class="mb-6">
+            <h4 class="text-white font-semibold mb-3 flex items-center">
+              <app-icon
+                name="check-circle"
+                size="16"
+                className="mr-2 text-green-400"
+              />
+              Viktiga punkter:
+            </h4>
+            <ul class="space-y-2">
+              @for (point of section.keyPoints; track point) {
+              <li class="flex items-start text-gray-300 text-sm">
+                <app-icon
+                  name="check"
+                  size="16"
+                  className="text-green-400 mr-2 mt-0.5 flex-shrink-0"
+                />
+                {{ point }}
+              </li>
+              }
+            </ul>
+          </div>
+
+          <!-- User Responsibilities -->
+          @if (section.userResponsibilities &&
+          section.userResponsibilities.length > 0) {
+          <div class="mb-6">
+            <h4 class="text-white font-semibold mb-3 flex items-center">
+              <app-icon
+                name="check-answer"
+                size="16"
+                className="mr-2 text-blue-400"
+              />
+              Ditt ansvar:
+            </h4>
+            <ul class="space-y-2">
+              @for (responsibility of section.userResponsibilities; track
+              responsibility) {
+              <li class="flex items-start text-gray-300 text-sm">
+                <app-icon
+                  name="chevron-down"
+                  size="16"
+                  className="text-blue-400 mr-2 mt-0.5 flex-shrink-0 rotate-[-90deg]"
+                />
+                {{ responsibility }}
+              </li>
+              }
+            </ul>
+          </div>
+          }
+
+          <!-- Examples -->
+          @if (section.examples && section.examples.length > 0) {
+          <div>
+            <h4 class="text-white font-semibold mb-3 flex items-center">
+              <app-icon
+                name="help"
+                size="16"
+                className="mr-2 text-purple-400"
+              />
+              Exempel:
+            </h4>
+            <div class="space-y-2">
+              @for (example of section.examples; track example) {
+              <div class="bg-gray-800 p-3 rounded-lg text-gray-300 text-sm">
+                {{ example }}
+              </div>
+              }
+            </div>
+          </div>
+          }
+        </div>
+        }
+      </div>
+      }
+    </div>
+
+    <!-- Contact and Support -->
+    <div
+      class="mt-12 bg-gradient-to-r from-blue-900/50 to-purple-900/50 rounded-lg p-8 border border-blue-500/20"
+    >
+      <div class="text-center">
+        <h3 class="text-2xl font-semibold text-white mb-4">
+          Frågor om användarvillkoren?
+        </h3>
+        <p class="text-gray-300 mb-6 max-w-2xl mx-auto">
+          Vi strävar efter transparens och tydlighet. Om du har frågor om dessa
+          villkor eller behöver juridisk vägledning är du välkommen att kontakta
+          oss.
+        </p>
+        <div class="flex flex-col sm:flex-row justify-center gap-4">
+          <a
+            routerLink="/contact"
+            class="inline-flex items-center px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors"
+          >
+            <app-icon name="message" size="20" className="mr-2" />
+            Kontakta support
+          </a>
+          <a
+            href="mailto:legal@kurshub.se"
+            class="inline-flex items-center px-6 py-3 bg-gray-700 hover:bg-gray-600 text-white rounded-lg font-medium transition-colors"
+          >
+            <app-icon name="email" size="20" className="mr-2" />
+            Juridiska frågor
+          </a>
+          <a
+            routerLink="/privacy"
+            class="inline-flex items-center px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-medium transition-colors"
+          >
+            <app-icon name="shield-check" size="20" className="mr-2" />
+            Integritetspolicy
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Legal Information -->
+    <div class="mt-8 text-center">
+      <div class="bg-gray-800 rounded-lg p-6 border border-gray-700">
+        <p class="text-gray-400 text-sm">
+          <strong>Senast uppdaterad:</strong>
+          {{ lastUpdated() | date : "longDate" : "sv-SE" }} •
+          <strong>Version:</strong> {{ currentVersion() }} •
+          <strong>Träder i kraft:</strong>
+          {{ effectiveDate() | date : "longDate" : "sv-SE" }}
+        </p>
+        <p class="text-gray-500 text-xs mt-2">
+          Dessa villkor styrs av svensk lag. Eventuella tvister löses först
+          genom medling, sedan via svenska domstolar. För konsumenttvister kan
+          du vända dig till
+          <a
+            href="https://www.arn.se"
+            target="_blank"
+            class="text-blue-400 hover:underline"
+            >Allmänna reklamationsnämnden (ARN)</a
+          >.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>

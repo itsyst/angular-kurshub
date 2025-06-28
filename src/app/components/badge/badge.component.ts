@@ -12,7 +12,7 @@ type BadgeShape = 'pill' | 'circle';
   imports: [CommonModule],
   template: '{{ displayText }} <ng-content></ng-content>',
   host: {
-    class: 'inline-flex items-center px-2.5 py-0.5 text-xs font-semibold transition-colors rounded text-gray-400'
+    class: 'inline-flex items-center px-2.5 py-0.5 transition-colors rounded text-gray-400'
   }
 })
 export class BadgeComponent implements OnChanges {
