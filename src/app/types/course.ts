@@ -62,3 +62,8 @@ export enum CourseLevel {
   INTERMEDIATE = 'Medelnivå',
   ADVANCED = 'Avancerad',
 }
+
+export interface ConfigLevel {
+  color: string;
+  aliases: (string | CourseLevel)[];
+}
