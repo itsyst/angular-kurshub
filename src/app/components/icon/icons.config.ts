@@ -12,6 +12,10 @@ export const ICONS: Record<string, SvgIcon> = {
       '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" fill="none" stroke="currentColor"/>',
     viewBox: '0 0 24 24',
   },
+  'star-filled': {
+    content: '<path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="currentColor"/>',
+    viewBox: '0 0 24 24'
+  },
 
   // Contact-us icons
   message: {
@@ -152,4 +156,30 @@ export const ICONS: Record<string, SvgIcon> = {
     content: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11v6h6v-6h-6zM8 21V9H2v12h6zM13 3h-2l1.5 4.5L13 3z" fill="none" stroke="currentColor"/>',
     viewBox: '0 0 24 24'
   },
+
+  // Course icons
+  'book-open': {
+    content: '<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" fill="none" stroke="currentColor" stroke-width="2"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" fill="none" stroke="currentColor" stroke-width="2"/>',
+    viewBox: '0 0 24 24'
+  },
+  'certificate': {
+    content: '<circle cx="12" cy="8" r="7" fill="none" stroke="currentColor" stroke-width="2"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>',
+    viewBox: '0 0 24 24'
+  },
+  'level': {
+    content: '<path d="M12 2L2 7v5l10 5 10-5V7z" fill="none" stroke="currentColor" stroke-width="2"/><polyline points="2 17 12 22 22 17" fill="none" stroke="currentColor" stroke-width="2"/>',
+    viewBox: '0 0 24 24'
+  },
+  'play': {
+    content: '<polygon points="5,3 19,12 5,21 5,3" fill="currentColor"/>',
+    viewBox: '0 0 24 24'
+  },
+  'circle-check': {
+    content: '<path d="M21.801 10A10 10 0 1 1 17 3.335" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="m9 11 3 3L22 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>',
+    viewBox: '0 0 24 24'
+  },
+  'play-circle': {
+    content: '<circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><polygon points="10 8 16 12 10 16 10 8" stroke="currentColor" fill="white" stroke-width="2"/>',
+    viewBox: '0 0 24 24'
+  }
 };

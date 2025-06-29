@@ -26,16 +26,11 @@
           <div class="flex flex-wrap items-center gap-x-6 gap-y-4 mb-6">
             <div class="flex items-center">
               <div class="flex items-center text-yellow-500 mr-1">
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                >
-                  <path
-                    d="M12 2l2.45 7.613h7.975l-6.438 4.691 2.45 7.613-6.437-4.691-6.438 4.691 2.45-7.613-6.438-4.691h7.975z"
-                  />
-                </svg>
+                <app-icon
+                  name="star-filled"
+                  size="20"
+                  className="text-yellow-500"
+                ></app-icon>
                 <span class="ml-1 font-bold text-base">
                   {{ course()?.rating?.toFixed(1) || "–" }}
                 </span>
@@ -46,55 +41,29 @@
             </div>
 
             <div class="flex items-center text-gray-600 gap-2">
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <path d="M2 3h6a4 4 0 0 1 4 4v14a4 4 0 0 1-4-4H2z"></path>
-                <path d="M22 3h-6a4 4 0 0 0-4 4v14a4 4 0 0 0 4-4h6z"></path>
-              </svg>
+              <app-icon
+                name="book-open"
+                size="16"
+                className="text-gray-600"
+              ></app-icon>
               <span>{{ course()?.lessons || 0 }} lektioner</span>
             </div>
 
             <div class="flex items-center text-gray-600 gap-2">
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <circle cx="12" cy="12" r="10"></circle>
-                <polyline points="12 6 12 12 16 14"></polyline>
-              </svg>
+              <app-icon
+                name="clock-time"
+                size="16"
+                className="text-gray-600"
+              ></app-icon>
               <span>{{ course()?.duration || "–" }}</span>
             </div>
 
             <div class="flex items-center text-gray-600 gap-2 capitalize">
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <circle cx="12" cy="8" r="7"></circle>
-                <polyline
-                  points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"
-                ></polyline>
-              </svg>
+              <app-icon
+                name="certificate"
+                size="16"
+                className="text-gray-600"
+              ></app-icon>
               <span>{{ course()?.level || "–" }}</span>
             </div>
             <app-badge
@@ -158,15 +127,11 @@
                   class="text-white bg-black/30 hover:bg-black/50 rounded-full p-3 transition"
                   aria-label="Spela upp kursvideo"
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="48"
-                    height="48"
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                  >
-                    <path d="M8 5v14l11-7z" />
-                  </svg>
+                  <app-icon
+                    name="play"
+                    size="48"
+                    className="text-shadow-white"
+                  ></app-icon>
                 </button>
               </div>
             </div>
@@ -188,7 +153,7 @@
                 <ng-container
                   *ngIf="course()?.discountPrice && course()?.price"
                 >
-                  <span
+                  <app-badge
                     class="ml-2 bg-green-100 text-green-700 py-1 px-2 rounded-md text-xs font-medium"
                   >
                     {{
@@ -196,8 +161,8 @@
                         (course()?.discountPrice ?? 0) /
                           (course()?.price ?? 1)) *
                         100 | number : "1.0-0"
-                    }}% rabatt
-                  </span>
+                    }}% rabatt</app-badge
+                  >
                 </ng-container>
               </div>
 
@@ -209,6 +174,12 @@
                 >
                   Fortsätt lära
                 </button>
+                <button
+                  type="button"
+                  class="w-full mb-4 border border-gray-300 text-gray-700 font-semibold py-3 rounded-lg hover:bg-gray-100 cursor-pointer"
+                >
+                  Lägg till i önskelista
+                </button>
               </ng-container>
               <ng-template #notEnrolled>
                 <button
@@ -218,12 +189,6 @@
                 >
                   Registrera dig nu
                 </button>
-                <button
-                  type="button"
-                  class="w-full mb-4 border border-gray-300 text-gray-700 font-semibold py-3 rounded-lg hover:bg-gray-100 cursor-pointer"
-                >
-                  Lägg till i önskelista
-                </button>
               </ng-template>
 
               <div class="text-sm text-gray-600 space-y-2">
@@ -231,21 +196,11 @@
                   class="flex items-center"
                   *ngFor="let benefit of courseBenefits()"
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    class="lucide lucide-circle-check-big h-4 w-4 mr-2 text-green-500"
-                  >
-                    <path d="M21.801 10A10 10 0 1 1 17 3.335"></path>
-                    <path d="m9 11 3 3L22 4"></path>
-                  </svg>
+                  <app-icon
+                    name="circle-check"
+                    size="16"
+                    className="text-green-500 mr-2"
+                  ></app-icon>
                   {{ benefit.label }}
                 </p>
               </div>
@@ -280,21 +235,11 @@
                 class="flex items-start"
                 *ngFor="let outcome of course()?.outcomes"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2.5"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  class="mr-3 text-green-500 flex-shrink-0 mt-1"
-                >
-                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
-                  <polyline points="22 4 12 14.01 9 11.01" />
-                </svg>
+                <app-icon
+                  name="circle-check"
+                  size="20"
+                  className="text-green-500 mr-2"
+                ></app-icon>
                 <p>{{ outcome.description }}</p>
               </div>
             </div>
@@ -326,27 +271,32 @@
               <div class="flex items-start">
                 <div class="text-gray-700 space-y-4">
                   <ul class="list-disc pl-5 text-gray-700 space-y-2">
-                    <li>Förståelse av {{ categoryDetails()?.name?.toLowerCase() }}-koncept</li>
+                    <li>
+                      Förståelse av
+                      {{ categoryDetails()?.name?.toLowerCase() }}-koncept
+                    </li>
                     <li>En dator med internetanslutning</li>
                     <li>Vilja att lära och öva</li>
                   </ul>
                 </div>
               </div>
             </div>
-             <!-- Målgrupp -->
-             <h3 class="text-xl font-bold mb-4">Vem passar denna kurs?</h3>
-             <div class="grid grid-cols-1 md:grid-cols-1 gap-4 mb-6">
-               <div class="flex items-start">
-                 <div class="text-gray-700 space-y-4">
+            <!-- Målgrupp -->
+            <h3 class="text-xl font-bold mb-4">Vem passar denna kurs?</h3>
+            <div class="grid grid-cols-1 md:grid-cols-1 gap-4 mb-6">
+              <div class="flex items-start">
+                <div class="text-gray-700 space-y-4">
                   <ul class="list-disc pl-5 text-gray-700 space-y-2">
-                    <li>Alla som vill lära sig {{ categoryDetails()?.name }}</li>
+                    <li>
+                      Alla som vill lära sig {{ categoryDetails()?.name }}
+                    </li>
                     <li>Studenter som vill förbättra sina kunskaper</li>
                     <li>Professionella som vill hålla sig uppdaterade</li>
                     <li>Nybörjare utan tidigare erfarenhet</li>
                   </ul>
-                 </div>
-               </div>
-             </div>
+                </div>
+              </div>
+            </div>
           </section>
 
           <!-- Curriculum -->
@@ -378,46 +328,16 @@
                   >
                     <div class="flex items-center">
                       <ng-container *ngIf="lesson.preview; else lockedIcon">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="20"
-                          height="20"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-width="2"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          class="mr-3 text-purple-600"
-                        >
-                          <circle cx="12" cy="12" r="10" />
-                          <polygon points="10 8 16 12 10 16 10 8" />
-                        </svg>
+                        <app-icon name="play-circle" size="20" className="mr-3 text-purple-600"></app-icon>
                       </ng-container>
                       <ng-template #lockedIcon>
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="20"
-                          height="20"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          stroke-width="2"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          class="mr-3 text-gray-400"
-                        >
-                          <path d="M2 3h6a4 4 0 0 1 4 4v14a4 4 0 0 1-4-4H2z" />
-                          <path
-                            d="M22 3h-6a4 4 0 0 0-4 4v14a4 4 0 0 0 4-4h6z"
-                          />
-                        </svg>
+                        <app-icon name="book-open" size="20" className="mr-3 text-gray-400"/>
                       </ng-template>
                       <span class="text-gray-800">{{ lesson.title }}</span>
-                      <span
+                      <app-badge
                         *ngIf="lesson.preview"
                         class="ml-3 text-xs text-purple-600 font-medium rounded-full bg-purple-100 px-2 py-0.5"
-                        >Förhandsgranska</span
+                        >Förhandsgranska</app-badge
                       >
                     </div>
                     <span class="text-sm text-gray-500">{{
@@ -450,19 +370,10 @@
                 <h3 class="text-xl font-bold mb-2">{{ author()?.name }}</h3>
                 <div class="flex items-center mb-2">
                   <div class="flex items-center text-yellow-500 mr-2">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                    >
-                      <path
-                        d="M12 2l2.45 7.613h7.975l-6.438 4.691 2.45 7.613-6.437-4.691-6.438 4.691 2.45-7.613-6.438-4.691h7.975z"
-                      />
-                    </svg>
+                    <app-icon name="star-filled" size="16" className="flex items-center text-yellow-500"></app-icon>
                     <span class="ml-1"
-                      >{{ author()?.rating }} Betyg som instruktör</span
+                      >{{ author()?.rating }} Betyg
+                      <p class="inline text-gray-500 ml-1">som instruktör</p></span
                     >
                   </div>
                   <span class="text-gray-500">•</span>
@@ -514,16 +425,7 @@
               </div>
               <div class="mt-4 md:mt-0 flex items-start gap-4">
                 <div class="flex items-center text-yellow-500 mr-3">
-                  <svg
-                    width="32"
-                    height="32"
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                  >
-                    <path
-                      d="M12 2l2.45 7.613h7.975l-6.438 4.691 2.45 7.613-6.437-4.691-6.438 4.691 2.45-7.613-6.438-4.691h7.975z"
-                    />
-                  </svg>
+                  <app-icon name="star-filled" size="32" className="flex items-center text-yellow-500 mr-1"></app-icon>
                   <span class="text-4xl font-bold ml-2">{{
                     course()?.rating?.toFixed(1)
                   }}</span>
@@ -533,7 +435,7 @@
                     *ngFor="let i of [5, 4, 3, 2, 1]"
                     class="flex items-center gap-2"
                   >
-                    <div class="text-sm text-gray-600 mr-2">
+                    <div class="text-sm text-gray-600 mr-1">
                       {{ i }} stjärnor
                     </div>
                     <div class="w-28 bg-gray-200 rounded-full h-2">
@@ -601,17 +503,7 @@
                   </h4>
                   <div class="flex items-center mt-1 text-xs text-gray-500">
                     <div class="flex items-center text-yellow-500 mr-1">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="12"
-                        height="12"
-                        viewBox="0 0 24 24"
-                        fill="currentColor"
-                      >
-                        <path
-                          d="M12 2l2.45 7.613h7.975l-6.438 4.691 2.45 7.613-6.437-4.691-6.438 4.691 2.45-7.613-6.438-4.691h7.975z"
-                        />
-                      </svg>
+                      <app-icon name="star-filled" size="12" className="text-yellow-500"></app-icon>
                       <span class="ml-1">{{ rc.rating }}</span>
                     </div>
                     <span>•</span>

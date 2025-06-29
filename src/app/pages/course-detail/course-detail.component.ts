@@ -22,6 +22,7 @@ import { Author } from '../../types/author';
 import { Category } from '../../types/category'; // **** FIX: Import Category type ****
 import { EnrichedComment } from '../../types/comment';
 import { Course, CourseBenefit } from '../../types/course';
+import { IconComponent } from "../../components/icon/icon.component";
 
 @Component({
   selector: 'app-course-detail',
@@ -33,7 +34,8 @@ import { Course, CourseBenefit } from '../../types/course';
     TabsComponent,
     BadgeComponent,
     AvatarComponent,
-  ],
+    IconComponent
+],
 })
 export class CourseDetailComponent {
   private route = inject(ActivatedRoute);
