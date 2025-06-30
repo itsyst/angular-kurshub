@@ -1,97 +1,664 @@
-<main class="bg-gray-50 py-12">
-  <div class="container mx-auto px-4">
-    <div class="bg-white rounded-lg shadow-xl p-8 lg:p-12">
-      <h1 class="text-4xl font-bold text-gray-900 mb-6 text-center">Integritetspolicy</h1>
-      <p class="text-lg text-gray-600 mb-10 text-center max-w-2xl mx-auto">
-        Din integritet är viktig för oss. Läs vår policy för att förstå hur vi samlar in, använder och skyddar din information.
+<!-- Loading state -->
+@if (isLoading()) {
+<div class="flex justify-center items-center min-h-screen">
+  <div
+    class="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600"
+  ></div>
+  <span class="ml-3 text-gray-300">Laddar integritetspolicy...</span>
+</div>
+}
+
+<!-- Error state -->
+@else if (errorMessage()) {
+<div
+  class="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800 flex items-center justify-center"
+>
+  <div
+    class="bg-red-900/20 border border-red-500/30 rounded-lg p-6 max-w-md mx-4"
+  >
+    <h2 class="text-red-300 font-semibold mb-2">Fel vid laddning</h2>
+    <p class="text-gray-300 text-sm mb-4">{{ errorMessage() }}</p>
+    <button
+      (click)="refreshPolicyData()"
+      class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded font-medium transition-colors"
+    >
+      Försök igen
+    </button>
+  </div>
+</div>
+}
+
+<!-- Main content (your existing template) -->
+@else {
+<section class="min-h-screen bg-gradient-to-b from-gray-900 to-gray-800">
+  <!-- Hero Section -->
+  <div class="relative bg-gray-900 text-white py-16 px-4">
+    <div
+      class="absolute inset-0 bg-gradient-to-r from-purple-900/20 to-blue-900/20"
+    ></div>
+    <div class="relative container mx-auto text-center">
+      <div class="flex justify-center mb-6">
+        <div class="bg-purple-600/20 p-4 rounded-full">
+          <app-icon name="user-shield" className="w-16 h-16 text-purple-400"/>
+        </div>
+      </div>
+      <h1 class="text-4xl md:text-5xl font-bold mb-6">Integritetspolicy</h1>
+      <p class="text-xl text-gray-300 mb-8 max-w-3xl mx-auto">
+        Din integritet är viktig för oss. Vi är transparenta om hur vi samlar
+        in, använder och skyddar din information enligt GDPR och svenska lagar.
       </p>
 
-      <div class="prose max-w-none text-gray-700 space-y-6">
-        <section>
-          <h2 class="text-2xl font-bold text-gray-900 mb-3">1. Information vi samlar in</h2>
-          <p>
-            Vi samlar in information för att kunna tillhandahålla och förbättra våra tjänster. Detta inkluderar:
-          </p>
-          <ul class="list-disc pl-5 space-y-2">
-            <li>
-              <strong>Personligt identifierbar information:</strong> Namn, e-postadress, faktureringsinformation och andra uppgifter du tillhandahåller vid registrering eller köp.
-            </li>
-            <li>
-              <strong>Användningsdata:</strong> Information om hur du använder vår plattform, inklusive besökta sidor, tid spenderad och interaktioner.
-            </li>
-            <li>
-              <strong>Teknisk information:</strong> IP-adress, webbläsartyp, enhetstyp och operativsystem.
-            </li>
-          </ul>
-        </section>
-
-        <section>
-          <h2 class="text-2xl font-bold text-gray-900 mb-3">2. Hur vi använder din information</h2>
-          <p>
-            Informationen vi samlar in används för att:
-          </p>
-          <ul class="list-disc pl-5 space-y-2">
-            <li>Leverera och hantera våra kurser och tjänster.</li>
-            <li>Förbättra och anpassa din användarupplevelse.</li>
-            <li>Kommunicera med dig om ditt konto eller våra tjänster.</li>
-            <li>Analysera användarbeteende för att utveckla nya funktioner.</li>
-            <li>Uppfylla lagkrav och förhindra bedrägeri.</li>
-          </ul>
-        </section>
-
-        <section>
-          <h2 class="text-2xl font-bold text-gray-900 mb-3">3. Delning av information</h2>
-          <p>
-            Vi säljer, byter eller hyr inte ut din personligt identifierbara information till tredje part. Vi kan dela din information med:
-          </p>
-          <ul class="list-disc pl-5 space-y-2">
-            <li>
-              <strong>Tjänsteleverantörer:</strong> Tredjepartsleverantörer som hjälper oss med hosting, betalningshantering, dataanalys, etc. Dessa parter är bundna av sekretessavtal.
-            </li>
-            <li>
-              <strong>Rättsliga skäl:</strong> Om vi är skyldiga att göra det enligt lag eller för att skydda våra rättigheter och egendom.
-            </li>
-          </ul>
-        </section>
-
-        <section>
-          <h2 class="text-2xl font-bold text-gray-900 mb-3">4. Dina rättigheter</h2>
-          <p>
-            Du har rätt att:
-          </p>
-          <ul class="list-disc pl-5 space-y-2">
-            <li>Få tillgång till informationen vi har om dig.</li>
-            <li>Begära rättelse av felaktig information.</li>
-            <li>Begära radering av din information.</li>
-            <li>Invända mot viss behandling av din information.</li>
-          </ul>
-          <p>
-            Vänligen kontakta oss om du vill utöva någon av dessa rättigheter.
-          </p>
-        </section>
-
-        <section>
-          <h2 class="text-2xl font-bold text-gray-900 mb-3">5. Säkerhet</h2>
-          <p>
-            Vi vidtar rimliga åtgärder för att skydda din information från obehörig åtkomst, ändring, röjande eller förstörelse. Vi kan dock inte garantera absolut säkerhet.
-          </p>
-        </section>
-
-        <section>
-          <h2 class="text-2xl font-bold text-gray-900 mb-3">6. Ändringar i denna policy</h2>
-          <p>
-            Vi kan uppdatera denna integritetspolicy från tid till annan. Eventuella ändringar kommer att publiceras på denna sida med ett uppdaterat revisionsdatum. Vi uppmanar dig att regelbundet granska denna policy.
-          </p>
-        </section>
-
-        <section>
-          <h2 class="text-2xl font-bold text-gray-900 mb-3">7. Kontakta oss</h2>
-          <p>
-            Om du har frågor om denna integritetspolicy, vänligen kontakta oss via vår <a routerLink="/contact" class="text-purple-600 hover:underline">kontaktsida</a>.
-          </p>
-          <p class="text-sm text-gray-500 mt-4">Senast uppdaterad: {{ '2025-06-24' | date:'longDate' }}</p>
-        </section>
+      <!-- Trust Indicators -->
+      <div class="flex flex-wrap justify-center gap-8 mt-12 text-sm">
+        <div class="text-center">
+          <div class="text-2xl font-bold text-green-400">GDPR</div>
+          <div class="text-gray-400">Kompatibel</div>
+        </div>
+        <div class="text-center">
+          <div class="text-2xl font-bold text-blue-400">SSL</div>
+          <div class="text-gray-400">Krypterad</div>
+        </div>
+        <div class="text-center">
+          <div class="text-2xl font-bold text-purple-400">ISO 27001</div>
+          <div class="text-gray-400">Certifierad</div>
+        </div>
       </div>
     </div>
   </div>
-</main>
+
+  <!-- Main Content -->
+  <div class="container mx-auto px-4 py-12">
+    <!-- Quick Navigation -->
+    <div class="bg-gray-800 rounded-lg p-6 mb-8 border border-gray-700">
+      <h2 class="text-lg font-semibold text-white mb-4 flex items-center">
+        <app-icon name="menu-horizontal" class="h-5 w-5 text-purple-400 mr-2 mt-2"></app-icon>
+        Snabbnavigering
+      </h2>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <a
+          routerLink="/privacy/data-collection"
+          class="text-purple-400 hover:text-purple-300 text-sm transition-colors"
+          >1. Information vi samlar</a
+        >
+        <a
+          href="/privacy/data-usage"
+          class="text-purple-400 hover:text-purple-300 text-sm transition-colors"
+          >2. Hur vi använder data</a
+        >
+        <a
+          href="/privacy/data-sharing"
+          class="text-purple-400 hover:text-purple-300 text-sm transition-colors"
+          >3. Delning av information</a
+        >
+        <a
+          routerLink="/privacy/gdpr-rights"
+          class="text-purple-400 hover:text-purple-300 text-sm transition-colors"
+          >4. Dina rättigheter</a
+        >
+        <a
+          href="/privacy/security"
+          class="text-purple-400 hover:text-purple-300 text-sm transition-colors"
+          >5. Säkerhet</a
+        >
+        <a
+          routerLink="/privacy/cookie-management"
+          class="text-purple-400 hover:text-purple-300 text-sm transition-colors"
+          >6. Cookies</a
+        >
+        <a
+          href="/privacy/policy-changes"
+          class="text-purple-400 hover:text-purple-300 text-sm transition-colors"
+          >7. Ändringar</a
+        >
+        <a
+          href="/contact"
+          class="text-purple-400 hover:text-purple-300 text-sm transition-colors"
+          >8. Kontakt</a
+        >
+      </div>
+    </div>
+
+    <!-- Policy Content -->
+    <div class="max-w-4xl mx-auto space-y-8">
+      <!-- Section 1: Information Collection -->
+      <div
+        id="section-1"
+        class="bg-gray-800 rounded-lg p-8 border border-gray-700"
+      >
+        <div class="flex items-start mb-6">
+          <div class="flex items-center bg-purple-600 p-2 rounded-lg mr-4 mt-1">
+            <app-icon name="privacy" class="h-6 w-6 text-white"></app-icon>
+          </div>
+          <div>
+            <h2 class="text-2xl font-bold text-white mb-3">
+              1. Information vi samlar in
+            </h2>
+            <p class="text-gray-300 mb-6">
+              Vi samlar in information för att kunna tillhandahålla och
+              förbättra våra tjänster på ett säkert och personligt sätt.
+            </p>
+          </div>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-6">
+          <div class="bg-gray-750 p-6 rounded-lg">
+            <h3 class="text-lg font-semibold text-white mb-3 flex items-center">
+              <app-icon name="user" class="h-5 w-5 text-blue-400 mr-2"></app-icon>
+              Personlig information
+            </h3>
+            <ul class="text-gray-300 text-sm space-y-2">
+              <li>• Namn och e-postadress</li>
+              <li>• Telefonnummer (valfritt)</li>
+              <li>• Faktureringsinformation</li>
+              <li>• Profilbild (valfritt)</li>
+            </ul>
+          </div>
+
+          <div class="bg-gray-750 p-6 rounded-lg">
+            <h3 class="text-lg font-semibold text-white mb-3 flex items-center">
+              <app-icon name="chart-bar" class="h-5 w-5 text-green-400 mr-2"></app-icon>
+              Användningsdata
+            </h3>
+            <ul class="text-gray-300 text-sm space-y-2">
+              <li>• Besökta sidor och kurser</li>
+              <li>• Tid spenderad på plattformen</li>
+              <li>• Lärprogress och prestationer</li>
+              <li>• Sök- och filtreringshistorik</li>
+            </ul>
+          </div>
+
+          <div class="bg-gray-750 p-6 rounded-lg">
+            <h3 class="text-lg font-semibold text-white mb-3 flex items-center">
+              <app-icon name="monitor" className="h-5 w-5 text-purple-400 mr-2"></app-icon>
+              Teknisk information
+            </h3>
+            <ul class="text-gray-300 text-sm space-y-2">
+              <li>• IP-adress och geografisk plats</li>
+              <li>• Webbläsartyp och version</li>
+              <li>• Enhetstyp och operativsystem</li>
+              <li>• Referens-URL</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 2: How We Use Information -->
+      <div
+        id="section-2"
+        class="bg-gray-800 rounded-lg p-8 border border-gray-700"
+      >
+        <div class="flex items-start mb-6">
+          <div class="flex items-center bg-blue-600 p-2 rounded-lg mr-4 mt-1">
+            <app-icon name="heart" class="h-6 w-6 text-white"></app-icon>
+          </div>
+          <div>
+            <h2 class="text-2xl font-bold text-white mb-3">
+              2. Hur vi använder din information
+            </h2>
+            <p class="text-gray-300 mb-6">
+              Vi använder din information för att ge dig den bästa möjliga
+              lärupplevelsen och för att kontinuerligt förbättra våra tjänster.
+            </p>
+          </div>
+        </div>
+
+        <div class="space-y-4">
+          <div class="bg-gray-750 p-4 rounded-lg flex items-start">
+            <app-icon name="check" className="h-5 w-5 text-green-400 mr-3 mt-1 flex-shrink-0"/>
+            <div>
+              <h3 class="text-white font-semibold">Tjänstleverans</h3>
+              <p class="text-gray-300 text-sm">
+                Leverera kurser, hantera ditt konto och ge teknisk support
+              </p>
+            </div>
+          </div>
+
+          <div class="bg-gray-750 p-4 rounded-lg flex items-start">
+            <app-icon name="check" className="h-5 w-5 text-green-400 mr-3 mt-1 flex-shrink-0"/>
+            <div>
+              <h3 class="text-white font-semibold">Personalisering</h3>
+              <p class="text-gray-300 text-sm">
+                Anpassa innehåll och rekommendationer baserat på dina intressen
+              </p>
+            </div>
+          </div>
+
+          <div class="bg-gray-750 p-4 rounded-lg flex items-start">
+            <app-icon name="check" className="h-5 w-5 text-green-400 mr-3 mt-1 flex-shrink-0"/>
+            <div>
+              <h3 class="text-white font-semibold">Kommunikation</h3>
+              <p class="text-gray-300 text-sm">
+                Skicka viktiga uppdateringar, kursinformation och
+                säkerhetsmeddelanden
+              </p>
+            </div>
+          </div>
+
+          <div class="bg-gray-750 p-4 rounded-lg flex items-start">
+            <app-icon name="check" className="h-5 w-5 text-green-400 mr-3 mt-1 flex-shrink-0"/>
+            <div>
+              <h3 class="text-white font-semibold">Förbättring av tjänster</h3>
+              <p class="text-gray-300 text-sm">
+                Analysera användarbeteende för att utveckla nya funktioner och
+                förbättra plattformen
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 3: Information Sharing -->
+      <div
+        id="section-3"
+        class="bg-gray-800 rounded-lg p-8 border border-gray-700"
+      >
+        <div class="flex items-start mb-6">
+          <div class="flex items-center bg-red-600 p-2 rounded-lg mr-4 mt-1">
+            <app-icon name="lock" className="h-6 w-6 text-white"/>
+          </div>
+          <div>
+            <h2 class="text-2xl font-bold text-white mb-3">
+              3. Delning av information
+            </h2>
+            <div
+              class="bg-green-900/30 border border-green-500/30 rounded-lg p-4 mb-6"
+            >
+              <p class="text-green-300 font-semibold flex items-center">
+                <app-icon name="check-circle" className="h-5 w-5 text-green-400 mr-2" />
+                Vi säljer ALDRIG din personliga information till tredje part.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-6">
+          <div
+            class="bg-yellow-900/20 border border-yellow-500/30 p-6 rounded-lg"
+          >
+            <h3 class="text-white font-semibold mb-3 flex items-center">
+              <app-icon name="plus-circle" className="h-5 w-5 text-yellow-400 mr-2" />
+              Godkänd delning
+            </h3>
+            <ul class="text-gray-300 text-sm space-y-2">
+              <li>
+                • <strong>Betalningsleverantörer:</strong> För säker
+                transaktionshantering
+              </li>
+              <li>
+                • <strong>Molntjänster:</strong> För hosting och datalagring
+                (AWS, Google Cloud)
+              </li>
+              <li>
+                • <strong>Analysleverantörer:</strong> För aggregerad
+                användarstatistik
+              </li>
+              <li>
+                • <strong>Supportverktyg:</strong> För kundtjänst och teknisk
+                support
+              </li>
+            </ul>
+          </div>
+
+          <div class="bg-red-900/20 border border-red-500/30 p-6 rounded-lg">
+            <h3 class="text-white font-semibold mb-3 flex items-center">
+              <app-icon name="warning-triangle" className="h-5 w-5 text-red-400 mr-2" />
+              Rättslig delning
+            </h3>
+            <ul class="text-gray-300 text-sm space-y-2">
+              <li>• Vid lagkrav från myndigheter</li>
+              <li>• För att skydda våra rättigheter</li>
+              <li>• Vid misstanke om bedrägeri</li>
+              <li>• För att förhindra skada</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 4: Your Rights -->
+      <div
+        id="section-4"
+        class="bg-gray-800 rounded-lg p-8 border border-gray-700"
+      >
+        <div class="flex items-start mb-6">
+          <div class="flex items-center bg-green-600 p-2 rounded-lg mr-4 mt-1">
+              <app-icon name="key" size="20" className="h-6 w-6 text-white" />
+           </div>
+          <div class="flex-1">
+            <h2 class="text-2xl font-bold text-white mb-3">
+              4. Dina GDPR-rättigheter
+            </h2>
+            <p class="text-gray-300 mb-6">
+              Som användare inom EU har du specifika rättigheter enligt GDPR som
+              vi respekterar fullt ut.
+            </p>
+          </div>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div class="bg-gray-750 p-4 rounded-lg text-center">
+            <svg
+              class="h-8 w-8 text-blue-400 mx-auto mb-2"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+              />
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+              />
+            </svg>
+            <h3 class="text-white font-semibold text-sm">Rätt till access</h3>
+            <p class="text-gray-400 text-xs">Se all data vi har om dig</p>
+          </div>
+
+          <div class="bg-gray-750 p-4 rounded-lg text-center">
+            <app-icon name="edit" className="h-8 w-8 text-green-400 mx-auto mb-2"></app-icon>
+            <h3 class="text-white font-semibold text-sm">Rätt till rättelse</h3>
+            <p class="text-gray-400 text-xs">Korrigera felaktig information</p>
+          </div>
+
+          <div class="bg-gray-750 p-4 rounded-lg text-center">
+            <app-icon name="trash" className="h-8 w-8 text-red-400 mx-auto mb-2"></app-icon>
+            <h3 class="text-white font-semibold text-sm">Rätt till radering</h3>
+            <p class="text-gray-400 text-xs">
+              Ta bort din data ("glömmas bort")
+            </p>
+          </div>
+
+          <div class="bg-gray-750 p-4 rounded-lg text-center">
+            <app-icon name="data-download" className="h-8 w-8 text-purple-400 mx-auto mb-2"></app-icon>
+            <h3 class="text-white font-semibold text-sm">Dataportabilitet</h3>
+            <p class="text-gray-400 text-xs">
+              Få din data i strukturerat format
+            </p>
+          </div>
+        </div>
+
+        <div
+          class="mt-6 bg-blue-900/30 border border-blue-500/30 rounded-lg p-4"
+        >
+          <p class="text-blue-300 text-sm">
+            <strong>För att utöva dina rättigheter:</strong> Kontakta oss på
+            <a
+              href="mailto:privacy@kurshub.se"
+              class="text-blue-400 hover:underline"
+              >{{ "privacy@kurshub.se" }}</a
+            >
+            eller via vårt
+            <a routerLink="/contact" class="text-blue-400 hover:underline"
+              >kontaktformulär</a
+            >. Vi svarar inom 30 dagar enligt GDPR.
+          </p>
+        </div>
+      </div>
+
+      <!-- Section 5: Security -->
+      <div
+        id="section-5"
+        class="bg-gray-800 rounded-lg p-8 border border-gray-700"
+      >
+        <div class="flex items-start mb-6">
+          <div class="bg-green-600 p-2 rounded-lg mr-4 mt-1">
+            <svg
+              class="h-6 w-6 text-white"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+              />
+            </svg>
+          </div>
+          <div>
+            <h2 class="text-2xl font-bold text-white mb-3">
+              5. Säkerhetsåtgärder
+            </h2>
+            <p class="text-gray-300 mb-6">
+              Vi använder branschledande säkerhetsåtgärder för att skydda din
+              information mot obehörig åtkomst, förlust eller missbruk.
+            </p>
+          </div>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-6">
+          <div class="bg-gray-750 p-6 rounded-lg">
+            <div class="flex items-center mb-4">
+              <div class="bg-green-600 p-2 rounded mr-3">
+                <app-icon name="lock" className="h-5 w-5 text-white ml-1" />
+              </div>
+              <h3 class="text-white font-semibold">Kryptering</h3>
+            </div>
+            <ul class="text-gray-300 text-sm space-y-1">
+              <li>• SSL/TLS för alla anslutningar</li>
+              <li>• AES-256 databaskryptering</li>
+              <li>• Säkra lösenordshashar</li>
+            </ul>
+          </div>
+
+          <div class="bg-gray-750 p-6 rounded-lg">
+            <div class="flex items-center mb-4">
+              <div class="flex items-center bg-blue-600 p-2 rounded mr-3">
+                <app-icon name="eye" className="h-5 w-5 text-white" />
+              </div>
+              <h3 class="text-white font-semibold">Övervakning</h3>
+            </div>
+            <ul class="text-gray-300 text-sm space-y-1">
+              <li>• 24/7 säkerhetsövervakning</li>
+              <li>• Intrångsdetektering</li>
+              <li>• Regelbundna säkerhetsaudits</li>
+            </ul>
+          </div>
+
+          <div class="bg-gray-750 p-6 rounded-lg">
+            <div class="flex items-center mb-4">
+              <div class="flex items-center bg-purple-600 p-2 rounded mr-3">
+                <app-icon name="document" className="h-5 w-5 text-white" />
+              </div>
+              <h3 class="text-white font-semibold">Compliance</h3>
+            </div>
+            <ul class="text-gray-300 text-sm space-y-1">
+              <li>• ISO 27001-certifierad</li>
+              <li>• GDPR-kompatibel</li>
+              <li>• SOC 2 Type II</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 6: Cookies -->
+      <div
+        id="section-6"
+        class="bg-gray-800 rounded-lg p-8 border border-gray-700"
+      >
+        <div class="flex items-start mb-6">
+          <div class="flex items-center bg-orange-600 p-2 rounded-lg mr-4 mt-1">
+            <app-icon name="clock-time" className="h-6 w-6 text-white"/>
+          </div>
+          <div>
+            <h2 class="text-2xl font-bold text-white mb-3">
+              6. Cookies och spårning
+            </h2>
+            <p class="text-gray-300 mb-6">
+              Vi använder cookies och liknande teknologier för att förbättra din
+              upplevelse och analysera hur vår webbplats används.
+            </p>
+          </div>
+        </div>
+
+        <div class="space-y-4">
+          <div
+            class="bg-green-900/30 border border-green-500/30 p-4 rounded-lg"
+          >
+            <h3 class="text-green-300 font-semibold mb-2 flex items-center">
+              <app-icon name="check" className="h-5 w-5 text-green-400 mr-2" />
+              Nödvändiga cookies (kan ej avaktiveras)
+            </h3>
+            <p class="text-gray-300 text-sm">
+              Säkerhet, autentisering och grundläggande webbplatsfunktioner
+            </p>
+          </div>
+
+          <div class="bg-blue-900/30 border border-blue-500/30 p-4 rounded-lg">
+            <h3 class="text-blue-300 font-semibold mb-2 flex items-center">
+              <app-icon name="analytics" className="h-5 w-5 text-blue-300 mr-2"></app-icon>
+              Prestanda cookies (valfritt)
+            </h3>
+            <p class="text-gray-300 text-sm">
+              Analyserar webbplatsanvändning för att förbättra prestanda
+            </p>
+          </div>
+
+          <div
+            class="bg-purple-900/30 border border-purple-500/30 p-4 rounded-lg"
+          >
+            <h3 class="text-purple-300 font-semibold mb-2 flex items-center">
+              <app-icon name="heart" className="h-5 w-5 text-purple-300 mr-2"></app-icon>
+              Personalisering cookies (valfritt)
+            </h3>
+            <p class="text-gray-300 text-sm">
+              Kommer ihåg dina preferenser och anpassar innehåll
+            </p>
+          </div>
+        </div>
+
+        <div class="mt-6 text-center">
+          <a
+            routerLink="/privacy/cookie-management"
+            class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg font-medium transition-colors inline-block"
+          >
+            Hantera cookie-inställningar
+          </a>
+        </div>
+      </div>
+
+      <!-- Section 7: Changes -->
+      <div
+        id="section-7"
+        class="bg-gray-800 rounded-lg p-8 border border-gray-700"
+      >
+        <div class="flex items-start mb-6">
+          <div class="flex items-center bg-yellow-600 p-2 rounded-lg mr-4 mt-1">
+            <app-icon name="update-circle" className="h-6 w-6 text-white"/>
+          </div>
+          <div>
+            <h2 class="text-2xl font-bold text-white mb-3">
+              7. Ändringar i denna policy
+            </h2>
+            <p class="text-gray-300 mb-6">
+              Vi kan uppdatera denna integritetspolicy för att återspegla
+              ändringar i våra rutiner eller lagstiftning.
+            </p>
+          </div>
+        </div>
+
+        <div class="bg-blue-900/30 border border-blue-500/30 rounded-lg p-6">
+          <h3 class="text-blue-300 font-semibold mb-3">
+            Hur vi meddelar ändringar:
+          </h3>
+          <ul class="text-gray-300 space-y-2">
+            <li class="flex items-start">
+              <app-icon name="check" className="h-5 w-5 text-blue-400 mr-2" />
+              E-post till alla registrerade användare vid väsentliga ändringar
+            </li>
+            <li class="flex items-start">
+              <app-icon name="check" className="h-5 w-5 text-blue-400 mr-2" />
+              Meddelande på webbplatsen innan ändringar träder i kraft
+            </li>
+            <li class="flex items-start">
+              <app-icon name="check" className="h-5 w-5 text-blue-400 mr-2" />
+              Uppdaterat "Senast ändrad"-datum längst ner på denna sida
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Section 8: Contact -->
+      <div
+        id="section-8"
+        class="bg-gradient-to-r from-purple-900/50 to-blue-900/50 rounded-lg p-8 border border-purple-500/20"
+      >
+        <div class="text-center mb-8">
+          <div
+            class="bg-purple-600/20 p-4 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center"
+          >
+            <app-icon name="message" size="16" className="h-8 w-8 text-purple-400 absolute"></app-icon>
+          </div>
+          <h2 class="text-2xl font-bold text-white mb-4">8. Kontakta oss</h2>
+          <p class="text-gray-300 mb-8 max-w-2xl mx-auto">
+            Har du frågor om denna integritetspolicy eller dina personuppgifter?
+            Vi hjälper gärna till!
+          </p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-6 mb-8">
+          <div class="text-center">
+            <div class="bg-gray-800 p-4 rounded-lg">
+              <app-icon name="e-post" className="h-8 w-8 text-purple-400 mx-auto mb-2"></app-icon>
+              <h3 class="text-white font-semibold">E-post</h3>
+              <p class="text-gray-300 text-sm">{{ "privacy@kurshub.se" }}</p>
+            </div>
+          </div>
+
+          <div class="text-center">
+            <div class="bg-gray-800 p-4 rounded-lg">
+              <app-icon name="location" className="h-8 w-8 text-purple-400 mx-auto mb-2"></app-icon>
+              <h3 class="text-white font-semibold">Adress</h3>
+              <p class="text-gray-300 text-sm">
+                Kurshub AB<br />Riddargatan 123<br />114 45 Stockholm
+              </p>
+            </div>
+          </div>
+
+          <div class="text-center">
+            <div class="bg-gray-800 p-4 rounded-lg">
+              <app-icon name="document" className="h-8 w-8 text-purple-400 mx-auto mb-2"></app-icon>
+              <h3 class="text-white font-semibold">Org.nr</h3>
+              <p class="text-gray-300 text-sm">556123-4567</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="text-center">
+          <a
+            routerLink="/contact"
+            class="inline-flex items-center px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-medium transition-colors mr-4"
+          >
+            <app-icon name="message" className="h-5 w-5 text-white mr-2"></app-icon>
+            Kontaktformulär
+          </a>
+          <a
+            href="mailto:privacy@kurshub.se"
+            class="inline-flex items-center px-6 py-3 bg-gray-700 hover:bg-gray-600 text-white rounded-lg font-medium transition-colors"
+          >
+            <app-icon name="e-post" className="h-5 w-5 text-white mr-2"></app-icon>
+            Skicka e-post
+          </a>
+        </div>
+
+        <!-- Updated last updated section -->
+        <div class="mt-8 pt-6 border-t border-gray-700 text-center">
+          <p class="text-gray-400 text-sm">
+            <strong>Senast uppdaterad:</strong> {{ formattedLastUpdated() }}
+          </p>
+          <p class="text-gray-500 text-xs mt-2">
+            Version {{ version() }} • Gäller från och med
+            {{ formattedEffectiveDate() }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+}

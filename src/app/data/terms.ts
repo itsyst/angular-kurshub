@@ -208,7 +208,7 @@ export const terms: TermsSection[] = [
     id: 'liability',
     title: 'Ansvarsbegränsning',
     description: 'Vårt ansvar gentemot användare enligt svensk lag',
-    icon: 'shield-off',
+    icon: 'heart',
     color: 'red',
     category: 'liability',
     content: `
